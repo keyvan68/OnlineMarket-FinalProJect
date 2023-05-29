@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class SellerRepository : ISellerRepository
+    public class SellerRepository /*: ISellerRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -24,46 +24,67 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
 
 
-        public async Task<SellerDto> GetSellerByIdAsync(int SellerId)
+        public async Task<SellerDto> GetSellerById(Guid sellerId, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Sellers.FindAsync(SellerId);
-            return _mapper.Map<SellerDto>(Entity);
+            var seller = await _dbContext.Sellers.FindAsync(sellerId);
+            return _mapper.Map<SellerDto>(seller);
         }
 
-        public async Task<List<SellerDto>> GetAllSellersAsync(CancellationToken cancellationToken)
+        public async Task<Guid> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Sellers.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<SellerDto>>(Entity);
-        }
+            var seller = _mapper.Map<Seller>(sellerDto);
+            seller.Id = Guid.NewGuid();
 
-        public async Task AddSellerAsync(SellerDto Seller, CancellationToken cancellationToken)
-        {
-            var Entity = _mapper.Map<Seller>(Seller);
-            _dbContext.Sellers.Add(Entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-
-
-        public async Task UpdateSellerAsync(SellerDto Seller, CancellationToken cancellationToken)
-        {
-            var onerow = await _dbContext.Sellers
-                .Where(x => x.Id == Seller.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(Seller, onerow);
-
+            await _dbContext.Set<Seller>().AddAsync(seller, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            return seller.Id;
         }
 
-        public async Task DeleteSellerAsync(int SellerId, CancellationToken cancellationToken)
+        public async Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Sellers.FindAsync(SellerId);
-            if (onerow != null)
+            var seller = await _dbContext.Sellers.FindAsync(sellerDto.Id);
+            if (seller != null)
             {
-                _dbContext.Sellers.Remove(onerow);
+                _mapper.Map(sellerDto, seller);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task DeleteSeller(Guid sellerId, CancellationToken cancellationToken)
+        {
+            var seller = await _dbContext.Sellers.FindAsync(sellerId);
+            if (seller != null)
+            {
+                _dbContext.Sellers.Remove(seller);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<List<SellerDto>> GetAllSellers(CancellationToken cancellationToken)
+        {
+            var sellers = await _dbContext.Sellers
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<SellerDto>>(sellers);
+        }
+
+        public async Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken)
+        {
+            var sellers = await _dbContext.Sellers
+                .AsNoTracking()
+                .Where(s => s.Medal == medal)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<SellerDto>>(sellers);
+        }
+
+        public async Task<List<SellerDto>> GetSellersByCommissionAmount(int commissionAmount, CancellationToken cancellationToken)
+        {
+            var sellers = await _dbContext.Sellers
+                .AsNoTracking()
+                .Where(s => s.CommissionAmount == commissionAmount)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<SellerDto>>(sellers);
         }
     }
 }

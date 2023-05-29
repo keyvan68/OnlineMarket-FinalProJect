@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class BidRepository : IBidRepository
+    public class BidRepository /*: IBidRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -22,48 +22,72 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             _mapper = mapper;
         }
 
-
-
-        public async Task<BidDto> GetBidByIdAsync(int bidId)
+        public async Task<List<BidDto>> GetAll(CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Bids.FindAsync(bidId);
-            return _mapper.Map<BidDto>(Entity);
+            var bids = await _dbContext.Bids
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BidDto>>(bids);
         }
 
-        public async Task<List<BidDto>> GetAllBidsAsync(CancellationToken cancellationToken)
+        public async Task<BidDto> GetById(int bidId, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Bids.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<BidDto>>(Entity);
+            var bid = await _dbContext.Bids
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == bidId, cancellationToken);
+
+            return _mapper.Map<BidDto>(bid);
         }
 
-        public async Task AddBidAsync(BidDto bid, CancellationToken cancellationToken)
+        public async Task<int> Create(BidDto bidDto, CancellationToken cancellationToken)
         {
-            var Entity = _mapper.Map<Bid>(bid);
-            _dbContext.Bids.Add(Entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
+            var bid = _mapper.Map<Bid>(bidDto);
 
-
-
-        public async Task UpdateBidAsync(BidDto bid, CancellationToken cancellationToken)
-        {
-            var onerow = await _dbContext.Bids
-                .Where(x => x.Id == bid.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(bid, onerow);
-
+            _dbContext.Bids.Add(bid);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            return bid.Id;
         }
 
-        public async Task DeleteBidAsync(int bidId, CancellationToken cancellationToken)
+        public async Task Delete(int bidId, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Bids.FindAsync(bidId);
-            if (onerow != null)
+            var bid = await _dbContext.Bids.FindAsync(bidId);
+            if (bid != null)
             {
-                _dbContext.Bids.Remove(onerow);
+                _dbContext.Bids.Remove(bid);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<List<BidDto>> GetByBuyer(Guid buyerId, CancellationToken cancellationToken)
+        {
+            var bids = await _dbContext.Bids
+                .AsNoTracking()
+                .Where(b => b.BuyerId == buyerId)
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BidDto>>(bids);
+        }
+
+        public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
+        {
+            var bids = await _dbContext.Bids
+                .AsNoTracking()
+                .Where(b => b.ProductId == productId)
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BidDto>>(bids);
+        }
+
+        public async Task<List<BidDto>> GetByAuction(int auctionId, CancellationToken cancellationToken)
+        {
+            var bids = await _dbContext.Bids
+                .AsNoTracking()
+                .Where(b => b.AuctionId == auctionId)
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BidDto>>(bids);
         }
     }
 }

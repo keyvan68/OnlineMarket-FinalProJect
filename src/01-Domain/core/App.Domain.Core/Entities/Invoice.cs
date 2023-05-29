@@ -26,6 +26,7 @@ public partial class Invoice
     public DateTime? DeletedAt { get; set; }
 
     public virtual Buyer Buyer { get; set; } = null!;
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual ICollection<InvoiceProduct> InvoiceProducts { get; set; } = new List<InvoiceProduct>();
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class InvoiceRepository : IInvoiceRepository
+    public class InvoiceRepository /*: IInvoiceRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -24,47 +24,65 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
 
 
-
-        public async Task<InvoiceDto> GetInvoiceByIdAsync(int invoiceId)
+        public async Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Invoices.FindAsync(invoiceId);
-            return _mapper.Map<InvoiceDto>(Entity);
+            var invoice = await _dbContext.Invoices.FindAsync(invoiceId);
+            return _mapper.Map<InvoiceDto>(invoice);
         }
 
-        public async Task<List<InvoiceDto>> GetAllInvoicesAsync(CancellationToken cancellationToken)
+        public async Task<int> CreateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Invoices.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<InvoiceDto>>(Entity);
-        }
-
-        public async Task AddInvoiceAsync(InvoiceDto invoice, CancellationToken cancellationToken)
-        {
-            var Entity = _mapper.Map<Invoice>(invoice);
-            _dbContext.Invoices.Add(Entity);
+            var invoice = _mapper.Map<Invoice>(invoiceDto);
+            _dbContext.Invoices.Add(invoice);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return invoice.Id;
         }
 
-
-
-        public async Task UpdateInvoiceAsync(InvoiceDto invoice, CancellationToken cancellationToken)
+        public async Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Invoices
-                .Where(x => x.Id == invoice.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(invoice, onerow);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-        }
-
-        public async Task DeleteInvoiceAsync(int invoiceId, CancellationToken cancellationToken)
-        {
-            var onerow = await _dbContext.Invoices.FindAsync(invoiceId);
-            if (onerow != null)
+            var invoice = await _dbContext.Invoices.FindAsync(invoiceDto.Id);
+            if (invoice != null)
             {
-                _dbContext.Invoices.Remove(onerow);
+                _mapper.Map(invoiceDto, invoice);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken)
+        {
+            var invoice = await _dbContext.Invoices.FindAsync(invoiceId);
+            if (invoice != null)
+            {
+                _dbContext.Invoices.Remove(invoice);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<List<InvoiceDto>> GetInvoicesByBuyerId(Guid buyerId, CancellationToken cancellationToken)
+        {
+            var invoices = await _dbContext.Invoices
+                .AsNoTracking()
+                .Where(i => i.BuyerId == buyerId)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<InvoiceDto>>(invoices);
+        }
+
+        public async Task<List<InvoiceDto>> GetInvoicesBySellerId(Guid sellerId, CancellationToken cancellationToken)
+        {
+            var invoices = await _dbContext.Invoices
+                .AsNoTracking()
+                .Where(i => i.SellerId == sellerId)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<InvoiceDto>>(invoices);
+        }
+
+        public async Task<List<InvoiceDto>> GetInvoicesByBuyerAndSeller(Guid buyerId, Guid sellerId, CancellationToken cancellationToken)
+        {
+            var invoices = await _dbContext.Invoices
+                .AsNoTracking()
+                .Where(i => i.BuyerId == buyerId && i.SellerId == sellerId)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<InvoiceDto>>(invoices);
         }
     }
 }

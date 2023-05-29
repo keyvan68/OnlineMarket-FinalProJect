@@ -137,8 +137,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comments_Buyers");
 
-                entity.HasOne(d => d.Product).WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.Invoice).WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comments_Products");
             });

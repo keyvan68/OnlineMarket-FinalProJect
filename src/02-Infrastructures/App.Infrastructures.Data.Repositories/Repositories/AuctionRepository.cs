@@ -4,6 +4,7 @@ using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,58 +13,83 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class AuctionRepository : IAuctionRepository
+    public class AuctionRepository /*: IAuctionRepository*/
     {
-        private readonly AppDbContext _dbContext;
+        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-        public AuctionRepository(AppDbContext dbContext, IMapper mapper)
+        public AuctionRepository(AppDbContext context, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _context = context;
             _mapper = mapper;
+            
         }
 
-
-        public async Task<AuctionDto> GetAuctionByIdAsync(int auctionId)
+        public async Task<List<AuctionDto>> GetAll(CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Auctions.FindAsync(auctionId);
-            return _mapper.Map<AuctionDto>(Entity);
+            var auctions = await _context.Auctions
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<AuctionDto>>(auctions);
         }
 
-        public async Task<List<AuctionDto>> GetAllAuctionsAsync(CancellationToken cancellationToken)
+        public async Task<AuctionDto> GetById(int auctionId, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Auctions.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<AuctionDto>>(Entity);
+            var auction = await _context.Auctions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == auctionId, cancellationToken);
+
+            return _mapper.Map<AuctionDto>(auction);
         }
 
-        public async Task AddAuctionAsync(AuctionDto auction, CancellationToken cancellationToken)
+        public async Task<int> Create(AuctionDto auctionDto, CancellationToken cancellationToken)
         {
-            var Entity = _mapper.Map<Auction>(auction);
-            _dbContext.Auctions.Add(Entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var auction = _mapper.Map<Auction>(auctionDto);
+
+            _context.Auctions.Add(auction);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return auction.Id;
         }
 
-
-
-        public async Task UpdateAuctionAsync(AuctionDto auction, CancellationToken cancellationToken)
+        public async Task Update(AuctionDto auctionDto, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Auctions
-                .Where(x => x.Id == auction.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(auction, onerow);
+            var auction = await _context.Auctions.FindAsync(auctionDto.Id);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            
 
+            _mapper.Map(auctionDto, auction);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAuctionAsync(int auctionId, CancellationToken cancellationToken)
+        public async Task Delete(int auctionId, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Auctions.FindAsync(auctionId);
-            if (onerow != null)
-            {
-                _dbContext.Auctions.Remove(onerow);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-            }
+            var auction = await _context.Auctions.FindAsync(auctionId);
+
+            
+
+            _context.Auctions.Remove(auction);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<List<AuctionDto>> GetActiveAuctions(CancellationToken cancellationToken)
+        {
+            var activeAuctions = await _context.Auctions
+                .AsNoTracking()
+                .Where(a => a.EndTime > a.StartTime)
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<AuctionDto>>(activeAuctions);
+        }
+
+        public async Task<int> GetHighestBid(int auctionId, CancellationToken cancellationToken)
+        {
+            var auction = await _context.Auctions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == auctionId, cancellationToken);
+
+            return auction?.HighestBid ?? 0;
         }
     }
 }

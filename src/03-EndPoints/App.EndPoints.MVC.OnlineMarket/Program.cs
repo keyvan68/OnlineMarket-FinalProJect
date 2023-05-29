@@ -63,6 +63,11 @@ namespace App.EndPoints.MVC.OnlineMarket
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.MapAreaControllerRoute(
+             areaName: "Admin",
+             name: "areas",
+             pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
             app.Run();
         }
     }

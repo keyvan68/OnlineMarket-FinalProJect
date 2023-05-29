@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class StallRepository : IStallRepository
+    public class StallRepository /*: IStallRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -23,39 +23,26 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             _mapper = mapper;
         }
 
-        public async Task<StallDto> GetStallByIdAsync(int stallId)
+        public async Task<Stall> GetStallById(Guid stallId, CancellationToken cancellationToken)
         {
             var stall = await _dbContext.Stalls.FindAsync(stallId);
-            return _mapper.Map<StallDto>(stall);
+            return stall;
         }
 
-        public async Task<List<StallDto>> GetAllStallsAsync(CancellationToken cancellationToken)
+        public async Task<Guid> CreateStall(Stall stall, CancellationToken cancellationToken)
         {
-            var stalls = await _dbContext.Stalls.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<StallDto>>(stalls);
+            _dbContext.Stalls.Add(stall);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return stall.Id;
         }
 
-        public async Task AddStallAsync(StallDto stall, CancellationToken cancellationToken)
+        public async Task UpdateStall(Stall stall, CancellationToken cancellationToken)
         {
-            var stallEntity = _mapper.Map<Stall>(stall);
-            _dbContext.Stalls.Add(stallEntity);
+            _dbContext.Stalls.Update(stall);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-
-
-        public async Task UpdateStallAsync(StallDto stall, CancellationToken cancellationToken)
-        {
-            var onerow = await _dbContext.Stalls
-                .Where(x => x.Id == stall.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(stall, onerow);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-        }
-
-        public async Task DeleteStallAsync(int stallId, CancellationToken cancellationToken)
+        public async Task DeleteStall(Guid stallId, CancellationToken cancellationToken)
         {
             var stall = await _dbContext.Stalls.FindAsync(stallId);
             if (stall != null)
@@ -63,6 +50,25 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 _dbContext.Stalls.Remove(stall);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<List<Stall>> GetAllStalls(CancellationToken cancellationToken)
+        {
+            var stalls = await _dbContext.Stalls
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+            return stalls;
+        }
+
+        public async Task<List<Product>> GetStallProducts(Guid stallId, CancellationToken cancellationToken)
+        {
+            var stall = await _dbContext.Stalls.FindAsync(stallId);
+            if (stall != null)
+            {
+                var products = stall.Products.ToList();
+                return products;
+            }
+            return new List<Product>();
         }
     }
 }

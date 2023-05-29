@@ -47,7 +47,7 @@ namespace App.Domain.Core.DtoModels
 
         public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
-        //public ApplicationUser? ApplicationUser { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 

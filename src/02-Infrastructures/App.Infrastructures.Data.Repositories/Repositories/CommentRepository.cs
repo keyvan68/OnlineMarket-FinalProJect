@@ -12,48 +12,94 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class CommentRepository : ICommentRepository
+    public class CommentRepository /*: ICommentRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
-
         public CommentRepository(AppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
 
-        public async Task<CommentDto> GetCommentByIdAsync(int commentId)
+        public async Task<List<CommentDto>> GetAll(CancellationToken cancellationToken)
         {
-            var comment = await _dbContext.Comments.FindAsync(commentId);
-            return _mapper.Map<CommentDto>(comment);
+            var records = await _dbContext.Comments
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<CommentDto>>(records);
         }
 
-        public async Task<List<CommentDto>> GetAllCommentsAsync(CancellationToken cancellationToken)
+        public async Task<CommentDto> GetById(int commentId, CancellationToken cancellationToken)
         {
-            var comments = await _dbContext.Comments.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<CommentDto>>(comments);
+            var record = await _dbContext.Comments
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == commentId, cancellationToken);
+            return _mapper.Map<CommentDto>(record);
         }
 
-
-
-        public async Task AddCommentAsync(CommentDto comment, CancellationToken cancellationToken)
+        public async Task<int> Create(CommentDto commentDto, CancellationToken cancellationToken)
         {
-            var commentEntity = _mapper.Map<Comment>(comment);
-            _dbContext.Comments.Add(commentEntity);
+            var comment = _mapper.Map<Comment>(commentDto);
+            _dbContext.Comments.Add(comment);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return comment.Id;
+        }
+
+        public async Task Update(CommentDto commentDto, CancellationToken cancellationToken)
+        {
+            var comment = await _dbContext.Comments.FindAsync(commentDto.Id);
+            if (comment == null)
+                throw new Exception("Comment not found");
+
+            _mapper.Map(commentDto, comment);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-
-
-        public async Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
+        public async Task Delete(int commentId, CancellationToken cancellationToken)
         {
             var comment = await _dbContext.Comments.FindAsync(commentId);
-            if (comment != null)
-            {
-                _dbContext.Comments.Remove(comment);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-            }
+            if (comment == null)
+                throw new Exception("Comment not found");
+
+            _dbContext.Comments.Remove(comment);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<List<CommentDto>> GetByBuyer(Guid buyerId, CancellationToken cancellationToken)
+        {
+            var records = await _dbContext.Comments
+                .AsNoTracking()
+                .Where(c => c.BuyerId == buyerId)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<CommentDto>>(records);
+        }
+
+        public async Task<List<CommentDto>> GetByInvoice(int invoiceId, CancellationToken cancellationToken)
+        {
+            var records = await _dbContext.Comments
+                .AsNoTracking()
+                .Where(c => c.InvoiceId == invoiceId)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<CommentDto>>(records);
+        }
+        public async Task<List<CommentDto>> GetAcceptedComments(CancellationToken cancellationToken)
+        {
+            var records = await _dbContext.Comments
+                .AsNoTracking()
+                .Where(c => c.IsAccepted == true)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<CommentDto>>(records);
+        }
+
+        public async Task<List<CommentDto>> GetRejectedComments(CancellationToken cancellationToken)
+        {
+            var records = await _dbContext.Comments
+                .AsNoTracking()
+                .Where(c => c.IsAccepted == false)
+                .ToListAsync(cancellationToken);
+            return _mapper.Map<List<CommentDto>>(records);
+        }
+
     }
 }

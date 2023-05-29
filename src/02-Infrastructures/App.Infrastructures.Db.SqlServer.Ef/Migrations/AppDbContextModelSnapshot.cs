@@ -333,15 +333,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int?>("LastModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id")
                         .HasName("PK__Comments__3214EC073B5475E5");
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Comments");
                 });
@@ -822,15 +819,15 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Buyers");
 
-                    b.HasOne("App.Domain.Core.Entities.Product", "Product")
+                    b.HasOne("App.Domain.Core.Entities.Invoice", "Invoice")
                         .WithMany("Comments")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("InvoiceId")
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Products");
 
                     b.Navigation("Buyer");
 
-                    b.Navigation("Product");
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Image", b =>
@@ -1004,13 +1001,13 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Invoice", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("InvoiceProducts");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Images");
 
                     b.Navigation("InvoiceProducts");

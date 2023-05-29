@@ -21,6 +21,7 @@ namespace App.Infrastructures.Data.Repositories.AutoMaper
             CreateMap<Image, ImageDto>(); 
             CreateMap<Invoice, InvoiceDto>();
             CreateMap<Product, ProductDto>(); 
+            
             //CreateMap<Role, RoleDto>(); 
             CreateMap<Seller, SellerDto>(); 
             //CreateMap<User, UserDto>(); 

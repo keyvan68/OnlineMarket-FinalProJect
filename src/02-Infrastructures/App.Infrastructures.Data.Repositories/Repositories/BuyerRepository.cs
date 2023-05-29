@@ -12,55 +12,75 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class BuyerRepository : IBuyerRepository
+    public class BuyerRepository /*: IBuyerRepository*/
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
-        public BuyerRepository(AppDbContext dbContext, IMapper mapper)
+        public async Task<List<BuyerDto>> GetAll(CancellationToken cancellationToken)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
-        }
-        public async Task<BuyerDto> GetbuyerByIdAsync(int buyerId)
-        {
-            var Entity = await _dbContext.Buyers.FindAsync(buyerId);
-            return _mapper.Map<BuyerDto>(Entity);
+            var buyers = await _dbContext.Set<Buyer>()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BuyerDto>>(buyers);
         }
 
-        public async Task<List<BuyerDto>> GetAllBuyersAsync(CancellationToken cancellationToken)
+        public async Task<BuyerDto> GetById(Guid buyerId, CancellationToken cancellationToken)
         {
-            var Entity = await _dbContext.Buyers.AsNoTracking().ToListAsync(cancellationToken);
-            return _mapper.Map<List<BuyerDto>>(Entity);
+            var buyer = await _dbContext.Set<Buyer>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == buyerId, cancellationToken);
+
+            return _mapper.Map<BuyerDto>(buyer);
         }
 
-        public async Task AddBuyerAsync(BuyerDto buyer, CancellationToken cancellationToken)
+        public async Task<Guid> Create(BuyerDto buyerDto, CancellationToken cancellationToken)
         {
-            var Entity = _mapper.Map<Buyer>(buyer);
-            _dbContext.Buyers.Add(Entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
+            var buyer = _mapper.Map<Buyer>(buyerDto);
+            buyer.Id = Guid.NewGuid();
 
-
-
-        public async Task UpdateBuyerAsync(BuyerDto buyer, CancellationToken cancellationToken)
-        {
-            var onerow = await _dbContext.Buyers
-                .Where(x => x.Id == buyer.Id)
-                .FirstOrDefaultAsync();
-            _mapper.Map(buyer, onerow);
-
+            await _dbContext.Set<Buyer>().AddAsync(buyer, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            return buyer.Id;
         }
 
-        public async Task DeleteBuyerAsync(int buyerId, CancellationToken cancellationToken)
+        public async Task Update(BuyerDto buyerDto, CancellationToken cancellationToken)
         {
-            var onerow = await _dbContext.Buyers.FindAsync(buyerId);
-            if (onerow != null)
+            var existingBuyer = await _dbContext.Set<Buyer>()
+                .FirstOrDefaultAsync(b => b.Id == buyerDto.Id, cancellationToken);
+
+            if (existingBuyer == null)
             {
-                _dbContext.Buyers.Remove(onerow);
+                throw new InvalidOperationException("Buyer not found.");
+            }
+
+            _mapper.Map(buyerDto, existingBuyer);
+
+            _dbContext.Update(existingBuyer);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task Delete(Guid buyerId, CancellationToken cancellationToken)
+        {
+            var buyer = await _dbContext.Set<Buyer>()
+                .FirstOrDefaultAsync(b => b.Id == buyerId, cancellationToken);
+
+            if (buyer != null)
+            {
+                _dbContext.Set<Buyer>().Remove(buyer);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<List<BuyerDto>> GetByApplicationUser(Guid applicationUserId, CancellationToken cancellationToken)
+        {
+            var buyers = await _dbContext.Set<Buyer>()
+                .AsNoTracking()
+                .Where(b => b.ApplicationUserId == applicationUserId)
+                .ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<BuyerDto>>(buyers);
         }
     }
 }
