@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IAuctionService
+    public interface IAuctionApplicationService
     {
         Task AddAuctionAsync(AuctionDto auction, CancellationToken cancellationToken);
         Task DeleteAuctionAsync(int auctionId, CancellationToken cancellationToken);

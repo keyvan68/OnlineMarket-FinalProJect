@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public class BidService : IBidService
+    public class BidService : IBidApplicationService
     {
         private readonly IBidRepository _bidRepository;
 

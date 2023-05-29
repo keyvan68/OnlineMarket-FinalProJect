@@ -11,15 +11,15 @@ namespace App.Domain.Core.DtoModels
     {
         public int Id { get; set; }
 
-        public int BuyerId { get; set; }
+        public Guid BuyerId { get; set; }
 
         public string Description { get; set; } = null!;
 
-        public int ProductId { get; set; }
+        public int InvoiceId { get; set; }
 
         public bool? IsAccepted { get; set; }
 
-        public int InvoiceId { get; set; }
+       
 
         public int? DeletedBy { get; set; }
 
@@ -37,6 +37,6 @@ namespace App.Domain.Core.DtoModels
 
         public virtual Buyer Buyer { get; set; } = null!;
 
-        public virtual Product Product { get; set; } = null!;
+        public virtual Invoice Invoice { get; set; } = null!;
     }
 }

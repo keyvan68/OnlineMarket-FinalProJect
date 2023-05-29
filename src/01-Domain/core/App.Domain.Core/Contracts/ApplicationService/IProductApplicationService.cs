@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IProductService
+    public interface IProductApplicationService
     {
         Task AddProductAsync(ProductDto Product, CancellationToken cancellationToken);
         Task DeleteProductAsync(int ProductId, CancellationToken cancellationToken);

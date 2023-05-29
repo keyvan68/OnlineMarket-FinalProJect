@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface ICommentService
+    public interface ICommentApplicationService
     {
         Task AddCommentAsync(CommentDto comment, CancellationToken cancellationToken);
         Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken);

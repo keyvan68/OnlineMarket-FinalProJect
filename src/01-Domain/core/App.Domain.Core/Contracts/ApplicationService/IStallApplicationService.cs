@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IStallService
+    public interface IStallApplicationService
     {
         Task AddStallAsync(StallDto stall, CancellationToken cancellationToken);
         Task DeleteStallAsync(int stallId, CancellationToken cancellationToken);

@@ -24,7 +24,6 @@ namespace App.Domain.Core.DtoModels
         public string? Address { get; set; }
 
         public Guid ApplicationUserId { get; set; }
-
         public int? DeletedBy { get; set; }
 
         public DateTime? CreatedAt { get; set; }
@@ -43,8 +42,7 @@ namespace App.Domain.Core.DtoModels
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        //public ApplicationUser? ApplicationUser { get; set; }
-
+        public ApplicationUser? ApplicationUser { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
     }
 }

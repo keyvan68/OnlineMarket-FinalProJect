@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface ICategoryService
+    public interface ICategoryApplicationService
     {
         Task AddCategoryAsync(CategoryDto category, CancellationToken cancellationToken);
         Task DeleteCategoryAsync(int categoryId, CancellationToken cancellationToken);

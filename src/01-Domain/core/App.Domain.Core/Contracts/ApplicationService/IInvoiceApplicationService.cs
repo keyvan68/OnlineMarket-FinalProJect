@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IInvoiceService
+    public interface IInvoiceApplicationService
     {
         Task AddInvoiceAsync(InvoiceDto invoice, CancellationToken cancellationToken);
         Task DeleteInvoiceAsync(int invoiceId, CancellationToken cancellationToken);

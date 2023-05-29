@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IBuyerService
+    public interface IBuyerApplicationService
     {
         Task AddBuyerAsync(BuyerDto buyer, CancellationToken cancellationToken);
         Task DeleteBuyerAsync(int buyerId, CancellationToken cancellationToken);

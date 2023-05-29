@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contracts.Service
 {
-    public interface IBidService
+    public interface IBidApplicationService
     {
         Task AddBidAsync(BidDto bid, CancellationToken cancellationToken);
         Task DeleteBidAsync(int bidId, CancellationToken cancellationToken);

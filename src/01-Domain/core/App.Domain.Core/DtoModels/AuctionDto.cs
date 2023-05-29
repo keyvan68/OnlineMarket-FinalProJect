@@ -11,7 +11,7 @@ namespace App.Domain.Core.DtoModels
     {
         public int Id { get; set; }
 
-        public int SellerId { get; set; }
+        public Guid SellerId { get; set; }
 
         public int ProductId { get; set; }
 
