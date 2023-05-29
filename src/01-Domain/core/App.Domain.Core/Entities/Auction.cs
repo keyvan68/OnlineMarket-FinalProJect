@@ -7,7 +7,7 @@ public partial class Auction
 {
     public int Id { get; set; }
 
-    public int SellerId { get; set; }
+    public Guid SellerId { get; set; }
 
     public int ProductId { get; set; }
 

@@ -1,6 +1,8 @@
+using App.Domain.Core.Entities;
 using App.Infrastructures.Data.Repositories.AutoMaper;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.EndPoints.MVC.OnlineMarket
@@ -13,10 +15,25 @@ namespace App.EndPoints.MVC.OnlineMarket
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
+            
+
             builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+                options.UseSqlServer(connectionString));
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
+                options =>
+                {
+                    
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+
+                }
+                )
+            .AddEntityFrameworkStores<AppDbContext>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new AutoMapperProfileDto());

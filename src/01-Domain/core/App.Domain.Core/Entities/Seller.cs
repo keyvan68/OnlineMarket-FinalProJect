@@ -5,7 +5,7 @@ namespace App.Domain.Core.Entities;
 
 public partial class Seller
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -23,7 +23,7 @@ public partial class Seller
 
     public int? Medal { get; set; }
 
-    public int UserId { get; set; }
+    public Guid ApplicationUserId { get; set; }
 
     public DateTime Birthdate { get; set; }
 
@@ -43,7 +43,7 @@ public partial class Seller
 
     public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
-    public virtual User IdNavigation { get; set; } = null!;
+    public ApplicationUser? ApplicationUser { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 

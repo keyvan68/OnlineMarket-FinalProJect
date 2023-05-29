@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\01-Domain\services\App.Domain.ApplicationServices\App.Domain.ApplicationServices.csproj" />
     <ProjectReference Include="..\..\01-Domain\services\App.Domain.Services\App.Domain.Services.csproj" />
     <ProjectReference Include="..\..\02-Infrastructures\App.Infrastructures.Data.Repositories\App.Infrastructures.Data.Repositories.csproj" />
+    <ProjectReference Include="..\..\02-Infrastructures\App.Infrastructures.Db.SqlServer.Ef\App.Infrastructures.Db.SqlServer.Ef.csproj" />
   </ItemGroup>
 
 </Project>

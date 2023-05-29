@@ -7,7 +7,7 @@ public partial class Comment
 {
     public int Id { get; set; }
 
-    public int BuyerId { get; set; }
+    public Guid BuyerId { get; set; }
 
     public string Description { get; set; } = null!;
 

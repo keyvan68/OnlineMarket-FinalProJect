@@ -9,7 +9,7 @@ namespace App.Domain.Core.DtoModels
 {
     public class StallDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; } = null!;
 

@@ -9,10 +9,10 @@ namespace App.Domain.Core.DtoModels
 {
     public class RoleDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
-        public string Title { get; set; } = null!;
+        //public string Title { get; set; } = null!;
 
-        public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        //public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }
