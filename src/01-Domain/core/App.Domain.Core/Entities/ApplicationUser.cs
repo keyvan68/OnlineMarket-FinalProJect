@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace App.Domain.Core.Entities
 {
 
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser : IdentityUser<int>
     {
         #region Properties
 

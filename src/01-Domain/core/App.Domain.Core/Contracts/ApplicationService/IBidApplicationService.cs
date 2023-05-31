@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contracts.Service
+namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface IBidApplicationService
     {
-        Task AddBidAsync(BidDto bid, CancellationToken cancellationToken);
-        Task DeleteBidAsync(int bidId, CancellationToken cancellationToken);
-        Task<List<BidDto>> GetAllBidsAsync(CancellationToken cancellationToken);
-        Task<BidDto> GetBidByIdAsync(int bidId);
-        Task UpdateBidAsync(BidDto bid, CancellationToken cancellationToken);
+        Task<int> Create(BidDto bidDto, CancellationToken cancellationToken);
+        Task Delete(int bidId, CancellationToken cancellationToken);
+        Task<List<BidDto>> GetAll(CancellationToken cancellationToken);
+        Task<List<BidDto>> GetByAuction(int auctionId, CancellationToken cancellationToken);
+        Task<List<BidDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken);
+        Task<BidDto> GetById(int bidId, CancellationToken cancellationToken);
+        Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken);
     }
 }

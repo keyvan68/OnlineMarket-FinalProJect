@@ -44,14 +44,20 @@
                 <div class="col-lg-3 col-4 order-lg-3 order-3">
                     <div class="top-menu-btn">
                         <ul class="nav">
+                            @* <li class="nav-item d-xl-block d-none">
+                            <button class="auth-btn-index pointer"
+                            data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="bi bi-person-circle"></i>ورود به
+                            حساب کاربری
+                            </button>
+                            </li>*@
                             <li class="nav-item d-xl-block d-none">
-                                <button class="auth-btn-index pointer"
-                                        data-bs-toggle="modal" data-bs-target="#loginModal">
-                                    <i class="bi bi-person-circle"></i>ورود به
-                                    حساب کاربری
-                                </button>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-xl-block d-none">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                                <li class="nav-item">
                                 <span class="auth-icon-responsive d-xl-none d-block pointer"
                                       data-bs-toggle="modal" data-bs-target="#loginModal">
                                     <i class="bi bi-person"></i>

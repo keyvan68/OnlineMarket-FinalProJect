@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contracts.Service
+namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface IBuyerApplicationService
     {
-        Task AddBuyerAsync(BuyerDto buyer, CancellationToken cancellationToken);
-        Task DeleteBuyerAsync(int buyerId, CancellationToken cancellationToken);
-        Task<List<BuyerDto>> GetAllBuyersAsync(CancellationToken cancellationToken);
-        Task<BuyerDto> GetbuyerByIdAsync(int buyerId);
-        Task UpdateBuyerAsync(BuyerDto buyer, CancellationToken cancellationToken);
+        Task<int> Create(BuyerDto buyerDto, CancellationToken cancellationToken);
+        Task Delete(int buyerId, CancellationToken cancellationToken);
+        Task<List<BuyerDto>> GetAll(CancellationToken cancellationToken);
+        Task<List<BuyerDto>> GetByApplicationUser(int applicationUserId, CancellationToken cancellationToken);
+        Task<BuyerDto> GetById(int buyerId, CancellationToken cancellationToken);
+        Task Update(BuyerDto buyerDto, CancellationToken cancellationToken);
+        Task<List<BuyerDto>> GetAllBuyers(CancellationToken cancellationToken);
     }
 }

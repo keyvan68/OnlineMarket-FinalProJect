@@ -21,14 +21,14 @@ namespace App.EndPoints.MVC.OnlineMarket
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(
                 options =>
                 {
                     
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredLength = 4;
                     options.Password.RequireNonAlphanumeric = false;
 
                 }

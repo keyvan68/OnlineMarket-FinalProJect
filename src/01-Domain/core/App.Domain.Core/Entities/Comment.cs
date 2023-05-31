@@ -7,7 +7,7 @@ public partial class Comment
 {
     public int Id { get; set; }
 
-    public Guid BuyerId { get; set; }
+    public int BuyerId { get; set; }
 
     public string Description { get; set; } = null!;
 
@@ -17,15 +17,15 @@ public partial class Comment
 
     public int InvoiceId { get; set; }
 
-    public int? DeletedBy { get; set; }
+    //public int? DeletedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public int? LastModifiedBy { get; set; }
+    //public int? LastModifiedBy { get; set; }
 
     public bool? IsDeleted { get; set; }
 

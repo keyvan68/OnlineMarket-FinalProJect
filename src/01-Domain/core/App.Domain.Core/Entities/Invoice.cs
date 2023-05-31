@@ -7,19 +7,19 @@ public partial class Invoice
 {
     public int Id { get; set; }
 
-    public Guid SellerId { get; set; }
+    public int SellerId { get; set; }
 
-    public Guid BuyerId { get; set; }
+    public int BuyerId { get; set; }
 
-    public int? DeletedBy { get; set; }
+    //public int? DeletedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public int? LastModifiedBy { get; set; }
+    //public int? LastModifiedBy { get; set; }
 
     public bool? IsDeleted { get; set; }
 

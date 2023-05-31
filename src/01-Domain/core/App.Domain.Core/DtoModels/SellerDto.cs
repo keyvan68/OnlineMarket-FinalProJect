@@ -9,7 +9,7 @@ namespace App.Domain.Core.DtoModels
 {
     public class SellerDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; } = null!;
 
@@ -27,7 +27,7 @@ namespace App.Domain.Core.DtoModels
 
         public int? Medal { get; set; }
 
-        public Guid ApplicationUserId { get; set; }
+        public int ApplicationUserId { get; set; }
 
         public DateTime Birthdate { get; set; }
 

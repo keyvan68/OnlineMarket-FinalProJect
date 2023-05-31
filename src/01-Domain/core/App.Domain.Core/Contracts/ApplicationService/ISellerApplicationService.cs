@@ -5,14 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contracts.Service
+namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface ISellerApplicationService
     {
-        Task AddSellerAsync(SellerDto Seller, CancellationToken cancellationToken);
-        Task DeleteSellerAsync(int SellerId, CancellationToken cancellationToken);
-        Task<List<SellerDto>> GetAllSellersAsync(CancellationToken cancellationToken);
-        Task<SellerDto> GetSellerByIdAsync(int SellerId);
-        Task UpdateSellerAsync(SellerDto Seller, CancellationToken cancellationToken);
+        Task<int> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
+        Task DeleteSeller(int sellerId, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetAllSellers(CancellationToken cancellationToken);
+        Task<SellerDto> GetSellerById(int sellerId, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetSellersByCommissionAmount(int commissionAmount, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken);
+        Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetAllSellerWithRole();
     }
 }

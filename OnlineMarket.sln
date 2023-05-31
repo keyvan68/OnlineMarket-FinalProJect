@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-EndPoints", "03-EndPoint
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{15D90C17-372E-4175-AE65-553407400C4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{B86CD7B9-766F-4F58-B8F0-56B5810AF87E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B86CD7B9-766F-4F58-B8F0-56B5810AF87E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Domain.Core", "src\01-Domain\core\App.Domain.Core\App.Domain.Core.csproj", "{2B1D6851-C548-4076-A7DB-4027EE106553}"
 EndProject

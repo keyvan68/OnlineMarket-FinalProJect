@@ -5,7 +5,7 @@ namespace App.Domain.Core.Entities;
 
 public partial class Seller
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -19,23 +19,23 @@ public partial class Seller
 
     public string PhoneNumber { get; set; } = null!;
 
-    public int? CommissionAmount { get; set; }
+    public int CommissionAmount { get; set; }
 
     public int? Medal { get; set; }
 
-    public Guid ApplicationUserId { get; set; }
+    public int ApplicationUserId { get; set; }
 
     public DateTime Birthdate { get; set; }
 
-    public int? DeletedBy { get; set; }
+    //public int? DeletedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public int? LastModifiedBy { get; set; }
+    //public int? LastModifiedBy { get; set; }
 
     public bool? IsDeleted { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class InvoiceRepository /*: IInvoiceRepository*/
+    public class InvoiceRepository : IInvoiceRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -26,7 +27,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken)
         {
-            var invoice = await _dbContext.Invoices.FindAsync(invoiceId);
+            var invoice = await _dbContext.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId);
             return _mapper.Map<InvoiceDto>(invoice);
         }
 
@@ -40,7 +41,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            var invoice = await _dbContext.Invoices.FindAsync(invoiceDto.Id);
+            var invoice = await _dbContext.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceDto.Id);
             if (invoice != null)
             {
                 _mapper.Map(invoiceDto, invoice);
@@ -50,7 +51,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken)
         {
-            var invoice = await _dbContext.Invoices.FindAsync(invoiceId);
+            var invoice = await _dbContext.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId);
             if (invoice != null)
             {
                 _dbContext.Invoices.Remove(invoice);
@@ -58,7 +59,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             }
         }
 
-        public async Task<List<InvoiceDto>> GetInvoicesByBuyerId(Guid buyerId, CancellationToken cancellationToken)
+        public async Task<List<InvoiceDto>> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
         {
             var invoices = await _dbContext.Invoices
                 .AsNoTracking()
@@ -67,7 +68,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<List<InvoiceDto>>(invoices);
         }
 
-        public async Task<List<InvoiceDto>> GetInvoicesBySellerId(Guid sellerId, CancellationToken cancellationToken)
+        public async Task<List<InvoiceDto>> GetInvoicesBySellerId(int sellerId, CancellationToken cancellationToken)
         {
             var invoices = await _dbContext.Invoices
                 .AsNoTracking()
@@ -76,7 +77,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<List<InvoiceDto>>(invoices);
         }
 
-        public async Task<List<InvoiceDto>> GetInvoicesByBuyerAndSeller(Guid buyerId, Guid sellerId, CancellationToken cancellationToken)
+        public async Task<List<InvoiceDto>> GetInvoicesByBuyerAndSeller(int buyerId, int sellerId, CancellationToken cancellationToken)
         {
             var invoices = await _dbContext.Invoices
                 .AsNoTracking()

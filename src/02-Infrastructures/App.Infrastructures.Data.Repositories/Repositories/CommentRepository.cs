@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class CommentRepository /*: ICommentRepository*/
+    public class CommentRepository : ICommentRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -48,7 +49,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Update(CommentDto commentDto, CancellationToken cancellationToken)
         {
-            var comment = await _dbContext.Comments.FindAsync(commentDto.Id);
+            var comment = await _dbContext.Comments.FirstOrDefaultAsync(x => x.Id == commentDto.Id);
             if (comment == null)
                 throw new Exception("Comment not found");
 
@@ -58,7 +59,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Delete(int commentId, CancellationToken cancellationToken)
         {
-            var comment = await _dbContext.Comments.FindAsync(commentId);
+            var comment = await _dbContext.Comments.FirstOrDefaultAsync(x=>x.Id==commentId);
             if (comment == null)
                 throw new Exception("Comment not found");
 
@@ -66,7 +67,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<CommentDto>> GetByBuyer(Guid buyerId, CancellationToken cancellationToken)
+        public async Task<List<CommentDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken)
         {
             var records = await _dbContext.Comments
                 .AsNoTracking()
@@ -99,6 +100,14 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .Where(c => c.IsAccepted == false)
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<CommentDto>>(records);
+        }
+        public async Task ConfirmByAdmin(int id)
+        {
+            var record = await _dbContext.Comments
+            .Where(c => c.Id == id).FirstOrDefaultAsync();
+            record.IsAccepted= true;
+            await _dbContext.SaveChangesAsync();
+
         }
 
     }

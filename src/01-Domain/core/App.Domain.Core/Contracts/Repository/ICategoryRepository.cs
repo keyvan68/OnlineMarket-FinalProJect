@@ -1,13 +1,16 @@
 ﻿using App.Domain.Core.DtoModels;
 
-namespace App.Domain.Core.Contracts.Repository
+namespace App.Domain.Core.Contracts.Repositorys
 {
     public interface ICategoryRepository
     {
-        Task AddCategoryAsync(CategoryDto category, CancellationToken cancellationToken);
-        Task DeleteCategoryAsync(int categoryId, CancellationToken cancellationToken);
-        Task<List<CategoryDto>> GetAllCategoriesAsync(CancellationToken cancellationToken);
-        Task<CategoryDto> GetCategoryByIdAsync(int categoryId);
-        Task UpdateCategoryAsync(CategoryDto category, CancellationToken cancellationToken);
+        Task<int> Create(CategoryDto categoryDto, CancellationToken cancellationToken);
+        Task Delete(int categoryId, CancellationToken cancellationToken);
+        Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
+        Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken);
+        Task<CategoryDto> GetParentCategory(int categoryId, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetProducts(int categoryId, CancellationToken cancellationToken);
+        Task<List<CategoryDto>> GetSubcategories(int categoryId, CancellationToken cancellationToken);
+        Task Update(CategoryDto categoryDto, CancellationToken cancellationToken);
     }
 }

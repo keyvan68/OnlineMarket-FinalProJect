@@ -1,13 +1,18 @@
 ﻿using App.Domain.Core.DtoModels;
 
-namespace App.Domain.Core.Contracts.Repository
+namespace App.Domain.Core.Contracts.Repositorys
 {
     public interface IProductRepository
     {
-        Task AddProductAsync(ProductDto Product, CancellationToken cancellationToken);
-        Task DeleteProductAsync(int ProductId, CancellationToken cancellationToken);
-        Task<List<ProductDto>> GetAllProductsAsync(CancellationToken cancellationToken);
-        Task<ProductDto> GetProductByIdAsync(int ProductId);
-        Task UpdateProductAsync(ProductDto Product, CancellationToken cancellationToken);
+        Task<int> Create(ProductDto productDto, CancellationToken cancellationToken);
+        Task Delete(int productId, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetAcceptedProducts(CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetAll(CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetByCategory(int categoryId, CancellationToken cancellationToken);
+        Task<ProductDto> GetById(int productId, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetByStall(int stallId, CancellationToken cancellationToken);
+        Task Update(ProductDto productDto, CancellationToken cancellationToken);
+        Task ConfirmByAdmin(int id);
     }
 }

@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.Domain.Core.Contracts.Repositorys;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class ImageRepository
+    public class ImageRepository : IImageRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -20,7 +21,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        
+
         public async Task<List<ImageDto>> GetImagesByProductId(int productId, CancellationToken cancellationToken)
         {
             var records = await _dbContext.Images
@@ -55,6 +56,10 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             {
                 _dbContext.Images.Remove(image);
                 await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            else
+            {
+                throw new Exception("image dont exist !!!");
             }
         }
     }

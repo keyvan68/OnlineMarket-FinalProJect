@@ -5,13 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contracts.Service
+namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface ICommentApplicationService
     {
-        Task AddCommentAsync(CommentDto comment, CancellationToken cancellationToken);
-        Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken);
-        Task<List<CommentDto>> GetAllCommentsAsync(CancellationToken cancellationToken);
-        Task<CommentDto> GetCommentByIdAsync(int commentId);
+        Task<int> Create(CommentDto commentDto, CancellationToken cancellationToken);
+        Task Delete(int commentId, CancellationToken cancellationToken);
+        Task<List<CommentDto>> GetAcceptedComments(CancellationToken cancellationToken);
+        Task<List<CommentDto>> GetAll(CancellationToken cancellationToken);
+        Task<List<CommentDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken);
+        Task<CommentDto> GetById(int commentId, CancellationToken cancellationToken);
+        Task<List<CommentDto>> GetByInvoice(int invoiceId, CancellationToken cancellationToken);
+        Task<List<CommentDto>> GetRejectedComments(CancellationToken cancellationToken);
+        Task Update(CommentDto commentDto, CancellationToken cancellationToken);
+
+        Task ConfirmByAdmin(int id);
     }
 }

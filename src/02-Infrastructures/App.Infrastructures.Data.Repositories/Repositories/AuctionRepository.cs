@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class AuctionRepository /*: IAuctionRepository*/
+    public class AuctionRepository : IAuctionRepository
+    
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
@@ -22,7 +23,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             _context = context;
             _mapper = mapper;
-            
+
         }
 
         public async Task<List<AuctionDto>> GetAll(CancellationToken cancellationToken)
@@ -42,6 +43,14 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
             return _mapper.Map<AuctionDto>(auction);
         }
+        public async Task<List<AuctionDto>> GetAuctionBySellerId(int sellerID, CancellationToken cancellationToken)
+        {
+            var auction = await _context.Auctions
+                .AsNoTracking()
+                .Where(a => a.SellerId == sellerID).ToListAsync(cancellationToken);
+
+            return _mapper.Map<List<AuctionDto>>(auction);
+        }
 
         public async Task<int> Create(AuctionDto auctionDto, CancellationToken cancellationToken)
         {
@@ -57,7 +66,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var auction = await _context.Auctions.FindAsync(auctionDto.Id);
 
-            
+
 
             _mapper.Map(auctionDto, auction);
             await _context.SaveChangesAsync(cancellationToken);
@@ -67,7 +76,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var auction = await _context.Auctions.FindAsync(auctionId);
 
-            
+
 
             _context.Auctions.Remove(auction);
             await _context.SaveChangesAsync(cancellationToken);

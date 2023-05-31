@@ -9,7 +9,7 @@ namespace App.Domain.Core.DtoModels
 {
     public class BuyerDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string? FirstName { get; set; }
 
@@ -23,7 +23,7 @@ namespace App.Domain.Core.DtoModels
 
         public string? Address { get; set; }
 
-        public Guid ApplicationUserId { get; set; }
+        public int ApplicationUserId { get; set; }
         public int? DeletedBy { get; set; }
 
         public DateTime? CreatedAt { get; set; }

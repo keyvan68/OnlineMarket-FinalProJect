@@ -5,7 +5,7 @@ namespace App.Domain.Core.Entities;
 
 public partial class Buyer
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public string? FirstName { get; set; }
 
@@ -19,16 +19,16 @@ public partial class Buyer
 
     public string? Address { get; set; }
 
-    public Guid ApplicationUserId { get; set; }
-    public int? DeletedBy { get; set; }
+    public int ApplicationUserId { get; set; }
+    //public int? DeletedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public int? LastModifiedBy { get; set; }
+    //public int? LastModifiedBy { get; set; }
 
     public bool? IsDeleted { get; set; }
 

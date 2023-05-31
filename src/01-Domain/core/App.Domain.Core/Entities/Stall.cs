@@ -5,7 +5,7 @@ namespace App.Domain.Core.Entities;
 
 public partial class Stall
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 

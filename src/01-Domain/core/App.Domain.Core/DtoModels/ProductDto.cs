@@ -21,9 +21,9 @@ namespace App.Domain.Core.DtoModels
 
         public int NumberofProducts { get; set; }
 
-        public Guid BuyerId { get; set; }
+        public int BuyerId { get; set; }
 
-        public Guid StallId { get; set; }
+        public int StallId { get; set; }
 
         public bool? IsAccepted { get; set; }
 

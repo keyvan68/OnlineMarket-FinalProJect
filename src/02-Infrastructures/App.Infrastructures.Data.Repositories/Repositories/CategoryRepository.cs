@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class CategoryRepository /*: ICategoryRepository*/
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -52,7 +53,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Update(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
-            var existingCategory = await _dbContext.Categories.FindAsync(categoryDto.Id);
+            var existingCategory = await _dbContext.Categories.FirstOrDefaultAsync(x=>x.Id==categoryDto.Id);
 
             if (existingCategory == null)
                 throw new Exception("Category not found");
@@ -64,7 +65,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Delete(int categoryId, CancellationToken cancellationToken)
         {
-            var existingCategory = await _dbContext.Categories.FindAsync(categoryId);
+            var existingCategory = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == categoryId);
 
             if (existingCategory == null)
                 throw new Exception("Category not found");

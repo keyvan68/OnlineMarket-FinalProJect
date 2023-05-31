@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
-    public class BidRepository /*: IBidRepository*/
+    public class BidRepository : IBidRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -60,7 +61,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             }
         }
 
-        public async Task<List<BidDto>> GetByBuyer(Guid buyerId, CancellationToken cancellationToken)
+        public async Task<List<BidDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken)
         {
             var bids = await _dbContext.Bids
                 .AsNoTracking()

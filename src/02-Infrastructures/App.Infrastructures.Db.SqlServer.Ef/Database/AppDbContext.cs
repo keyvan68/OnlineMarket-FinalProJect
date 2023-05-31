@@ -11,7 +11,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
     //{
 
     //}
-    public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+    public partial class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         //public void DetachAllEntities()
         //{
@@ -64,7 +64,15 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             base.OnModelCreating(modelBuilder);
 
-           
+            //modelBuilder.Entity<IdentityUser>().ToTable("Users");
+            //modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            //modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            //modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            //modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+            //modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            //modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
+
             modelBuilder.Entity<Auction>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__Auction__3214EC071A6D0BF4");
@@ -104,6 +112,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasOne(x => x.ApplicationUser).WithOne(x => x.Buyer);
+                
                 //entity.HasOne(d => d.ApplicationUser).WithOne(p => p.Buyer)
                 //    .HasForeignKey<Buyer>(d => d.Id)
                 //    .OnDelete(DeleteBehavior.ClientSetNull)

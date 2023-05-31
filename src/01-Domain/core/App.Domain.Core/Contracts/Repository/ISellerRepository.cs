@@ -1,13 +1,16 @@
 ﻿using App.Domain.Core.DtoModels;
 
-namespace App.Domain.Core.Contracts.Repository
+namespace App.Domain.Core.Contracts.Repositorys
 {
     public interface ISellerRepository
     {
-        Task AddSellerAsync(SellerDto Seller, CancellationToken cancellationToken);
-        Task DeleteSellerAsync(int SellerId, CancellationToken cancellationToken);
-        Task<List<SellerDto>> GetAllSellersAsync(CancellationToken cancellationToken);
-        Task<SellerDto> GetSellerByIdAsync(int SellerId);
-        Task UpdateSellerAsync(SellerDto Seller, CancellationToken cancellationToken);
+        Task<int> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
+        Task DeleteSeller(int sellerId, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetAllSellers(CancellationToken cancellationToken);
+        Task<SellerDto> GetSellerById(int sellerId, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetSellersByCommissionAmount(int commissionAmount, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken);
+        Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
+        Task<List<SellerDto>> GetAllSellerWithRole();
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230528195918_init")]
+    [Migration("20230530134857_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +26,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.ApplicationUser", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -98,17 +100,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("DeactiveProduct")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
@@ -122,14 +118,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
@@ -150,20 +143,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -173,9 +160,6 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -195,15 +179,17 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Buyer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Birthdayte")
                         .HasColumnType("datetime2");
@@ -211,14 +197,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -231,9 +211,6 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -261,23 +238,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -301,20 +269,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -332,18 +294,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id")
                         .HasName("PK__Comments__3214EC073B5475E5");
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Comments");
                 });
@@ -356,23 +312,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -397,20 +344,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -418,11 +359,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LastModifiedBy")
+                    b.Property<int>("SellerId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id")
                         .HasName("PK__Cart__3214EC075E6685F1");
@@ -459,8 +397,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -468,14 +406,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -490,17 +422,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
                     b.Property<int>("NumberofProducts")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<Guid>("StallId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("StallId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -522,15 +451,15 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Seller", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime2");
@@ -541,14 +470,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -562,9 +485,6 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -593,8 +513,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Stall", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -634,11 +554,13 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("Stalls");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -662,7 +584,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -676,8 +598,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -686,7 +608,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -700,8 +622,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -710,7 +632,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -721,8 +643,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -731,13 +653,13 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -746,10 +668,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -824,15 +746,15 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Buyers");
 
-                    b.HasOne("App.Domain.Core.Entities.Product", "Product")
+                    b.HasOne("App.Domain.Core.Entities.Invoice", "Invoice")
                         .WithMany("Comments")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("InvoiceId")
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Products");
 
                     b.Navigation("Buyer");
 
-                    b.Navigation("Product");
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Image", b =>
@@ -925,16 +847,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Navigation("IdNavigation");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
@@ -943,7 +865,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
@@ -952,9 +874,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -967,7 +889,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
@@ -1006,13 +928,13 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Invoice", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("InvoiceProducts");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Images");
 
                     b.Navigation("InvoiceProducts");
