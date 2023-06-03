@@ -47,12 +47,16 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
 
                     if (roles.Contains("admin"))
                     {
-                        return RedirectToAction("Index", "Dashboard");
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                     }
-                    else if (roles.Contains("buyer"))
+                    else if (roles.Contains("buyer") || roles.Contains("seller"))
                     {
-                        return RedirectToAction("Privacy", "Home");
+                        return RedirectToAction("Index", "Profile");
                     }
+                    //else if (roles.Contains("seller"))
+                    //{
+                    //    return RedirectToAction("Index", "Profile");
+                    //}
 
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

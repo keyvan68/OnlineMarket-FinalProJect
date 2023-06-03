@@ -15,8 +15,6 @@ public partial class Stall
 
     public DateTime? CreatedAt { get; set; }
 
-  
-
     public DateTime? LastModifiedAt { get; set; }
 
     public int? LastModifiedBy { get; set; }

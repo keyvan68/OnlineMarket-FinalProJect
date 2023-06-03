@@ -19,6 +19,13 @@ namespace App.EndPoints.MVC.OnlineMarket
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account";
+                //options.AccessDeniedPath = "/AccessDenied";
+            });
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
 
 
@@ -89,8 +96,8 @@ namespace App.EndPoints.MVC.OnlineMarket
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapAreaControllerRoute(
                 name: "areas",
