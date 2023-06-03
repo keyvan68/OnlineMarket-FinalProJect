@@ -5,13 +5,13 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        //[Required]
+        //[EmailAddress]
         [Display(Name = "ایمیل")]
         public string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
+        //[Required]
+        //[DataType(DataType.Password)]
         [Display(Name = "پاسورد")]
         public string Password { get; set; }
 

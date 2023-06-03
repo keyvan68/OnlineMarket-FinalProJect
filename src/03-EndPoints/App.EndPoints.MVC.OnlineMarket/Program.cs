@@ -1,5 +1,9 @@
+using App.Domain.ApplicationServices;
+using App.Domain.Core.Contracts.ApplicationService;
+using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Data.Repositories.AutoMaper;
+using App.Infrastructures.Data.Repositories.Repositories;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +20,7 @@ namespace App.EndPoints.MVC.OnlineMarket
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
-            
+
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -24,7 +28,7 @@ namespace App.EndPoints.MVC.OnlineMarket
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(
                 options =>
                 {
-                    
+
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireDigit = false;
@@ -40,8 +44,36 @@ namespace App.EndPoints.MVC.OnlineMarket
             });
 
             var mapper = config.CreateMapper();
-
             builder.Services.AddSingleton(mapper);
+            #region repository
+            builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+            builder.Services.AddScoped<IBidRepository, BidRepository>();
+            builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ISellerRepository, SellerRepository>();
+            builder.Services.AddScoped<IStallRepository, StallRepository>();
+            #endregion repository
+
+            #region ApplicationService
+            builder.Services.AddScoped<IApplicationUserApplicationService, ApplicationUserApplicationService>();
+            builder.Services.AddScoped<IAuctionApplicationService, AuctionApplicationService>();
+            builder.Services.AddScoped<IBidApplicationService, BidApplicationService>();
+            builder.Services.AddScoped<IBuyerApplicationService, BuyerApplicationService>();
+            builder.Services.AddScoped<ICategoryApplicationService, CategoryApplicationService>();
+            builder.Services.AddScoped<ICommentApplicationService, CommentApplicationService>();
+            builder.Services.AddScoped<IImageApplicationService, ImageApplicationService>();
+            builder.Services.AddScoped<IInvoiceApplicationService, InvoiceApplicationService>();
+            builder.Services.AddScoped<IProductApplicationService, ProductApplicationService>();
+            builder.Services.AddScoped<ISellerApplicationService, SellerApplicationService>();
+            builder.Services.AddScoped<IStallApplicationService, StallApplicationService>();
+            #endregion ApplicationService
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -59,14 +91,25 @@ namespace App.EndPoints.MVC.OnlineMarket
 
             app.UseAuthorization();
 
+
+            app.MapAreaControllerRoute(
+                name: "areas",
+                areaName: "Admin",
+                pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.MapAreaControllerRoute(
-             areaName: "Admin",
-             name: "areas",
-             pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+            //app.MapAreaControllerRoute(
+            // areaName: "Admin",
+            // name: "areas",
+            // pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+            //app.MapAreaControllerRoute(
+            //    name: "admin",
+            //    areaName: "Admin",
+            //    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}"
+            //);
 
             app.Run();
         }

@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
-using App.Domain.Core.Contracts.Repositorys;
+using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.ApplicationServices
 {
-    internal class BuyerApplicationService : IBuyerApplicationService
+    public class BuyerApplicationService : IBuyerApplicationService
     {
         private readonly IBuyerRepository _buyerRepository;
 

@@ -1,5 +1,4 @@
 ﻿using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;

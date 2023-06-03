@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.DtoModels;
 
-namespace App.Domain.Core.Contracts.Repositorys
+namespace App.Domain.Core.Contracts.Repository
 {
     public interface IProductRepository
     {

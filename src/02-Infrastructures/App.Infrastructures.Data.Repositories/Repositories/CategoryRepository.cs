@@ -1,5 +1,4 @@
 ﻿using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.Contracts.Repositorys;
 using App.Domain.Core.DtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
@@ -79,7 +78,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var subcategories = await _dbContext.Categories
                 .AsNoTracking()
-                .Where(c => c.ParenId == categoryId)
+                .Where(c => c.ParentId == categoryId)
                 .ToListAsync(cancellationToken);
 
             return _mapper.Map<List<CategoryDto>>(subcategories);
@@ -91,12 +90,12 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == categoryId, cancellationToken);
 
-            if (category == null || category.ParenId == null)
+            if (category == null || category.ParentId == null)
                 return null;
 
             var parentCategory = await _dbContext.Categories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == category.ParenId, cancellationToken);
+                .FirstOrDefaultAsync(c => c.Id == category.ParentId, cancellationToken);
 
             return _mapper.Map<CategoryDto>(parentCategory);
         }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230530134857_init")]
+    [Migration("20230602223748_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Auction", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -130,15 +133,21 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Auction__3214EC071A6D0BF4");
 
-                    b.HasIndex("SellerId");
+                    b.HasIndex(new[] { "Id" }, "IX_Auctions_1")
+                        .IsUnique();
 
-                    b.ToTable("Auction", (string)null);
+                    b.HasIndex(new[] { "SellerId" }, "IX_Auctions_SellerId");
+
+                    b.ToTable("Auctions");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Bid", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AuctionId")
                         .HasColumnType("int");
@@ -170,9 +179,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Bids__3214EC0781B747A2");
 
-                    b.HasIndex("AuctionId");
+                    b.HasIndex(new[] { "Id" }, "IX_Bids_1")
+                        .IsUnique();
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex(new[] { "AuctionId" }, "IX_Bids_AuctionId");
+
+                    b.HasIndex(new[] { "BuyerId" }, "IX_Bids_BuyerId");
 
                     b.ToTable("Bids");
                 });
@@ -221,10 +233,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Buyers__3214EC0784B1BC85");
 
-                    b.HasIndex("ApplicationUserId")
+                    b.HasIndex(new[] { "Id" }, "IX_Buyers_1")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "Id" }, "IX_Buyers_1")
+                    b.HasIndex(new[] { "ApplicationUserId" }, "IX_Buyers_ApplicationUserId")
                         .IsUnique();
 
                     b.ToTable("Buyers");
@@ -233,13 +245,19 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -253,21 +271,27 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("name");
 
-                    b.Property<int?>("ParenId")
+                    b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK__Category__3214EC074A2FB85E");
 
-                    b.HasIndex("ParenId");
+                    b.HasIndex(new[] { "ParentId" }, "IX_Categories_ParenId");
 
-                    b.ToTable("Category", (string)null);
+                    b.HasIndex(new[] { "Id" }, "IX_Categorys_1")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
@@ -297,9 +321,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Comments__3214EC073B5475E5");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex(new[] { "Id" }, "IX_Comments_1")
+                        .IsUnique();
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex(new[] { "BuyerId" }, "IX_Comments_BuyerId");
+
+                    b.HasIndex(new[] { "InvoiceId" }, "IX_Comments_InvoiceId");
 
                     b.ToTable("Comments");
                 });
@@ -307,7 +334,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -334,7 +364,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Gallery__43D54A714F55D535");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "Id" }, "IX_Galleries_1")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "ProductId" }, "IX_Images_ProductId");
 
                     b.ToTable("Images");
                 });
@@ -342,16 +375,25 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Invoice", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("Commision")
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Final")
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -362,20 +404,29 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TotalAmount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id")
                         .HasName("PK__Cart__3214EC075E6685F1");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex(new[] { "Id" }, "IX_Carts_1")
+                        .IsUnique();
 
-                    b.HasIndex("SellerId");
+                    b.HasIndex(new[] { "BuyerId" }, "IX_Invoices_BuyerId");
 
-                    b.ToTable("Invoice", (string)null);
+                    b.HasIndex(new[] { "SellerId" }, "IX_Invoices_SellerId");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.InvoiceProduct", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
@@ -385,17 +436,23 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex(new[] { "Id" }, "IX_InvoiceProducts_1")
+                        .IsUnique();
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "InvoiceId" }, "IX_InvoiceProducts_InvoiceId");
 
-                    b.ToTable("InvoiceProduct", (string)null);
+                    b.HasIndex(new[] { "ProductId" }, "IX_InvoiceProducts_ProductId");
+
+                    b.ToTable("InvoiceProducts");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
@@ -442,9 +499,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasKey("Id")
                         .HasName("PK__Products__3214EC07B0E58F7C");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex(new[] { "Id" }, "IX_Products_1")
+                        .IsUnique();
 
-                    b.HasIndex("StallId");
+                    b.HasIndex(new[] { "CategoryId" }, "IX_Products_CategoryId");
+
+                    b.HasIndex(new[] { "StallId" }, "IX_Products_StallId");
 
                     b.ToTable("Products");
                 });
@@ -452,10 +512,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Seller", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ApplicationUserId")
@@ -464,7 +526,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CommissionAmount")
+                    b.Property<int>("CommissionAmount")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -474,7 +536,6 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImgUrl")
@@ -487,40 +548,34 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Medal")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("PK__Seller__3214EC07F9D7534D");
 
-                    b.HasIndex("ApplicationUserId")
+                    b.HasIndex(new[] { "Id" }, "IX_Sellers_1")
                         .IsUnique();
 
-                    b.ToTable("Seller", (string)null);
+                    b.HasIndex(new[] { "ApplicationUserId" }, "IX_Sellers_ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Stall", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -529,10 +584,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -548,8 +600,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Stalls__3214EC07E433056E");
+                    b.HasKey("Id");
 
                     b.ToTable("Stalls");
                 });
@@ -730,12 +781,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
                 {
-                    b.HasOne("App.Domain.Core.Entities.Category", "Paren")
+                    b.HasOne("App.Domain.Core.Entities.Category", "Parent")
                         .WithMany("InverseParen")
-                        .HasForeignKey("ParenId")
+                        .HasForeignKey("ParentId")
                         .HasConstraintName("FK_Category_Category");
 
-                    b.Navigation("Paren");
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Comment", b =>
@@ -842,7 +893,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .WithOne("Stall")
                         .HasForeignKey("App.Domain.Core.Entities.Stall", "Id")
                         .IsRequired()
-                        .HasConstraintName("FK_Stalls_Seller");
+                        .HasConstraintName("FK_Stores_Sellers");
 
                     b.Navigation("IdNavigation");
                 });

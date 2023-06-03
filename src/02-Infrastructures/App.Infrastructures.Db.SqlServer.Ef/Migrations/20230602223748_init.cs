@@ -51,14 +51,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ParenId = table.Column<int>(type: "int", nullable: true),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -67,8 +69,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.PrimaryKey("PK__Category__3214EC074A2FB85E", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Category_Category",
-                        column: x => x.ParenId,
-                        principalTable: "Category",
+                        column: x => x.ParentId,
+                        principalTable: "Categories",
                         principalColumn: "Id");
                 });
 
@@ -208,17 +210,17 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Seller",
+                name: "Sellers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CommissionAmount = table.Column<int>(type: "int", nullable: true),
+                    CommissionAmount = table.Column<int>(type: "int", nullable: false),
                     Medal = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: false),
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -231,7 +233,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 {
                     table.PrimaryKey("PK__Seller__3214EC07F9D7534D", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Seller_AspNetUsers_ApplicationUserId",
+                        name: "FK_Sellers_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -239,10 +241,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Auction",
+                name: "Auctions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -260,19 +263,23 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.ForeignKey(
                         name: "FK_Auction_Seller",
                         column: x => x.SellerId,
-                        principalTable: "Seller",
+                        principalTable: "Sellers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoice",
+                name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
+                    TotalAmount = table.Column<int>(type: "int", nullable: false),
+                    Final = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Commision = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -287,7 +294,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.ForeignKey(
                         name: "FK_Invoice_Seller",
                         column: x => x.SellerId,
-                        principalTable: "Seller",
+                        principalTable: "Sellers",
                         principalColumn: "Id");
                 });
 
@@ -297,10 +304,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImageUrl = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedBy = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifiedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
@@ -308,11 +314,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Stalls__3214EC07E433056E", x => x.Id);
+                    table.PrimaryKey("PK_Stalls", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stalls_Seller",
+                        name: "FK_Stores_Sellers",
                         column: x => x.Id,
-                        principalTable: "Seller",
+                        principalTable: "Sellers",
                         principalColumn: "Id");
                 });
 
@@ -320,7 +326,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Bids",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
@@ -337,7 +344,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.ForeignKey(
                         name: "FK_Bids_Auction",
                         column: x => x.AuctionId,
-                        principalTable: "Auction",
+                        principalTable: "Auctions",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bids_Buyers",
@@ -350,7 +357,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: true),
@@ -371,7 +379,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.ForeignKey(
                         name: "FK_Comments_Products",
                         column: x => x.InvoiceId,
-                        principalTable: "Invoice",
+                        principalTable: "Invoices",
                         principalColumn: "Id");
                 });
 
@@ -379,7 +387,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -400,7 +409,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     table.ForeignKey(
                         name: "FK_Products_Category",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_Stalls",
@@ -413,7 +422,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -433,20 +443,21 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoiceProduct",
+                name: "InvoiceProducts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoiceProduct", x => x.Id);
+                    table.PrimaryKey("PK_InvoiceProducts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_InvoiceProduct_Invoice",
                         column: x => x.InvoiceId,
-                        principalTable: "Invoice",
+                        principalTable: "Invoices",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_InvoiceProduct_Products",
@@ -495,9 +506,21 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auction_SellerId",
-                table: "Auction",
+                name: "IX_Auctions_1",
+                table: "Auctions",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auctions_SellerId",
+                table: "Auctions",
                 column: "SellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bids_1",
+                table: "Bids",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bids_AuctionId",
@@ -522,9 +545,21 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_ParenId",
-                table: "Category",
-                column: "ParenId");
+                name: "IX_Categories_ParenId",
+                table: "Categories",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categorys_1",
+                table: "Categories",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_1",
+                table: "Comments",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_BuyerId",
@@ -537,29 +572,53 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Galleries_1",
+                table: "Images",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_ProductId",
                 table: "Images",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_BuyerId",
-                table: "Invoice",
-                column: "BuyerId");
+                name: "IX_InvoiceProducts_1",
+                table: "InvoiceProducts",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_SellerId",
-                table: "Invoice",
-                column: "SellerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceProduct_InvoiceId",
-                table: "InvoiceProduct",
+                name: "IX_InvoiceProducts_InvoiceId",
+                table: "InvoiceProducts",
                 column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceProduct_ProductId",
-                table: "InvoiceProduct",
+                name: "IX_InvoiceProducts_ProductId",
+                table: "InvoiceProducts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_1",
+                table: "Invoices",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_BuyerId",
+                table: "Invoices",
+                column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_SellerId",
+                table: "Invoices",
+                column: "SellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_1",
+                table: "Products",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -572,8 +631,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 column: "StallId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Seller_ApplicationUserId",
-                table: "Seller",
+                name: "IX_Sellers_1",
+                table: "Sellers",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sellers_ApplicationUserId",
+                table: "Sellers",
                 column: "ApplicationUserId",
                 unique: true);
         }
@@ -605,16 +670,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "InvoiceProduct");
+                name: "InvoiceProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Auction");
+                name: "Auctions");
 
             migrationBuilder.DropTable(
-                name: "Invoice");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -623,13 +688,13 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                 name: "Buyers");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Stalls");
 
             migrationBuilder.DropTable(
-                name: "Seller");
+                name: "Sellers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

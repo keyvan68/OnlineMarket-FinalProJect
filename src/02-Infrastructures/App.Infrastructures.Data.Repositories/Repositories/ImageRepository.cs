@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App.Domain.Core.Contracts.Repositorys;
+using App.Domain.Core.Contracts.Repository;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {

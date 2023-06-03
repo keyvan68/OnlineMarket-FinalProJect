@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
-using App.Domain.Core.Contracts.Repositorys;
+using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
 using System;
 using System.Collections.Generic;

@@ -8,7 +8,7 @@ public partial class InvoiceProduct
     public int Id { get; set; }
 
     public int InvoiceId { get; set; }
-
+    
     public int ProductId { get; set; }
 
     public virtual Invoice Invoice { get; set; } = null!;

@@ -39,7 +39,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true , false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(model.Email);
@@ -51,14 +51,76 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                     }
                     else if (roles.Contains("buyer"))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Privacy", "Home");
                     }
-                   
+
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);
         }
+        
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Buyer = new Buyer()  };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "buyer");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Privacy", "Home");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, item.Description);
+                    }
+                }
+
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Login(LoginViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(string.Empty, "خطا در ورود به سایت");
+        //        }
+
+        //    }
+        //    return View(model);
+        //}
         //public async Task<IActionResult> Login(LoginViewModel model)
         //{
 
@@ -73,50 +135,5 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         //    }
         //    return View(model);
         //}
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return View();
-        }
-    
-
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Buyer = new Buyer() };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "BuyerRole");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, item.Description);
-                    }
-                }
-
-            }
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
-
     }
 }
