@@ -7,7 +7,8 @@ namespace App.Domain.Core.Entities
     public class ApplicationUser : IdentityUser<int>
     {
         #region Properties
-
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletedAt { get; set; }
         #endregion Properties
 
         #region Navigation properties

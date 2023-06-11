@@ -1,5 +1,7 @@
 ﻿using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.StallDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -24,14 +26,15 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             _mapper = mapper;
         }
 
-        public async Task<StallDto> GetStallById(int stallId, CancellationToken cancellationToken)
+        public async Task<UpdateStallDto> GetStallById(int stallId, CancellationToken cancellationToken)
         {
             var record = await _dbContext.Stalls
-            .AsNoTracking()
+                .Where(a => a.IsDeleted == false)
+                .AsNoTracking()
                .FirstOrDefaultAsync(c => c.Id == stallId, cancellationToken);
-            return _mapper.Map<StallDto>(record);
+            return _mapper.Map<UpdateStallDto>(record);
         }
-   
+
 
         public async Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken)
         {
@@ -42,34 +45,53 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         }
 
-        public async Task UpdateStall(StallDto stallDto, CancellationToken cancellationToken)
+        public async Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken)
         {
-            var record = await _dbContext.Stalls.FirstOrDefaultAsync(x => x.Id == stallDto.Id);
+            var record = await _dbContext.Stalls.FirstOrDefaultAsync(x => x.Id == stallDto.Id,cancellationToken);
             if (record == null)
-                throw new Exception("Comment not found");
-            _mapper.Map(stallDto, record);
+                throw new Exception("stall not found");
+            record.Name = stallDto.Name;
             await _dbContext.SaveChangesAsync(cancellationToken);
-           
+
         }
-       
+
 
         public async Task DeleteStall(int stallId, CancellationToken cancellationToken)
         {
-            var stall = await _dbContext.Stalls.FirstOrDefaultAsync(x=>x.Id==stallId);
+            var stall = await _dbContext.Stalls.FirstOrDefaultAsync(x => x.Id == stallId);
             if (stall != null)
             {
                 _dbContext.Stalls.Remove(stall);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
+        public async Task SoftDelete(int stallId, CancellationToken cancellationToken)
+        {
+            var record = await _dbContext.Stalls.FirstOrDefaultAsync(x => x.Id == stallId);
+            record.IsDeleted = true;
+            record.DeletedAt = DateTime.Now;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+        }
 
         public async Task<List<StallDto>> GetAllStalls(CancellationToken cancellationToken)
         {
             var stalls = await _dbContext.Stalls
+                .Where(a => a.IsDeleted == false)
+                .Include(a => a.Products)
+                .Include(a => a.IdNavigation)
                 .AsNoTracking()
+                .Select(s => new StallDto
+                {
+                    Id = s.Id,
+                    Name= s.Name,
+                    SellerName=s.IdNavigation.FirstName + " " + s.IdNavigation.LastName,
+                    Products = s.Products
+                })
                 .ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<StallDto>>(stalls);
+            return stalls;
         }
 
         public async Task<List<ProductDto>> GetStallProducts(int stallId, CancellationToken cancellationToken)
@@ -78,7 +100,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             if (stall != null)
             {
                 var products = stall.Products.ToList();
-                var productDtos = _mapper.Map<List<ProductDto>>(products); 
+                var productDtos = _mapper.Map<List<ProductDto>>(products);
                 return productDtos;
             }
 

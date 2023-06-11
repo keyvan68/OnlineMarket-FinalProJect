@@ -5,25 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.DtoModels
+namespace App.Domain.Core.DtoModels.SellerDtoModels
 {
-    public class BuyerDto
+    public class SellerDto
     {
         public int Id { get; set; }
 
-        public string? FirstName { get; set; }
-
-        public string? LastName { get; set; }
-
-        public string? PhoneNumber { get; set; }
+        public string Name { get; set; } = null!;
 
         public string? ImgUrl { get; set; }
 
-        public DateTime Birthdayte { get; set; }
+        public string FirstName { get; set; } = null!;
 
-        public string? Address { get; set; }
+        public string LastName { get; set; } = null!;
+
+        public string Address { get; set; } = null!;
+
+        public string PhoneNumber { get; set; } = null!;
+
+        public int? CommissionAmount { get; set; }
+
+        public int? Medal { get; set; }
 
         public int ApplicationUserId { get; set; }
+
+        public DateTime Birthdate { get; set; }
+
         public int? DeletedBy { get; set; }
 
         public DateTime? CreatedAt { get; set; }
@@ -38,11 +45,12 @@ namespace App.Domain.Core.DtoModels
 
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<Bid> Bids { get; set; } = new List<Bid>();
-
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 
         public ApplicationUser? ApplicationUser { get; set; }
+
         public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+
+        public virtual Stall? Stall { get; set; }
     }
 }

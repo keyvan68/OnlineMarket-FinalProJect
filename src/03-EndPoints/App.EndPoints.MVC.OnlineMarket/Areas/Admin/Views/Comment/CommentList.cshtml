@@ -1,0 +1,56 @@
+﻿@using App.Domain.Core.DtoModels.CommentDtoModels;
+@model IEnumerable<CommentDto>
+
+@{
+    ViewData["Title"] = "نظرات";
+    Layout = "_AdminLayout";
+}
+
+<h1>نظرات</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="bg-info text-white">
+            
+            <th>
+                نام خریدار
+            </th>
+            <th>
+                نام محصول
+            </th>
+            <th>
+                توضیحات
+            </th>
+            <th>
+                تایید شده
+            </th>
+           
+            <th>
+                عملیات
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                
+                <td> @($"{comment.Buyer.FirstName} {comment.Buyer.LastName}")</td>
+                <td>
+                    @foreach (var invoiceProduct in comment.Invoice.InvoiceProducts)
+                {
+                    @($"{invoiceProduct.Product.Title} ")
+                }
+                </td>
+                <td>@comment.Description</td>
+                <td>@(comment.IsAccepted == true ? "بله" : "خیر")</td>
+                
+                <td>
+                   @* <a class="btn btn-info text-white" asp-area="Admin" asp-controller="Comment" asp-action="ConfirmCommentByAdmin">تایید کامنت</a>*@
+                    <a class="btn btn-info text-white" href="/Admin/Comment/ConfirmCommentByAdmin/@comment.Id">تایید کامنت</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+   
+</table>

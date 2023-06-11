@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.DtoModels
+namespace App.Domain.Core.DtoModels.ImageDtoModels
 {
-    public class CategoryDto
+    public class ImageDto
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string? Name { get; set; }
 
-        public int? ParenId { get; set; }
+        public int ProductId { get; set; }
+
+        public string? Url { get; set; }
 
         public int? DeletedBy { get; set; }
 
@@ -29,10 +31,6 @@ namespace App.Domain.Core.DtoModels
 
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<Category> InverseParen { get; set; } = new List<Category>();
-
-        public virtual Category? Paren { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        public virtual Product Product { get; set; } = null!;
     }
 }

@@ -1,4 +1,6 @@
 ﻿using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.StallDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,8 +15,9 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken);
         Task DeleteStall(int stallId, CancellationToken cancellationToken);
         Task<List<StallDto>> GetAllStalls(CancellationToken cancellationToken);
-        Task<StallDto> GetStallById(int stallId, CancellationToken cancellationToken);
+        Task<UpdateStallDto> GetStallById(int stallId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetStallProducts(int stallId, CancellationToken cancellationToken);
-        Task UpdateStall(StallDto stallDto, CancellationToken cancellationToken);
+        Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken);
+        Task SoftDelete(int stallId, CancellationToken cancellationToken);
     }
 }

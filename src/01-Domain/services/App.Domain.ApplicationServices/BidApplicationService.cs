@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.BidDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,10 +51,10 @@ namespace App.Domain.ApplicationServices
             return list;
         }
 
-        public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
-        {
-            var list = await _bidRepository.GetByProduct(productId, cancellationToken);
-            return list;
-        }
+        //public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
+        //{
+        //    var list = await _bidRepository.GetByProduct(productId, cancellationToken);
+        //    return list;
+        //}
     }
 }

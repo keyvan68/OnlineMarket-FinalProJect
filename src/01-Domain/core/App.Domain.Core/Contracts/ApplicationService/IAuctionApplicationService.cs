@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
+﻿using App.Domain.Core.DtoModels.AuctionDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.BidDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -70,15 +70,15 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<List<BidDto>>(bids);
         }
 
-        public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
-        {
-            var bids = await _dbContext.Bids
-                .AsNoTracking()
-                .Where(b => b.ProductId == productId)
-                .ToListAsync(cancellationToken);
+        //public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
+        //{
+        //    var bids = await _dbContext.Bids
+        //        .AsNoTracking()
+        //        .Where(b => b.ProductId == productId)
+        //        .ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<BidDto>>(bids);
-        }
+        //    return _mapper.Map<List<BidDto>>(bids);
+        //}
 
         public async Task<List<BidDto>> GetByAuction(int auctionId, CancellationToken cancellationToken)
         {

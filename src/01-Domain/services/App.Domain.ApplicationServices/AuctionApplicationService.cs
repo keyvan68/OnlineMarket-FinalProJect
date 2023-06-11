@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.AuctionDtoModels;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;

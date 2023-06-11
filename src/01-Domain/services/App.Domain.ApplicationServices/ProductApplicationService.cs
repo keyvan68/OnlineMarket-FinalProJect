@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace App.Domain.ApplicationServices
             await _productRepository.ConfirmByAdmin(id);
         }
 
-        public async Task<int> Create(ProductDto productDto, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateProductDto productDto, CancellationToken cancellationToken)
         {
             var id = await _productRepository.Create(productDto, cancellationToken);
             return id;
@@ -43,6 +44,7 @@ namespace App.Domain.ApplicationServices
         public async Task<List<ProductDto>> GetAll(CancellationToken cancellationToken)
         {
            var pruductlist =  await _productRepository.GetAll(cancellationToken);
+            
             return pruductlist;
         }
 
@@ -58,7 +60,7 @@ namespace App.Domain.ApplicationServices
             return productcategory;
         }
 
-        public async Task<ProductDto> GetById(int productId, CancellationToken cancellationToken)
+        public async Task<UpdateProductDto> GetById(int productId, CancellationToken cancellationToken)
         {
             var product= await _productRepository.GetById(productId, cancellationToken);
             return product;
@@ -70,7 +72,12 @@ namespace App.Domain.ApplicationServices
             return product;
         }
 
-        public async Task Update(ProductDto productDto, CancellationToken cancellationToken)
+        public async Task SoftDelete(int productId, CancellationToken cancellationToken)
+        {
+            await _productRepository.SoftDelete(productId, cancellationToken);
+        }
+
+        public async Task Update(UpdateProductDto productDto, CancellationToken cancellationToken)
         {
             await _productRepository.Update(productDto, cancellationToken);
         }

@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
+﻿using App.Domain.Core.DtoModels.BidDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,6 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<List<BidDto>> GetByAuction(int auctionId, CancellationToken cancellationToken);
         Task<List<BidDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken);
         Task<BidDto> GetById(int bidId, CancellationToken cancellationToken);
-        Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken);
+        //Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken);
     }
 }

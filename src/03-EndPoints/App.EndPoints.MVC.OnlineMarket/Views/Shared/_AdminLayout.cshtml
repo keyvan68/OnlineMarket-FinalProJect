@@ -13,7 +13,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
- 
+
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/style.css">
     <link rel="stylesheet" href="~/dist/css/font-awesome/css/font-awesome.min.css">
@@ -174,16 +174,22 @@
                     <li class="active treeview">
                         <a href="#"> <i class="fa fa-dashboard"></i> <span>داشبورد</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
                         <ul class="treeview-menu">
-                            <li class="active"><a href="#">مدیریت کاربران</a></li>
-                            <li><a href="#">مدریت کامنت</a></li>
+                            <li class="active">
+                                <a class="" asp-area="Admin" asp-controller="User" asp-action="Index">مدیریت کاربران</a>
+                            </li>
+                            <li><a class="" asp-area="Admin" asp-controller="Comment" asp-action="CommentList">تایید کامنت</a></li>
                             <li>
-                               @* <a href="Dashboard/ProductList">تایید محصولات</a>*@
+                                @* <a href="Dashboard/ProductList">تایید محصولات</a>*@
                                 <a class="" asp-area="Admin" asp-controller="Dashboard" asp-action="ProductList">تایید محصولات</a>
-                           </li>
+                            </li>
                             <li><a href="#"> کمیسیون فروشندگان</a></li>
                             <li><a href="#">اختصاص مدال برای فروشندگان </a></li>
-                            <li><a href="#"> مدیریت محصولات</a></li>
-                            <li><a href="#">مدیریت فروشگاه ها </a></li>
+                            <li>
+                                <a class="" asp-area="Admin" asp-controller="Product" asp-action="ProductList">مدیریت محصولات</a>
+
+                            <li>
+                                <a class="" asp-area="Admin" asp-controller="Stall" asp-action="Index">مدیریت فروشگاه ها</a>
+                            </li>
                         </ul>
                     </li>
 

@@ -11,18 +11,17 @@ public partial class Stall
 
     public string? ImageUrl { get; set; }
 
-    public int? DeletedBy { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public int? LastModifiedBy { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
-
+    //public int SellerId { get; set; }
+    //public Seller Seller { get; set; }
     public virtual Seller IdNavigation { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

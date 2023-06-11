@@ -1,20 +1,28 @@
-﻿using App.Domain.Core.Entities;
+﻿using App.Domain.Core.Contracts.ApplicationService;
+using App.Domain.Core.DtoModels.AccountDtoModels;
+using App.Domain.Core.Entities;
 using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace App.EndPoints.MVC.OnlineMarket.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IAccountApplicationService _accountApplicationService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IAccountApplicationService accountApplicationService, IMapper mapper)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _accountApplicationService=accountApplicationService;
+            _mapper=mapper;
         }
 
         [HttpGet]
@@ -39,7 +47,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _accountApplicationService.Login(_mapper.Map<LoginUserDto>(model));
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(model.Email);
@@ -53,10 +61,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                     {
                         return RedirectToAction("Index", "Profile");
                     }
-                    //else if (roles.Contains("seller"))
-                    //{
-                    //    return RedirectToAction("Index", "Profile");
-                    //}
+                  
 
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -76,17 +81,16 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, CancellationToken cancellationToken)
         {
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Buyer = new Buyer()  };
-                var result = await _userManager.CreateAsync(user, model.Password);
+
+                var result = await _accountApplicationService.Register(_mapper.Map<RegisterUserDto>(model));
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "buyer");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    
                     return RedirectToAction("Privacy", "Home");
                 }
                 else
@@ -107,37 +111,6 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "خطا در ورود به سایت");
-        //        }
-
-        //    }
-        //    return View(model);
-        //}
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //    }
-        //    return View(model);
-        //}
+       
     }
 }

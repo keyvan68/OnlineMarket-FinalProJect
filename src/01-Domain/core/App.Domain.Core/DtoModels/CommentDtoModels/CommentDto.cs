@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.DtoModels
+namespace App.Domain.Core.DtoModels.CommentDtoModels
 {
     public class CommentDto
     {
@@ -19,7 +19,7 @@ namespace App.Domain.Core.DtoModels
 
         public bool? IsAccepted { get; set; }
 
-       
+
 
         public int? DeletedBy { get; set; }
 

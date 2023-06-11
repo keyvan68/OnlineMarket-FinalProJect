@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.CommentDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -24,7 +24,10 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<List<CommentDto>> GetAll(CancellationToken cancellationToken)
         {
-            var records = await _dbContext.Comments
+            var records = await _dbContext.Comments.Include(b=>b.Buyer)
+                .Include(i=>i.Invoice)
+                .ThenInclude(y=>y.InvoiceProducts)
+                .ThenInclude(p=>p.Product)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<CommentDto>>(records);

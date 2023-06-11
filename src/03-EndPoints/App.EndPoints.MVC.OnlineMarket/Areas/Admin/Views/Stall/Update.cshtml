@@ -1,0 +1,28 @@
+﻿@model UpdateStallViewModels
+
+@{
+    ViewData["Title"] = "ویرایش مغازه";
+    Layout = "_AdminLayout";
+}
+
+<h1>ویرایش مغازه</h1>
+
+<form method="post" asp-controller="Stall" asp-action="Update">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Id">نام مغازه:</label>
+        <input class="form-control" asp-for="Id" />
+        <span asp-validation-for="Id"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name">نام مغازه:</label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+
+
+    <!-- موارد دیگر ورودی -->
+
+    <button type="submit" class="btn btn-primary">ویرایش</button>
+</form>

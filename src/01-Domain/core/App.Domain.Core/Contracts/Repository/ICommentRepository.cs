@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
+﻿using App.Domain.Core.DtoModels.CommentDtoModels;
 
 namespace App.Domain.Core.Contracts.Repository
 {

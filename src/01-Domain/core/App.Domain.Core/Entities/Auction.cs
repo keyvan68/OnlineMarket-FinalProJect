@@ -17,17 +17,19 @@ public partial class Auction
 
     public int HighestBid { get; set; }
 
-    public bool? DeactiveProduct { get; set; }
+    public bool DeactiveProduct { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<Bid> Bids { get; set; } = new List<Bid>();
 
     public virtual Seller Seller { get; set; } = null!;
+
+    public virtual Product Product { get; set; } = null!;
 }

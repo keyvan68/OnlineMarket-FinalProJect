@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.DtoModels
+namespace App.Domain.Core.DtoModels.InvoiceDtoModels
 {
-    public class StallDto
+    public class InvoiceDto
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public int SellerId { get; set; }
 
-        public string ImageUrl { get; set; } = null!;
+        public int BuyerId { get; set; }
 
         public int? DeletedBy { get; set; }
 
@@ -29,8 +29,10 @@ namespace App.Domain.Core.DtoModels
 
         public DateTime? DeletedAt { get; set; }
 
-        public virtual Seller IdNavigation { get; set; } = null!;
+        public virtual Buyer Buyer { get; set; } = null!;
 
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        public virtual ICollection<InvoiceProduct> InvoiceProducts { get; set; } = new List<InvoiceProduct>();
+
+        public virtual Seller Seller { get; set; } = null!;
     }
 }

@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.StallDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -37,7 +39,7 @@ namespace App.Domain.ApplicationServices
             return stall;
         }
 
-        public async Task<StallDto> GetStallById(int stallId, CancellationToken cancellationToken)
+        public async Task<UpdateStallDto> GetStallById(int stallId, CancellationToken cancellationToken)
         {
             var stallid = await _stallRepository.GetStallById(stallId,cancellationToken);
             return stallid;
@@ -49,9 +51,16 @@ namespace App.Domain.ApplicationServices
             return stallproduct;
         }
 
-        public async Task UpdateStall(StallDto stallDto, CancellationToken cancellationToken)
+        public async Task SoftDelete(int stallId, CancellationToken cancellationToken)
+        {
+            await _stallRepository.SoftDelete(stallId, cancellationToken);
+        }
+
+        public async Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken)
         {
            await _stallRepository.UpdateStall(stallDto,cancellationToken);
         }
+
+       
     }
 }

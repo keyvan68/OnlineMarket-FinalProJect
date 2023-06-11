@@ -19,9 +19,9 @@ public partial class Invoice
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public decimal? Commision { get; set; }
+    public int? Commision { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 

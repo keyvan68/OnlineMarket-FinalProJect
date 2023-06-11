@@ -11,7 +11,7 @@ public partial class Comment
 
     public string Description { get; set; } = null!;
 
-    public bool? IsAccepted { get; set; }
+    public bool IsAccepted { get; set; }
 
     public int InvoiceId { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Comment
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
     public virtual Buyer Buyer { get; set; } = null!;

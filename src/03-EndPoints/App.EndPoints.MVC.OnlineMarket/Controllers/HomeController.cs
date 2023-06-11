@@ -28,65 +28,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         {
             return View();
         }
-        //public async Task<IActionResult> SeedData()
-        //{
-
-        //    var adminRoleResult = await _roleManager.CreateAsync(new IdentityRole<int>("AdminRole"));
-
-        //    var buyerRoleResult = await _roleManager.CreateAsync(new IdentityRole<int>("BuyerRole"));
-
-        //    var sellerRoleResult = await _roleManager.CreateAsync(new IdentityRole<int>("SellerRole"));
-
-
-
-        //    var adminUserResult = await _userManager.CreateAsync(new ApplicationUser()
-
-        //    {
-
-        //        UserName = "Admin",
-        //        Email="keyvan@gmail.com",
-        //        EmailConfirmed=true,
-        //        NormalizedEmail="KEYVAN@GMAIL.COM",
-        //        NormalizedUserName="Admin",
-        //        PasswordHash="1234"
-
-
-
-        //    });
-
-
-        //    if (adminUserResult.Succeeded)
-        //    {
-
-        //        var adminUser = await _userManager.FindByNameAsync("Admin");
-
-        //        await _userManager.AddToRoleAsync(adminUser, "AdminRole");
-        //    }
-
-
-        //    var testUserResult = await _userManager.CreateAsync(new ApplicationUser()
-
-        //    {
-
-        //        UserName = "test"
-
-        //    });
-
-
-        //    if (testUserResult.Succeeded)
-        //    {
-
-        //        var testUser = await _userManager.FindByNameAsync("test");
-
-        //        await _userManager.AddToRoleAsync(testUser, "BuyerRole");
-
-        //    }
-
-
-        //    return Ok();
-
-
-        //}
+   
         public async Task<IActionResult> SeedData()
         {
             var adminRoleResult = await _roleManager.CreateAsync(new IdentityRole<int>("admin"));

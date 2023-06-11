@@ -13,15 +13,14 @@ public partial class Bid
 
     public int BuyerId { get; set; }
 
-    public int ProductId { get; set; }
-
     public int AuctionId { get; set; }
+
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? LastModifiedAt { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 

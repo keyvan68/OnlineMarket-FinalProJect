@@ -1,4 +1,6 @@
 ﻿using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.CategoryDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

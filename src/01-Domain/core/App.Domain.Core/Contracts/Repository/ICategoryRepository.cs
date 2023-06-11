@@ -1,4 +1,6 @@
 ﻿using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.CategoryDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 
 namespace App.Domain.Core.Contracts.Repository
 {

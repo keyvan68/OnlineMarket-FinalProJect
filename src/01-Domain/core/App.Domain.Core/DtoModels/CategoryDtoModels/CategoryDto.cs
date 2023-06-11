@@ -5,21 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.DtoModels
+namespace App.Domain.Core.DtoModels.CategoryDtoModels
 {
-    public class BidDto
+    public class CategoryDto
     {
         public int Id { get; set; }
 
-        public string? Description { get; set; }
+        public string Name { get; set; } = null!;
 
-        public double Price { get; set; }
-
-        public int BuyerId { get; set; }
-
-        public int ProductId { get; set; }
-
-        public int AuctionId { get; set; }
+        public int? ParenId { get; set; }
 
         public int? DeletedBy { get; set; }
 
@@ -35,8 +29,10 @@ namespace App.Domain.Core.DtoModels
 
         public DateTime? DeletedAt { get; set; }
 
-        public virtual Auction Auction { get; set; } = null!;
+        public virtual ICollection<Category> InverseParen { get; set; } = new List<Category>();
 
-        public virtual Buyer Buyer { get; set; } = null!;
+        public virtual Category? Paren { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

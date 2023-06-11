@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
+﻿using App.Domain.Core.DtoModels.ImageDtoModels;
 
 namespace App.Domain.Core.Contracts.Repository
 {

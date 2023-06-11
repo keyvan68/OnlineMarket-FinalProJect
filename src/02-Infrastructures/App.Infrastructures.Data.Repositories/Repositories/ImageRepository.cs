@@ -1,5 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
-using App.Infrastructures.Db.SqlServer.Ef.Database;
+﻿using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using App.Domain.Core.Entities;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.DtoModels.ImageDtoModels;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {

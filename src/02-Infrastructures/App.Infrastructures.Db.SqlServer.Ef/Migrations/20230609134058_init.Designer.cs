@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230602223748_init")]
+    [Migration("20230609134058_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,11 +39,17 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -103,7 +109,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("DeactiveProduct")
+                    b.Property<bool>("DeactiveProduct")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -115,7 +121,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("HighestBid")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -130,13 +136,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Auction__3214EC071A6D0BF4");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Auctions_1")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex(new[] { "SellerId" }, "IX_Auctions_SellerId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Auctions");
                 });
@@ -164,7 +168,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -173,18 +177,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Bids__3214EC0781B747A2");
+                    b.HasIndex("AuctionId");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Bids_1")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "AuctionId" }, "IX_Bids_AuctionId");
-
-                    b.HasIndex(new[] { "BuyerId" }, "IX_Bids_BuyerId");
+                    b.HasIndex("BuyerId");
 
                     b.ToTable("Bids");
                 });
@@ -213,30 +210,29 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Buyers__3214EC0784B1BC85");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Buyers_1")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "ApplicationUserId" }, "IX_Buyers_ApplicationUserId")
+                    b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
                     b.ToTable("Buyers");
@@ -259,7 +255,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -267,20 +263,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Category__3214EC074A2FB85E");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "ParentId" }, "IX_Categories_ParenId");
-
-                    b.HasIndex(new[] { "Id" }, "IX_Categorys_1")
-                        .IsUnique();
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -309,24 +301,20 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsAccepted")
+                    b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Comments__3214EC073B5475E5");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Comments_1")
-                        .IsUnique();
+                    b.HasIndex("BuyerId");
 
-                    b.HasIndex(new[] { "BuyerId" }, "IX_Comments_BuyerId");
-
-                    b.HasIndex(new[] { "InvoiceId" }, "IX_Comments_InvoiceId");
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Comments");
                 });
@@ -345,7 +333,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -361,13 +349,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Gallery__43D54A714F55D535");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Galleries_1")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "ProductId" }, "IX_Images_ProductId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Images");
                 });
@@ -383,8 +367,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Commision")
-                        .HasColumnType("decimal(18,0)");
+                    b.Property<int?>("Commision")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -395,7 +379,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<bool>("Final")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -407,15 +391,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("TotalAmount")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Cart__3214EC075E6685F1");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Carts_1")
-                        .IsUnique();
+                    b.HasIndex("BuyerId");
 
-                    b.HasIndex(new[] { "BuyerId" }, "IX_Invoices_BuyerId");
-
-                    b.HasIndex(new[] { "SellerId" }, "IX_Invoices_SellerId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Invoices");
                 });
@@ -436,12 +416,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_InvoiceProducts_1")
-                        .IsUnique();
+                    b.HasIndex("InvoiceId");
 
-                    b.HasIndex(new[] { "InvoiceId" }, "IX_InvoiceProducts_InvoiceId");
-
-                    b.HasIndex(new[] { "ProductId" }, "IX_InvoiceProducts_ProductId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("InvoiceProducts");
                 });
@@ -453,6 +430,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Auction")
+                        .HasColumnType("bit");
 
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
@@ -470,10 +450,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsAccepted")
+                    b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -482,13 +462,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<int>("NumberofProducts")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<int>("StallId")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("StallId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -496,15 +473,11 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Products__3214EC07B0E58F7C");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Products_1")
-                        .IsUnique();
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex(new[] { "CategoryId" }, "IX_Products_CategoryId");
-
-                    b.HasIndex(new[] { "StallId" }, "IX_Products_StallId");
+                    b.HasIndex("StallId");
 
                     b.ToTable("Products");
                 });
@@ -541,7 +514,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -556,13 +529,9 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id")
-                        .HasName("PK__Seller__3214EC07F9D7534D");
+                    b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Sellers_1")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "ApplicationUserId" }, "IX_Sellers_ApplicationUserId")
+                    b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
                     b.ToTable("Sellers");
@@ -580,20 +549,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -740,11 +703,20 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Auction", b =>
                 {
+                    b.HasOne("App.Domain.Core.Entities.Product", "Product")
+                        .WithMany("Auctions")
+                        .HasForeignKey("ProductId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Auctions_Products");
+
                     b.HasOne("App.Domain.Core.Entities.Seller", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Auction_Seller");
+
+                    b.Navigation("Product");
 
                     b.Navigation("Seller");
                 });
@@ -754,12 +726,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Auction", "Auction")
                         .WithMany("Bids")
                         .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Bids_Auction");
 
                     b.HasOne("App.Domain.Core.Entities.Buyer", "Buyer")
                         .WithMany("Bids")
                         .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Bids_Buyers");
 
@@ -794,12 +768,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Buyer", "Buyer")
                         .WithMany("Comments")
                         .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Buyers");
 
                     b.HasOne("App.Domain.Core.Entities.Invoice", "Invoice")
                         .WithMany("Comments")
                         .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Comments_Products");
 
@@ -813,6 +789,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Images_Products");
 
@@ -824,12 +801,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Buyer", "Buyer")
                         .WithMany("Invoices")
                         .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Invoice_Buyers");
 
                     b.HasOne("App.Domain.Core.Entities.Seller", "Seller")
                         .WithMany("Invoices")
                         .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Invoice_Seller");
 
@@ -843,12 +822,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Invoice", "Invoice")
                         .WithMany("InvoiceProducts")
                         .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_InvoiceProduct_Invoice");
 
                     b.HasOne("App.Domain.Core.Entities.Product", "Product")
                         .WithMany("InvoiceProducts")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_InvoiceProduct_Products");
 
@@ -862,12 +843,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Products_Category");
 
                     b.HasOne("App.Domain.Core.Entities.Stall", "Stall")
                         .WithMany("Products")
                         .HasForeignKey("StallId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Products_Stalls");
 
@@ -892,6 +875,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Seller", "IdNavigation")
                         .WithOne("Stall")
                         .HasForeignKey("App.Domain.Core.Entities.Stall", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Stores_Sellers");
 
@@ -986,6 +970,8 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
+                    b.Navigation("Auctions");
+
                     b.Navigation("Images");
 
                     b.Navigation("InvoiceProducts");

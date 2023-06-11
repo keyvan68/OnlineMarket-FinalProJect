@@ -1,0 +1,64 @@
+﻿@model UpdateProductVM
+
+@{
+    ViewData["Title"] = "ویرایش محصول";
+    Layout = "_AdminLayout";
+}
+
+<h3>ویرایش کاربر</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="All"></div>
+        <form asp-action="Update" asp-controller="Product" method="post">
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberofProducts" class="control-label"></label>
+                <input asp-for="NumberofProducts" class="form-control" />
+                <span asp-validation-for="NumberofProducts"></span>
+            </div>
+            <div class="form-group checkbox">
+                <label asp-for="Auction" class="control-label mx-2"></label>
+                <input type="checkbox" asp-for="Auction" class="form-check-input" />
+                <span asp-validation-for="Auction" class="text-danger"></span>
+            </div>
+            <div class="form-group checkbox">
+                <label asp-for="IsAccepted" class="control-label mx-2"></label>
+                <input type="checkbox" asp-for="IsAccepted" class="form-check-input" />
+                <span asp-validation-for="IsAccepted" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="ویرایش کردن" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">بازگشت به لیست</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

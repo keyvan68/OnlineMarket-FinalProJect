@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.DtoModels;
+﻿using App.Domain.Core.DtoModels.InvoiceDtoModels;
 
 namespace App.Domain.Core.Contracts.Repository
 {

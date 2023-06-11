@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.Contracts.Repository;
-using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -17,47 +17,93 @@ namespace App.Infrastructures.Data.Repositories.Repositories
     {
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
-        private readonly ILogger<ProductRepository> _logger;
 
         public ProductRepository(AppDbContext context, IMapper mapper, ILogger<ProductRepository> logger)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
         }
 
+        //public async Task<List<ProductDto>> GetAll(CancellationToken cancellationToken)
+        //{
+        //    var records = await _context.Products.Include(x => x.Stall)
+        //        .AsNoTracking()
+        //        .ToListAsync(cancellationToken);
+        //    return _mapper.Map<List<ProductDto>>(records);
+        //}
         public async Task<List<ProductDto>> GetAll(CancellationToken cancellationToken)
         {
             var records = await _context.Products
+                .Where(a=>a.IsDeleted == false)
+                .Include(a=>a.Category)
+                .Include(x => x.Stall)
+                    .ThenInclude(s => s.IdNavigation) // Load Seller for Stall
                 .AsNoTracking()
+                .Select(p=> new ProductDto
+                {
+                    Id=p.Id,
+                    Title= p.Title,
+                    Price = p.Price,
+                    NumberofProducts=p.NumberofProducts,
+                    IsAccepted=p.IsAccepted,
+                    CategoryName=p.Category.Name,
+                    StallName=p.Stall.Name,
+                    SellerName=p.Stall.IdNavigation.FirstName + "" +p.Stall.IdNavigation.LastName
+                })
                 .ToListAsync(cancellationToken);
-            return _mapper.Map<List<ProductDto>>(records);
+
+
+
+            return records;
         }
 
-        public async Task<ProductDto> GetById(int productId, CancellationToken cancellationToken)
+        public async Task<UpdateProductDto> GetById(int productId, CancellationToken cancellationToken)
         {
             var record = await _context.Products
+                .Where(a => a.IsDeleted == false)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == productId, cancellationToken);
-            return _mapper.Map<ProductDto>(record);
+            return _mapper.Map<UpdateProductDto>(record);
         }
 
-        public async Task<int> Create(ProductDto productDto, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateProductDto productDto, CancellationToken cancellationToken)
         {
-            var record = _mapper.Map<Product>(productDto);
+            //var record = _mapper.Map<Product>(productDto);
 
+            //await _context.Products.AddAsync(record, cancellationToken);
+            //await _context.SaveChangesAsync(cancellationToken);
+            //return record.Id;
+            var record = new Product
+            {
+                Title = productDto.Title,
+                Description= productDto.Description,
+                NumberofProducts = productDto.NumberofProducts,
+                CategoryId = productDto.CategoryId,
+                StallId = productDto.StallId,
+                IsAccepted = productDto.IsAccepted,
+                Auction = productDto.Auction,
+                CreatedAt=productDto.CreatedAt,
+                BuyerId= productDto.BuyerId,
+                Price = productDto.Price
+                
+                
+            };
             await _context.Products.AddAsync(record, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return record.Id;
-
         }
 
-        public async Task Update(ProductDto productDto, CancellationToken cancellationToken)
+        public async Task Update(UpdateProductDto productDto, CancellationToken cancellationToken)
         {
-            var record = await _context.Products.FindAsync(productDto.Id);
+            var record = await _context.Products.FirstOrDefaultAsync(p=>p.Id == productDto.Id,cancellationToken);
+            record.Title = productDto.Title;
+            record.NumberofProducts = productDto.NumberofProducts;
+            record.Description = productDto.Description;
+            record.Price = productDto.Price;
+            record.IsAccepted = productDto.IsAccepted;
+            record.Auction = productDto.Auction;
+            record.LastModifiedAt = DateTime.Now;
 
-
-            _mapper.Map(productDto, record);
 
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -70,6 +116,15 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
 
             _context.Products.Remove(record);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+        }
+        public async Task SoftDelete(int productId, CancellationToken cancellationToken)
+        {
+            var record = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            record.IsDeleted = true;
+            record.DeletedAt = DateTime.Now;
 
             await _context.SaveChangesAsync(cancellationToken);
 

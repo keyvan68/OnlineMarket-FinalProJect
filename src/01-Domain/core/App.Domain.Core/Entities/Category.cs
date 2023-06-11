@@ -10,19 +10,15 @@ public partial class Category
     public string Name { get; set; } = null!;
 
     public int? ParentId { get; set; }
-
     
-
     public DateTime? CreatedAt { get; set; }
-
-    
 
     public DateTime? LastModifiedAt { get; set; }
 
     
     public string? ImgUrl { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 
