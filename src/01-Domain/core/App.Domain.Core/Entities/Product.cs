@@ -21,6 +21,7 @@ public  class Product
     public int StallId { get; set; }
 
     public bool IsAccepted { get; set; }
+    public bool IsActive { get; set; }
 
     public int CategoryId { get; set; }
 

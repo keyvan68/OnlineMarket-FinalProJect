@@ -22,6 +22,7 @@ public partial class Invoice
     public int? Commision { get; set; }
 
     public bool IsDeleted { get; set; }
+    public int Quantity { get; set; }
 
     public DateTime? DeletedAt { get; set; }
 

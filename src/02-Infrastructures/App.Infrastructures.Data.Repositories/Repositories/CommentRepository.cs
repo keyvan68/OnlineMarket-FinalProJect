@@ -24,13 +24,26 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<List<CommentDto>> GetAll(CancellationToken cancellationToken)
         {
-            var records = await _dbContext.Comments.Include(b=>b.Buyer)
-                .Include(i=>i.Invoice)
-                .ThenInclude(y=>y.InvoiceProducts)
-                .ThenInclude(p=>p.Product)
+            var records = await _dbContext.Comments
+                .Where(x => !x.IsDeleted)
+                .Include(b => b.Buyer)
+                .Include(i => i.Invoice)
+                .ThenInclude(ip => ip.InvoiceProducts)
+                .ThenInclude(ip => ip.Product)
+                .Include(i => i.Invoice.InvoiceProducts)
                 .AsNoTracking()
+                .SelectMany(c => c.Invoice.InvoiceProducts, (c, ip) => new { Comment = c, InvoiceProduct = ip })
+                .Select(p => new CommentDto
+                {
+                    Id = p.Comment.Id,
+                    BuyerName = p.Comment.Buyer.FirstName + " " + p.Comment.Buyer.LastName,
+                    SellerName = p.Comment.Invoice.Seller.FirstName + " " + p.Comment.Invoice.Seller.LastName,
+                    ProductName = p.InvoiceProduct.Product.Title,
+                    Description = p.Comment.Description,
+                    IsAccepted = p.Comment.IsAccepted
+                })
                 .ToListAsync(cancellationToken);
-            return _mapper.Map<List<CommentDto>>(records);
+            return records;
         }
 
         public async Task<CommentDto> GetById(int commentId, CancellationToken cancellationToken)

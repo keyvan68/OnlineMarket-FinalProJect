@@ -10,33 +10,13 @@ namespace App.Domain.Core.DtoModels.CommentDtoModels
     public class CommentDto
     {
         public int Id { get; set; }
-
-        public int BuyerId { get; set; }
+        public string BuyerName { get; set; } = null!;
+        public string SellerName { get; set; } = null!;
+        public string? ProductName { get; set; } = null!;
 
         public string Description { get; set; } = null!;
-
-        public int InvoiceId { get; set; }
-
         public bool? IsAccepted { get; set; }
-
-
-
-        public int? DeletedBy { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
-
-        public int? CreatedBy { get; set; }
-
-        public DateTime? LastModifiedAt { get; set; }
-
-        public int? LastModifiedBy { get; set; }
-
-        public bool? IsDeleted { get; set; }
-
-        public DateTime? DeletedAt { get; set; }
-
         public virtual Buyer Buyer { get; set; } = null!;
-
         public virtual Invoice Invoice { get; set; } = null!;
     }
 }

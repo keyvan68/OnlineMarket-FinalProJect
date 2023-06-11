@@ -10,29 +10,21 @@ namespace App.Domain.Core.DtoModels.InvoiceDtoModels
     public class InvoiceDto
     {
         public int Id { get; set; }
+        public string BuyerName { get; set; } = null!;
+        public string SellerName { get; set; } = null!;
+        public string? ProductName { get; set; } = null!;
+        public int TotalAmount { get; set; }
 
-        public int SellerId { get; set; }
 
-        public int BuyerId { get; set; }
+        public int? Commision { get; set; }
 
-        public int? DeletedBy { get; set; }
+        public int Quantity { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
 
-        public int? CreatedBy { get; set; }
+        public  Buyer Buyer { get; set; } = null!;
 
-        public DateTime? LastModifiedAt { get; set; }
+        public  ICollection<InvoiceProduct> InvoiceProducts { get; set; } = new List<InvoiceProduct>();
 
-        public int? LastModifiedBy { get; set; }
-
-        public bool? IsDeleted { get; set; }
-
-        public DateTime? DeletedAt { get; set; }
-
-        public virtual Buyer Buyer { get; set; } = null!;
-
-        public virtual ICollection<InvoiceProduct> InvoiceProducts { get; set; } = new List<InvoiceProduct>();
-
-        public virtual Seller Seller { get; set; } = null!;
+        public  Seller Seller { get; set; } = null!;
     }
 }

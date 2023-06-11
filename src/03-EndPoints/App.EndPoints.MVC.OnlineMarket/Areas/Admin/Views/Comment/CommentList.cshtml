@@ -1,5 +1,5 @@
 ﻿@using App.Domain.Core.DtoModels.CommentDtoModels;
-@model IEnumerable<CommentDto>
+@model IEnumerable<CommentViewModel>
 
 @{
     ViewData["Title"] = "نظرات";
@@ -16,10 +16,13 @@
                 نام خریدار
             </th>
             <th>
+                نام فروشنده
+            </th>
+            <th>
                 نام محصول
             </th>
             <th>
-                توضیحات
+                بدنه کامنت
             </th>
             <th>
                 تایید شده
@@ -35,12 +38,12 @@
         {
             <tr>
                 
-                <td> @($"{comment.Buyer.FirstName} {comment.Buyer.LastName}")</td>
+                <td> @comment.BuyerName</td>
                 <td>
-                    @foreach (var invoiceProduct in comment.Invoice.InvoiceProducts)
-                {
-                    @($"{invoiceProduct.Product.Title} ")
-                }
+                    @comment.SellerName
+                </td>
+                <td>
+                    @comment.ProductName
                 </td>
                 <td>@comment.Description</td>
                 <td>@(comment.IsAccepted == true ? "بله" : "خیر")</td>

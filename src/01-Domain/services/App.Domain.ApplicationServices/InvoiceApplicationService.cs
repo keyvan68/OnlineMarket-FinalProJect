@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.InvoiceDtoModels;
+using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -28,6 +29,12 @@ namespace App.Domain.ApplicationServices
         public async Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken)
         {
             await _invoiceRepository.DeleteInvoice(invoiceId, cancellationToken);
+        }
+
+        public async Task<List<InvoiceDto>> GetAll(CancellationToken cancellationToken)
+        {
+           var invoice= await _invoiceRepository.GetAll(cancellationToken);
+            return invoice;
         }
 
         public async Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken)

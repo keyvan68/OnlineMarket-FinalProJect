@@ -9,6 +9,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface IInvoiceApplicationService
     {
+        Task<List<InvoiceDto>> GetAll(CancellationToken cancellationToken);
         Task<int> CreateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken);
         Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken);

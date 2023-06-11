@@ -23,7 +23,31 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             _mapper = mapper;
         }
 
+        public async Task<List<InvoiceDto>> GetAll(CancellationToken cancellationToken)
+        {
+            var records = await _dbContext.Invoices
+                .Where(i => i.Final == true)
+                .Include(x => x.Buyer)
+                .Include(x => x.Seller)
+                .Include(ip => ip.InvoiceProducts)
+                .ThenInclude(ip => ip.Product)
+                .AsNoTracking()
+                .SelectMany(i => i.InvoiceProducts, (i, ip) => new { Invoice = i, InvoiceProduct = ip })
+                .Select(i => new InvoiceDto
+                {
+                    Id = i.Invoice.Id,
+                    BuyerName = i.Invoice.Buyer.FirstName + " " + i.Invoice.Buyer.LastName,
+                    SellerName = i.Invoice.Seller.FirstName + " " + i.Invoice.Seller.LastName,
+                    ProductName = i.InvoiceProduct.Product.Title,
+                    TotalAmount = i.Invoice.TotalAmount,
+                    Commision=i.Invoice.Commision,
+                    Quantity=i.Invoice.Quantity,
+                    
+                })
+                .ToListAsync(cancellationToken);
 
+            return records;
+        }
         public async Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken)
         {
             var invoice = await _dbContext.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId);
