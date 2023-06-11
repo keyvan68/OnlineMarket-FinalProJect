@@ -109,6 +109,10 @@ namespace App.EndPoints.MVC.OnlineMarket
                 name: "areas",
                 areaName: "Admin",
                 pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+            app.MapAreaControllerRoute(
+                name: "areas",
+                areaName: "Users",
+                pattern: "Users/{controller=Profile}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",

@@ -12,6 +12,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
@@ -33,15 +34,17 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .AsNoTracking()
                .FirstOrDefaultAsync(c => c.Id == stallId, cancellationToken);
             return _mapper.Map<UpdateStallDto>(record);
+
         }
 
 
         public async Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken)
         {
             var record = _mapper.Map<Stall>(stallDto);
-            _dbContext.Stalls.Add(record);
+             _dbContext.Stalls.Add(record);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return record.Id;
+
 
         }
 
