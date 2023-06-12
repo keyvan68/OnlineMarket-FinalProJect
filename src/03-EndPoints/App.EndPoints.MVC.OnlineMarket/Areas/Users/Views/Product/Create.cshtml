@@ -1,0 +1,42 @@
+﻿@using App.Domain.Core.DtoModels.ProductDtoModels;
+@model CreateProductDto
+
+@{
+    ViewData["Title"] = "ساخت محصول";
+    Layout = "_UserLayout";
+}
+
+<h1>ساخت محصول</h1>
+
+<form asp-controller="Product" asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="Title" value="@Model.Title" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input class="form-control" type="text" id="price" name="Price" value="@Model.Price" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="Description">@Model.Description</textarea>
+    </div>
+    <div class="form-group">
+        <label for="numberofproducts">Number of Products</label>
+        <input class="form-control" type="text" id="numberofproducts" name="NumberofProducts" value="@Model.NumberofProducts" />
+    </div>
+    <div class="form-group">
+        <label for="categoryId">Category</label>
+        <select class="form-control" id="categoryId" name="CategoryId">
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="auction">Auction</label>
+        <input class="form-control" type="checkbox" id="auction" name="Auction" value="true" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

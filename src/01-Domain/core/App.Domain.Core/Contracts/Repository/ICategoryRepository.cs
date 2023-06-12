@@ -6,7 +6,7 @@ namespace App.Domain.Core.Contracts.Repository
 {
     public interface ICategoryRepository
     {
-        Task<int> Create(CreateProductDto categoryDto, CancellationToken cancellationToken);
+        Task<int> Create(CategoryDto categoryDto, CancellationToken cancellationToken);
         Task Delete(int categoryId, CancellationToken cancellationToken);
         Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
         Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken);

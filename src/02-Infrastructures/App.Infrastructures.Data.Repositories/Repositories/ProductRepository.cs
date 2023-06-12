@@ -80,11 +80,11 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 NumberofProducts = productDto.NumberofProducts,
                 CategoryId = productDto.CategoryId,
                 StallId = productDto.StallId,
-                IsAccepted = productDto.IsAccepted,
                 Auction = productDto.Auction,
                 CreatedAt=productDto.CreatedAt,
-                BuyerId= productDto.BuyerId,
-                Price = productDto.Price
+                Price = productDto.Price,
+                Images=productDto.Images,
+                
                 
                 
             };
