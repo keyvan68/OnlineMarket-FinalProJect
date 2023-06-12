@@ -20,11 +20,11 @@ namespace App.Domain.Core.DtoModels.ProductDtoModels
 
         public int NumberofProducts { get; set; }
 
-        public int BuyerId { get; set; }
+        
 
         public int StallId { get; set; }
 
-        public bool IsAccepted { get; set; }
+        
 
         public int CategoryId { get; set; }
 

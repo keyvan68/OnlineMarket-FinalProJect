@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface ISellerApplicationService
     {
-        Task<int> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
+        Task<int> CreateSeller(CreateSellerDto sellerDto, CancellationToken cancellationToken);
         Task DeleteSeller(int sellerId, CancellationToken cancellationToken);
         Task<List<SellerDto>> GetAllSellers(CancellationToken cancellationToken);
         Task<SellerDto> GetSellerById(int sellerId, CancellationToken cancellationToken);
@@ -17,5 +17,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken);
         Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken);
         Task<List<SellerDto>> GetAllSellerWithRole();
+
+        Task<int> GetSellerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken);
     }
 }

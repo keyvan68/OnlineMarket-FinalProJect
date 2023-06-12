@@ -5,6 +5,7 @@ namespace App.Domain.Core.Entities;
 
 public partial class Stall
 {
+
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
@@ -23,9 +24,9 @@ public partial class Stall
     public bool IsDeleted { get; set; }
 
     public DateTime? DeletedAt { get; set; }
+
+    public virtual Seller IdNavigation { get; set; } = null!;
     //public int SellerId { get; set; }
     //public Seller Seller { get; set; }
-    public virtual Seller IdNavigation { get; set; } = null!;
-
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

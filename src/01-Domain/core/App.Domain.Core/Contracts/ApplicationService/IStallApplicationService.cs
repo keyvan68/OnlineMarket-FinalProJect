@@ -12,7 +12,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface IStallApplicationService
     {
-        Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken);
+        Task<int> CreateStall(CreateStallDto stallDto, CancellationToken cancellationToken);
         Task DeleteStall(int stallId, CancellationToken cancellationToken);
         Task<List<StallDto>> GetAllStalls(CancellationToken cancellationToken);
         Task<UpdateStallDto> GetStallById(int stallId, CancellationToken cancellationToken);

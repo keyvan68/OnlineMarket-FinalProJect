@@ -3,6 +3,7 @@ using App.Domain.Core.DtoModels.SellerDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,7 +34,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<SellerDto>(seller);
         }
 
-        public async Task<int> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
+        public async Task<int> CreateSeller(CreateSellerDto sellerDto, CancellationToken cancellationToken)
         {
             var seller = _mapper.Map<Seller>(sellerDto);
 
@@ -109,5 +110,20 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var seller = await _userManager.GetUsersInRoleAsync("seller");
             return _mapper.Map<List<SellerDto>>(seller);
         }
+        public async Task<int> GetSellerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken)
+        {
+            var seller = await _dbContext.Sellers.FirstOrDefaultAsync(s => s.ApplicationUserId == applicationUserId, cancellationToken);
+            return seller?.Id ?? 0;
+        }
+        //public string UploadImage(IFormFile file, IWebHostEnvironment webHost)
+        //{
+        //    var filename = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+        //    var path = Path.Combine(webHost.WebRootPath, "Images", filename);
+        //    using (var stream = File.Create(path))
+        //    {
+        //        file.CopyTo(stream);
+        //    }
+        //    return filename;
+        //}
     }
 }

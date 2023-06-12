@@ -14,11 +14,10 @@ namespace App.Domain.Core.DtoModels.StallDtoModels
         public int Id { get; set; }
 
         public string Name { get; set; } = null!;
+        public string SellerName { get; set; } = null!;
+       
 
 
-        public string? SellerName { get; set; }
-
-
-        public  ICollection<Product> Products { get; set; } = new List<Product>();
+        public  ICollection<Product>? Products { get; set; } = new List<Product>();
     }
 }

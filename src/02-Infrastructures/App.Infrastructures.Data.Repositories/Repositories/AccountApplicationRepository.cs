@@ -27,11 +27,11 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
         public async Task<IdentityResult> Register(RegisterUserDto appUser)
         {
-            var user = new ApplicationUser { UserName = appUser.Email, Email = appUser.Email, Buyer = new Buyer() };
+            var user = new ApplicationUser { UserName = appUser.Email, Email = appUser.Email, Seller = new Seller() };
             var result = await _userManager.CreateAsync(user, appUser.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "buyer");
+                await _userManager.AddToRoleAsync(user, "seller");
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
             }

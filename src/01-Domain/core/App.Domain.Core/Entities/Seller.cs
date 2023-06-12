@@ -38,6 +38,6 @@ public partial class Seller
     public ApplicationUser? ApplicationUser { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
-
+    
     public virtual Stall? Stall { get; set; }
 }

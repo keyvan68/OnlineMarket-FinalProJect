@@ -35,8 +35,9 @@ namespace App.Infrastructures.Data.Repositories.AutoMaper
                 .ForMember(dest => dest.StallId, opt => opt.Ignore());
             CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Seller, SellerDto>();
+            CreateMap<Seller, CreateSellerDto>().ReverseMap();
             CreateMap<Stall, StallDto>();
-            CreateMap<Stall, UpdateStallDto>().ReverseMap();
+            CreateMap<Stall, CreateStallDto>().ReverseMap();
             CreateMap<ApplicationUser, UserDto>();
             CreateMap<ApplicationUser, UserDto>().ReverseMap();
 

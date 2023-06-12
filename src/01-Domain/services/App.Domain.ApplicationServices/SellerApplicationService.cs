@@ -18,7 +18,7 @@ namespace App.Domain.ApplicationServices
             _sellerRepository = sellerRepository;
         }
 
-        public async Task<int> CreateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
+        public async Task<int> CreateSeller(CreateSellerDto sellerDto, CancellationToken cancellationToken)
         {
             var sellerId=await _sellerRepository.CreateSeller(sellerDto,cancellationToken);
             return sellerId;
@@ -62,6 +62,12 @@ namespace App.Domain.ApplicationServices
         public async Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
         {
             await _sellerRepository.UpdateSeller(sellerDto, cancellationToken);
+        }
+
+        public async Task<int> GetSellerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken)
+        {
+            var id= await _sellerRepository.GetSellerIdByApplicationUserId(applicationUserId, cancellationToken);
+            return id;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     IsAccepted=p.IsAccepted,
                     CategoryName=p.Category.Name,
                     StallName=p.Stall.Name,
-                    SellerName=p.Stall.IdNavigation.FirstName + "" +p.Stall.IdNavigation.LastName
+                    SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName
                 })
                 .ToListAsync(cancellationToken);
 

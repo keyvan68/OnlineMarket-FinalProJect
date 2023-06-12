@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Threading;
 
 namespace App.EndPoints.MVC.OnlineMarket.Controllers
@@ -59,7 +60,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                     }
                     else if (roles.Contains("buyer") || roles.Contains("seller"))
                     {
-                        return RedirectToAction("Index", "Profile");
+                        return RedirectToAction("Index", "Profile", new { area = "Users" });
                     }
                   
 
@@ -90,8 +91,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                 var result = await _accountApplicationService.Register(_mapper.Map<RegisterUserDto>(model));
                 if (result.Succeeded)
                 {
-                    
-                    return RedirectToAction("Privacy", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {

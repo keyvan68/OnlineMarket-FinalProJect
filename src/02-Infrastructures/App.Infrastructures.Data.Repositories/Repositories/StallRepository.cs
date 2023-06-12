@@ -38,14 +38,22 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
 
 
-        public async Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken)
+        public async Task<int> CreateStall(CreateStallDto stallDto, CancellationToken cancellationToken)
         {
-            var record = _mapper.Map<Stall>(stallDto);
-             _dbContext.Stalls.Add(record);
+            //var record = _mapper.Map<Stall>(stallDto);
+            // _dbContext.Stalls.Add(record);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
+            //return record.Id;
+            var record = new Stall
+            {
+                Id=stallDto.SellerId,
+                Name=stallDto.Name,
+                Description=stallDto.Description
+                
+            };
+            await _dbContext.Stalls.AddAsync(record, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return record.Id;
-
-
         }
 
         public async Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken)

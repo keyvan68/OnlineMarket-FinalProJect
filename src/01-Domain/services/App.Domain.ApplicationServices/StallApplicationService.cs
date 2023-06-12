@@ -15,16 +15,23 @@ namespace App.Domain.ApplicationServices
     public class StallApplicationService : IStallApplicationService
     {
         private readonly IStallRepository _stallRepository;
+        private readonly ISellerRepository _sellerRepository;
 
-        public StallApplicationService(IStallRepository stallRepository)
+        public StallApplicationService(IStallRepository stallRepository, ISellerRepository sellerRepository)
         {
             _stallRepository = stallRepository;
+            _sellerRepository = sellerRepository;
         }
 
-        public async Task<int> CreateStall(StallDto stallDto, CancellationToken cancellationToken)
+        public async Task<int> CreateStall(CreateStallDto stallDto, CancellationToken cancellationToken)
         {
-            var stallid= await _stallRepository.CreateStall(stallDto, cancellationToken);
-            return stallid;
+            var sellerId = await _sellerRepository.GetSellerIdByApplicationUserId(stallDto.SellerId, cancellationToken);
+
+            stallDto.SellerId = sellerId;
+
+            var stallId = await _stallRepository.CreateStall(stallDto, cancellationToken);
+
+            return stallId;
         }
 
         public async Task DeleteStall(int stallId, CancellationToken cancellationToken)
