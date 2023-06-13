@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
 {
     [Area("Users")]
+    //[Authorize(Roles = "seller")]
     public class StallController : Controller
     {
         private readonly IStallApplicationService _stallApplicationService;
@@ -32,7 +33,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             if (currentUser != null)
             {
-                // تنظیم شناسه فروشنده در دیتا‌های فرم
+                
                 stallDto.SellerId = currentUser.Id;
 
                 // ساخت غرفه

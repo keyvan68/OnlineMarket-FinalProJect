@@ -19,7 +19,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
         [Display(Name = "تعداد محصول")]
         public int NumberofProducts { get; set; }
         [Display(Name = "تایید محصول")]
-        public bool? IsAccepted { get; set; }
+        public bool IsAccepted { get; set; }
 
         [Display(Name = "محصول مزایده ای")]
         public bool Auction { get; set; }

@@ -22,6 +22,11 @@
                 <label asp-for="Password"></label>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <div >
+                <input type="checkbox" asp-for="RememberMe" />
+                <label asp-for="RememberMe"></label>
+                <span asp-validation-for="RememberMe" class="text-danger"></span>
+            </div>
             
             <button  type="submit" class="w-100 btn btn-lg btn-primary">ورود</button>
         </form>

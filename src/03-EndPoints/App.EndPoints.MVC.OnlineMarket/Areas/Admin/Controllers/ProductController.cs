@@ -9,7 +9,7 @@ using System.Data;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
-    //[Area("Admin")]
+    [Area("Admin")]
     //[Authorize(Roles = "admin")]
     public class ProductController : Controller
     {

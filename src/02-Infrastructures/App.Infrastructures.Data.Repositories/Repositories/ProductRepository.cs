@@ -48,11 +48,36 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     IsAccepted=p.IsAccepted,
                     CategoryName=p.Category.Name,
                     StallName=p.Stall.Name,
-                    SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName
+                    SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName,
+                    Auction=p.Auction
                 })
                 .ToListAsync(cancellationToken);
 
 
+
+            return records;
+        }
+        public async Task<List<ProductDto>> GetBySeller(int sellerId, CancellationToken cancellationToken)
+        {
+            var records = await _context.Products
+                .Where(a => a.Stall.Id == sellerId && a.IsDeleted == false)
+                .Include(a => a.Category)
+                .Include(x => x.Stall)
+                    .ThenInclude(s => s.IdNavigation)
+                .AsNoTracking()
+                .Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Price = p.Price,
+                    NumberofProducts = p.NumberofProducts,
+                    IsAccepted = p.IsAccepted,
+                    CategoryName = p.Category.Name,
+                    StallName = p.Stall.Name,
+                    SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName,
+                    Auction = p.Auction
+                })
+                .ToListAsync(cancellationToken);
 
             return records;
         }
@@ -65,14 +90,18 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .FirstOrDefaultAsync(x => x.Id == productId, cancellationToken);
             return _mapper.Map<UpdateProductDto>(record);
         }
+        //public async Task<int> GetProducId(int productId, CancellationToken cancellationToken)
+        //{
+        //    var record = await _context.Products
+        //        .Where(a => a.IsDeleted == false)
+        //        .AsNoTracking()
+        //        .FirstOrDefaultAsync(x => x.Id == productId, cancellationToken);
+        //    return _mapper.Map<UpdateProductDto>(record);
+        //}
 
         public async Task<int> Create(CreateProductDto productDto, CancellationToken cancellationToken)
         {
-            //var record = _mapper.Map<Product>(productDto);
-
-            //await _context.Products.AddAsync(record, cancellationToken);
-            //await _context.SaveChangesAsync(cancellationToken);
-            //return record.Id;
+            
             var record = new Product
             {
                 Title = productDto.Title,
@@ -109,6 +138,8 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             await _context.SaveChangesAsync(cancellationToken);
 
         }
+        
+
 
         public async Task Delete(int productId, CancellationToken cancellationToken)
         {

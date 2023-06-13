@@ -115,15 +115,6 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var seller = await _dbContext.Sellers.FirstOrDefaultAsync(s => s.ApplicationUserId == applicationUserId, cancellationToken);
             return seller?.Id ?? 0;
         }
-        //public string UploadImage(IFormFile file, IWebHostEnvironment webHost)
-        //{
-        //    var filename = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-        //    var path = Path.Combine(webHost.WebRootPath, "Images", filename);
-        //    using (var stream = File.Create(path))
-        //    {
-        //        file.CopyTo(stream);
-        //    }
-        //    return filename;
-        //}
+        
     }
 }

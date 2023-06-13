@@ -14,6 +14,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task Delete(int productId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAcceptedProducts(CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAll(CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetBySeller(int sellerId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetByCategory(int categoryId, CancellationToken cancellationToken);
         Task<UpdateProductDto> GetById(int productId, CancellationToken cancellationToken);

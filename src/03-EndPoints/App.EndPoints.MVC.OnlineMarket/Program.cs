@@ -105,10 +105,10 @@ namespace App.EndPoints.MVC.OnlineMarket
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.MapAreaControllerRoute(
-            //    name: "areas",
-            //    areaName: "Admin",
-            //    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+            app.MapAreaControllerRoute(
+                name: "areas",
+                areaName: "Admin",
+                pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
             app.MapAreaControllerRoute(
                 name: "areas",
                 areaName: "Users",

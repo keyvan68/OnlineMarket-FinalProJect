@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
-    //[Area("Admin")]
+    [Area("Admin")]
     //[Authorize(Roles = "admin")]
     public class DashboardController : Controller
     {

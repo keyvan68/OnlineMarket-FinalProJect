@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    //[Authorize(Roles = "admin")]
     public class StallController : Controller
     {
         private readonly IStallApplicationService _stallApplicationService;

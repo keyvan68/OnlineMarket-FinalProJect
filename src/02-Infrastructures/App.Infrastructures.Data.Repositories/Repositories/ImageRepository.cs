@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.ImageDtoModels;
+using Microsoft.AspNetCore.Http;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
@@ -62,5 +63,15 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 throw new Exception("image dont exist !!!");
             }
         }
+        //public async Task<string> UploadImage(IFormFile file, IWebHostEnvironment webHost)
+        //{
+        //    var filename = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+        //    var path = Path.Combine(webHost.WebRootPath, "Images", filename);
+        //    using (var stream = File.Create(path))
+        //    {
+        //        file.CopyTo(stream);
+        //    }
+        //    return filename;
+        //}
     }
 }

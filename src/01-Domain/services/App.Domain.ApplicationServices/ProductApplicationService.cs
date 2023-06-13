@@ -66,6 +66,13 @@ namespace App.Domain.ApplicationServices
             return product;
         }
 
+        public async Task<List<ProductDto>> GetBySeller(int sellerId, CancellationToken cancellationToken)
+        {
+            var pruductlist = await _productRepository.GetBySeller(sellerId, cancellationToken);
+
+            return pruductlist;
+        }
+
         public async Task<List<ProductDto>> GetByStall(int stallId, CancellationToken cancellationToken)
         {
             var product= await _productRepository.GetByStall(stallId, cancellationToken);

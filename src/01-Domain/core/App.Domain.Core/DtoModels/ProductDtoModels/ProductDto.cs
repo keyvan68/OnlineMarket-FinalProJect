@@ -26,6 +26,8 @@ public class ProductDto
 
     public string? StallName { get; set; }
 
+    public bool Auction { get; set; }
+
     public virtual Category Category { get; set; } = null!;
 
     //public virtual ICollection<Image> Images { get; set; } = new List<Image>();

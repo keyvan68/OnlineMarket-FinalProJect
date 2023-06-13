@@ -7,6 +7,8 @@ using System.Threading;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    //[Authorize(Roles = "admin")]
     public class InvoiceController : Controller
     {
         private readonly IInvoiceApplicationService _invoiceApplicationService;
