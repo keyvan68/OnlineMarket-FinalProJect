@@ -8,13 +8,14 @@ using App.Domain.Core.Entities;
 using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
 using App.Infrastructures.Data.Repositories.Repositories;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
 {
     [Area("Users")]
-    //[Authorize(Roles = "seller")]
+    [Authorize(Roles = "seller")]
     public class ProductController : Controller
     {
         private readonly IProductApplicationService _productApplicationService;
@@ -75,16 +76,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             //return View(createProductDto);
 
         }
-        public async Task<IActionResult> CreateAuction(int id)
-        {
-            return View();
-        }
-        public async Task<IActionResult> CreateAuction(int id, CancellationToken cancellationToken)
-        {
-            
-
-            return RedirectToAction("Index");
-        }
+        
 
     }
 }

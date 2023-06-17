@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
 {
     public interface IBidApplicationService
     {
-        Task<int> Create(BidDto bidDto, CancellationToken cancellationToken);
+        Task<int> Create(CreateBidDto bidDto, CancellationToken cancellationToken);
         Task Delete(int bidId, CancellationToken cancellationToken);
         Task<List<BidDto>> GetAll(CancellationToken cancellationToken);
         Task<List<BidDto>> GetByAuction(int auctionId, CancellationToken cancellationToken);

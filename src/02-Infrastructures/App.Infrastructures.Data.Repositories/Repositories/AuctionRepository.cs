@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.AuctionDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -47,19 +48,29 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var auction = await _context.Auctions
                 .AsNoTracking()
-                .Where(a => a.SellerId == sellerID).ToListAsync(cancellationToken);
+                .Where(a => a.SellerId == sellerID).Include(p=>p.Product.Auction == true).ToListAsync(cancellationToken);
 
             return _mapper.Map<List<AuctionDto>>(auction);
         }
 
-        public async Task<int> Create(AuctionDto auctionDto, CancellationToken cancellationToken)
+        public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
         {
-            var auction = _mapper.Map<Auction>(auctionDto);
+            var record = new Auction
+            {
+                
+                StartTime=auctionDto.StartTime,
+                EndTime=DateTime.Now.AddDays(1),
+                SellerId=auctionDto.SellerId,
+                ProductId=auctionDto.ProductId,
+                CreatedAt=auctionDto.CreatedAt,
+                HighestBid =auctionDto.HighestBid
 
-            _context.Auctions.Add(auction);
+
+
+            };
+            await _context.Auctions.AddAsync(record, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
-            return auction.Id;
+            return record.Id;
         }
 
         public async Task Update(AuctionDto auctionDto, CancellationToken cancellationToken)

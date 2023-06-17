@@ -9,7 +9,7 @@ using System.Data;
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
 {
     [Area("Users")]
-    //[Authorize(Roles = "seller")]
+    [Authorize(Roles = "seller")]
     public class SellerController : Controller
     {
         private readonly ISellerApplicationService _sellerApplicationService;

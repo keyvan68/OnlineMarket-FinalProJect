@@ -12,12 +12,21 @@ namespace App.Domain.ApplicationServices
     public class BidApplicationService : IBidApplicationService
     {
         private readonly IBidRepository _bidRepository;
-        public BidApplicationService(IBidRepository bidRepository)
+        private readonly IBuyerRepository _buyerRepository ;
+        private readonly IAuctionRepository _auctionRepository ;
+        public BidApplicationService(IBidRepository bidRepository, IBuyerRepository buyerRepository, IAuctionRepository auctionRepository)
         {
-            _bidRepository= bidRepository;
+            _bidRepository = bidRepository;
+            _buyerRepository = buyerRepository;
+            _auctionRepository = auctionRepository;
         }
-        public async Task<int> Create(BidDto bidDto, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateBidDto bidDto, CancellationToken cancellationToken)
         {
+            var buyer =  await _buyerRepository.GetById(bidDto.BuyerId, cancellationToken);
+            var auction = await _auctionRepository.GetById(bidDto.AuctionId, cancellationToken);
+            bidDto.BuyerId = buyer.Id;
+            bidDto.AuctionId = auction.Id;
+            bidDto.CreatedAt = DateTime.Now;
             var list = await _bidRepository.Create(bidDto, cancellationToken);
             return list;
         }
@@ -41,6 +50,8 @@ namespace App.Domain.ApplicationServices
 
         public async Task<List<BidDto>> GetByBuyer(int buyerId, CancellationToken cancellationToken)
         {
+           
+
             var list = await _bidRepository.GetByBuyer(buyerId, cancellationToken);
             return list;
         }

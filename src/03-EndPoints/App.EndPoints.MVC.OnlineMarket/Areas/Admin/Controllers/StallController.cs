@@ -5,12 +5,13 @@ using App.Domain.Core.DtoModels.StallDtoModels;
 using App.Domain.Core.Entities;
 using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class StallController : Controller
     {
         private readonly IStallApplicationService _stallApplicationService;

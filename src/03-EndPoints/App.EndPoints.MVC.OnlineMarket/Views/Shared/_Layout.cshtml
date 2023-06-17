@@ -51,31 +51,39 @@
                             حساب کاربری
                             </button>
                             </li>*@
-                            
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
                                 <li class="nav-item d-xl-block d-none">
                                     <a class="btn btn-light text-dark" asp-area="" asp-controller="Account" asp-action="Logout">خروج</a>
                                 </li>
-                               
-                                 <li class="nav-item d-xl-block d-none">
-                                    <a class="btn btn-light text-dark" asp-area="Users" asp-controller="Profile" asp-action="Index">صفحه کاربری</a>
-                                 </li>
-                               
-                                 <li class="nav-item d-xl-block d-none">
-                                    <a class="btn btn-light text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">ادمین</a>
-                                 </li>
-                             
+                                @if (User.IsInRole("seller"))
+                                {
+                                    <li class="nav-item d-xl-block d-none">
+                                        <a class="btn btn-light text-dark" asp-area="Users" asp-controller="Profile" asp-action="Index">صفحه کاربری</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item d-xl-block d-none">
+                                        <a class="btn btn-light text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">ادمین</a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
                                 <li class="nav-item d-xl-block d-none">
                                     <a class="btn btn-light text-dark" asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
                                 </li>
                                 <li class="nav-item d-xl-block d-none">
                                     <a class="btn btn-light text-dark" asp-area="" asp-controller="Account" asp-action="Register">ثبت نام </a>
                                 </li>
-                          
+                            }
                             <li class="nav-item d-xl-block d-none">
                                 <a class="btn btn-light text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">حریم شخصی</a>
                             </li>
-                            
-                            
+
+
                             <li class="nav-item">
                                 <span class="auth-icon-responsive d-xl-none d-block pointer"
                                       data-bs-toggle="modal" data-bs-target="#loginModal">

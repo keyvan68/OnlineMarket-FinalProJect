@@ -1,0 +1,30 @@
+﻿@using App.Domain.Core.DtoModels.AuctionDtoModels;
+@model AuctionDtoCreate
+
+@{
+    ViewData["Title"] = "ایجاد مزایده جدید";
+    Layout = "_UserLayout";
+}
+
+<h1>ایجاد مزایده جدید</h1>
+
+<div class="col-md-4">
+    <form asp-action="CreateAuction" asp-controller="Auction" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label asp-for="StartTime" class="control-label"></label>
+        <input asp-for="StartTime" class="form-control" />
+        <span asp-validation-for="StartTime"></span>
+
+        
+
+        <label asp-for="HighestBid" class="control-label"></label>
+        <input asp-for="HighestBid" class="form-control" />
+        <span asp-validation-for="HighestBid"></span>
+        
+        <input type="hidden" name="productId" value="@Model.ProductId" />
+        <div class="form-group">
+            <input type="submit" value="ثبت" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+

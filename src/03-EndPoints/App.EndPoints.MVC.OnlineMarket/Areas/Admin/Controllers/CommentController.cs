@@ -10,7 +10,7 @@ using System.Threading;
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class CommentController : Controller
     {
         private readonly ICommentApplicationService _commentApplicationService;

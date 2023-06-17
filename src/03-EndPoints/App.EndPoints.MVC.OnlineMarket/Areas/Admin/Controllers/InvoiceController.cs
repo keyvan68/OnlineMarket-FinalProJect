@@ -2,13 +2,14 @@
 using App.Domain.Core.Contracts.ApplicationService;
 using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class InvoiceController : Controller
     {
         private readonly IInvoiceApplicationService _invoiceApplicationService;

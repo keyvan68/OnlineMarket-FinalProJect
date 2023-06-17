@@ -10,6 +10,9 @@ namespace App.Domain.Core.DtoModels.InvoiceDtoModels
     public class InvoiceDto
     {
         public int Id { get; set; }
+        public int SellerId { get; set; }
+
+        //public int BuyerId { get; set; }
         public string BuyerName { get; set; } = null!;
         public string SellerName { get; set; } = null!;
         public string? ProductName { get; set; } = null!;

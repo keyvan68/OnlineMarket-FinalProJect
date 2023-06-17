@@ -4,7 +4,7 @@ namespace App.Domain.Core.Contracts.Repository
 {
     public interface IAuctionRepository
     {
-        Task<int> Create(AuctionDto auctionDto, CancellationToken cancellationToken);
+        Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken);
         Task Delete(int auctionId, CancellationToken cancellationToken);
         Task<List<AuctionDto>> GetActiveAuctions(CancellationToken cancellationToken);
         Task<List<AuctionDto>> GetAll(CancellationToken cancellationToken);

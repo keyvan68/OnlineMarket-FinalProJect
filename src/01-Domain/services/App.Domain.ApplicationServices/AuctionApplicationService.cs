@@ -18,10 +18,11 @@ namespace App.Domain.ApplicationServices
             _auctionRepository = auctionRepository;
         }
 
-        public async Task<int> Create(AuctionDto auctionDto, CancellationToken cancellationToken)
+        public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
         {
-            var list = await _auctionRepository.Create(auctionDto, cancellationToken);
-            return list;
+            auctionDto.CreatedAt = DateTime.Now;
+            var id = await _auctionRepository.Create(auctionDto, cancellationToken);
+            return id;
         }
 
         public async Task Delete(int auctionId, CancellationToken cancellationToken)

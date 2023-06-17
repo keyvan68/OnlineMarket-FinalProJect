@@ -36,6 +36,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .Select(i => new InvoiceDto
                 {
                     Id = i.Invoice.Id,
+                    SellerId = i.Invoice.SellerId,
                     BuyerName = i.Invoice.Buyer.FirstName + " " + i.Invoice.Buyer.LastName,
                     SellerName = i.Invoice.Seller.FirstName + " " + i.Invoice.Seller.LastName,
                     ProductName = i.InvoiceProduct.Product.Title,
@@ -108,5 +109,38 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<InvoiceDto>>(invoices);
         }
+        public async Task<int> CalculateSellerSalesAmount(int SellerId, CancellationToken cancellationToken)
+        {
+            var invoices = await _dbContext.Invoices
+                .Where(i => i.SellerId == SellerId && i.Final == true).ToListAsync(cancellationToken);
+            var totalsales = invoices.Sum(i => i.TotalAmount * i.Quantity);
+
+            return totalsales;
+        }
+        //public async Task<decimal> CalculateSellerSalesAmount(int sellerId, CancellationToken cancellationToken)
+        //{
+        //    //دریافت فروشنده براساس شناسه
+        //    var seller = await _dbContext.Sellers.FirstOrDefaultAsync(s => s.Id == sellerId, cancellationToken);
+        //    if (seller == null)
+        //    {
+               
+        //        throw new Exception("Seller not found");
+        //    }
+
+        //    // دریافت لیست فاکتورهای مرتبط با فروشنده
+        //    var invoices = await _dbContext.Invoices
+        //        .Where(i => i.SellerId == sellerId && i.Final)
+        //        .ToListAsync(cancellationToken);
+
+        //    // محاسبه مجموع مبلغ کل فروش
+        //    decimal totalSalesAmount = invoices.Sum(i => i.TotalAmount);
+
+        //    // اعمال کمیسیون فروشنده بر روی مجموع فروش
+        //    decimal commission = seller.CommissionAmount;
+        //    decimal sellerSalesAmount = totalSalesAmount - commission;
+
+        //    return sellerSalesAmount;
+        //}
+
     }
 }

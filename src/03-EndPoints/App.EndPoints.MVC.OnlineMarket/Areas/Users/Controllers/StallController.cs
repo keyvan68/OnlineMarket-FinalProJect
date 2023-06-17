@@ -1,13 +1,15 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.DtoModels.StallDtoModels;
 using App.Domain.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
 {
     [Area("Users")]
-    //[Authorize(Roles = "seller")]
+    [Authorize(Roles = "seller")]
     public class StallController : Controller
     {
         private readonly IStallApplicationService _stallApplicationService;

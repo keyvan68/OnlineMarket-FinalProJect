@@ -1,5 +1,7 @@
 ﻿using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.DtoModels.AuctionDtoModels;
 using App.Domain.Core.DtoModels.BidDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -40,14 +42,20 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<BidDto>(bid);
         }
 
-        public async Task<int> Create(BidDto bidDto, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateBidDto bidDto, CancellationToken cancellationToken)
         {
-            var bid = _mapper.Map<Bid>(bidDto);
-
-            _dbContext.Bids.Add(bid);
+            var record = new Bid
+            {
+                Description = bidDto.Description,
+                Price=bidDto.Price,
+                BuyerId=bidDto.BuyerId,
+                AuctionId=bidDto.AuctionId,
+                CreatedAt=bidDto.CreatedAt
+            };
+            await _dbContext.Bids.AddAsync(record, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return bid.Id;
+            return record.Id;
+           
         }
 
         public async Task Delete(int bidId, CancellationToken cancellationToken)
