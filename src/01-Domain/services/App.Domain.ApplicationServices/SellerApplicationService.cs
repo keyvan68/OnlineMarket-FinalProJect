@@ -61,6 +61,7 @@ namespace App.Domain.ApplicationServices
 
         public async Task UpdateSeller(SellerDto sellerDto, CancellationToken cancellationToken)
         {
+            sellerDto.LastModifiedAt = DateTime.Now;
             await _sellerRepository.UpdateSeller(sellerDto, cancellationToken);
         }
 

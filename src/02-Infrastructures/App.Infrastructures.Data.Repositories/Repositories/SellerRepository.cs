@@ -50,9 +50,17 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var seller = await _dbContext.Sellers.FirstOrDefaultAsync(x=>x.Id==sellerDto.Id);
             if (seller != null)
             {
-                _mapper.Map(sellerDto, seller);
+                
+                seller.FirstName = sellerDto.FirstName;
+                seller.LastName = sellerDto.LastName;
+                seller.Address = sellerDto.Address;
+                seller.PhoneNumber = sellerDto.PhoneNumber;
+                seller.Birthdate = sellerDto.Birthdate;
+                seller.LastModifiedAt = sellerDto.LastModifiedAt;
+
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+           
         }
 
         public async Task DeleteSeller(int sellerId, CancellationToken cancellationToken)

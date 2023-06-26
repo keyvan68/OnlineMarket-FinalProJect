@@ -30,11 +30,15 @@
                     <td>@auction.EndTime</td>
                     <td>@auction.HighestBid</td>
                     <td>
-                    @if (auction.EndTime.HasValue)
+                    @if (auction.EndTime.HasValue || auction.StartTime.HasValue)
                     {
                         if (DateTime.Now < auction.EndTime)
                         {
                             <span class="badge badge-success text-success">در حال اجرا</span>
+                        }
+                        else if (DateTime.Now <auction.StartTime)
+                        {
+                            <span class="badge badge-info text-info">هنوز شروع نشده</span>
                         }
                         else
                         {
