@@ -19,5 +19,8 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken);
 
         Task<int> CalculateSellerSalesAmount(int SellerId, CancellationToken cancellationToken);
+        Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken);
+        Task<int> ProcessPayment(InvoiceDto invoiceDto, CancellationToken cancellationToken);
+        Task CheckAndUpdateSellerMedal(InvoiceDto invoiceDto, CancellationToken cancellationToken);
     }
 }

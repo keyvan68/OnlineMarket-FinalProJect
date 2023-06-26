@@ -41,9 +41,9 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     SellerName = i.Invoice.Seller.FirstName + " " + i.Invoice.Seller.LastName,
                     ProductName = i.InvoiceProduct.Product.Title,
                     TotalAmount = i.Invoice.TotalAmount,
-                    Commision=i.Invoice.Commision,
-                    Quantity=i.Invoice.Quantity,
-                    
+                    Commision = i.Invoice.Commision,
+                    Quantity = i.Invoice.Quantity,
+
                 })
                 .ToListAsync(cancellationToken);
 
@@ -117,13 +117,21 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
             return totalsales;
         }
+        public async Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken)
+        {
+            var invoices = await _dbContext.Invoices
+                .Where(i => i.SellerId == SellerId && i.Final == true).ToListAsync(cancellationToken);
+            var totalcommision = invoices.Sum(i => i.Commision *i.Quantity);
+
+            return (int)totalcommision;
+        }
         //public async Task<decimal> CalculateSellerSalesAmount(int sellerId, CancellationToken cancellationToken)
         //{
         //    //دریافت فروشنده براساس شناسه
         //    var seller = await _dbContext.Sellers.FirstOrDefaultAsync(s => s.Id == sellerId, cancellationToken);
         //    if (seller == null)
         //    {
-               
+
         //        throw new Exception("Seller not found");
         //    }
 

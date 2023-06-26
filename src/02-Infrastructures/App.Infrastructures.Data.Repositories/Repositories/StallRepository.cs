@@ -48,8 +48,9 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             {
                 Id=stallDto.SellerId,
                 Name=stallDto.Name,
-                Description=stallDto.Description
-                
+                Description=stallDto.Description,
+                CreatedAt=stallDto.CreatedAt
+
             };
             await _dbContext.Stalls.AddAsync(record, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -116,6 +117,17 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             }
 
             return new List<ProductDto>();
+        }
+        public async Task<bool> IsStallExistsForSeller(int sellerId, CancellationToken cancellationToken)
+        {
+            var stall = await _dbContext.Stalls.FirstOrDefaultAsync(s => s.Id == sellerId, cancellationToken);
+            
+            return stall != null;
+        }
+        public async Task<Stall> GetStallBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var stall= await _dbContext.Stalls.FirstOrDefaultAsync(s => s.Id == sellerId, cancellationToken);
+            return stall;
         }
     }
 }

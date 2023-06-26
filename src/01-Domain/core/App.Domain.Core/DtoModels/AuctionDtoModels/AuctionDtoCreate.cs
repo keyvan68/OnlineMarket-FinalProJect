@@ -28,5 +28,7 @@ namespace App.Domain.Core.DtoModels.AuctionDtoModels
         public  Seller? Seller { get; set; } = null!;
 
         public  Product? Product { get; set; } = null!;
+
+        
     }
 }

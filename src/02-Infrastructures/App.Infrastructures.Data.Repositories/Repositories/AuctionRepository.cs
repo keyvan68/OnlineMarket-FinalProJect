@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,11 +60,12 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             {
                 
                 StartTime=auctionDto.StartTime,
-                EndTime=DateTime.Now.AddDays(1),
+                EndTime=auctionDto.EndTime,
                 SellerId=auctionDto.SellerId,
                 ProductId=auctionDto.ProductId,
                 CreatedAt=auctionDto.CreatedAt,
-                HighestBid =auctionDto.HighestBid
+                HighestBid =auctionDto.HighestBid,
+                DeactiveProduct=auctionDto.DeactiveProduct
 
 
 
@@ -110,6 +112,33 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .FirstOrDefaultAsync(a => a.Id == auctionId, cancellationToken);
 
             return auction?.HighestBid ?? 0;
+        }
+        public async Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var records = await _context.Auctions
+                .Where(x=>x.IsDeleted == false && x.SellerId == sellerId)
+                .Include(x=>x.Bids)
+                .Include(x=>x.Product)
+                .Include(x=>x.Seller)
+                .ThenInclude(x=>x.Stall)
+                .AsNoTracking()
+                .Select(x => new AuctionDtoOutput
+                {
+                    Id = x.Id,
+                    Bids= x.Bids,
+                    StartTime=x.StartTime,
+                    EndTime=x.EndTime,
+                    DeactiveProduct=x.DeactiveProduct,
+                    SellerName=x.Seller.FirstName + " " + x.Seller.LastName,
+                    StallName=x.Seller.Stall.Name,
+                    ProductName=x.Product.Title,
+                    HighestBid=x.HighestBid
+                    
+
+                })
+                .ToListAsync(cancellationToken);
+
+            return records;
         }
     }
 }

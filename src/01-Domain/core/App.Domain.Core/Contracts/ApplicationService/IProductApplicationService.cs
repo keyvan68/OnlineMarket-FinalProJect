@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DtoModels;
 using App.Domain.Core.DtoModels.ProductDtoModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task Update(UpdateProductDto productDto, CancellationToken cancellationToken);
         Task ConfirmByAdmin(int id);
         Task SoftDelete(int productId, CancellationToken cancellationToken);
+        Task UploadImageProduct(int productId, IFormFile file, string rootpath, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
     }
 }

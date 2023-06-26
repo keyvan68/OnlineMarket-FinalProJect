@@ -13,5 +13,6 @@ namespace App.Domain.Core.Contracts.Repository
         Task<List<InvoiceDto>> GetInvoicesBySellerId(int sellerId, CancellationToken cancellationToken);
         Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task<int> CalculateSellerSalesAmount(int SellerId, CancellationToken cancellationToken);
+        Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken);
     }
 }

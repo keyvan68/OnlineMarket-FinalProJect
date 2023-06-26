@@ -1,42 +1,50 @@
-﻿@using App.Domain.Core.DtoModels.ProductDtoModels;
-@model CreateProductDto
+﻿@using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
+@model CreateProductViewModel
 
 @{
     ViewData["Title"] = "ساخت محصول";
     Layout = "_UserLayout";
 }
-
+@{
+    IEnumerable<SelectListItem> categoriesSelectList = Model.Categories
+        .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+}
 <h1>ساخت محصول</h1>
 
-<form asp-controller="Product" asp-action="Create" method="post">
+<form asp-controller="Product" asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="title">Title</label>
-        <input class="form-control" type="text" id="title" name="Title" value="@Model.Title" />
+        <label asp-for="Title"></label>
+        <input class="form-control" asp-for="Title" />
+        <span class="text-danger" asp-validation-for="Title"></span>
     </div>
     <div class="form-group">
-        <label for="price">Price</label>
-        <input class="form-control" type="text" id="price" name="Price" value="@Model.Price" />
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+        <span class="text-danger" asp-validation-for="Price"></span>
     </div>
     <div class="form-group">
-        <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="Description">@Model.Description</textarea>
+        <label asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
     </div>
     <div class="form-group">
-        <label for="numberofproducts">Number of Products</label>
-        <input class="form-control" type="text" id="numberofproducts" name="NumberofProducts" value="@Model.NumberofProducts" />
+        <label asp-for="NumberofProducts"></label>
+        <input class="form-control" asp-for="NumberofProducts" />
+        <span class="text-danger" asp-validation-for="NumberofProducts"></span>
     </div>
     <div class="form-group">
-        <label for="categoryId">Category</label>
-        <select class="form-control" id="categoryId" name="CategoryId">
-            @foreach (var category in ViewBag.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
+        <label asp-for="CategoryId"></label>
+        <select class="form-control" asp-for="CategoryId" asp-items="categoriesSelectList"></select>
+        <span class="text-danger" asp-validation-for="CategoryId"></span>
     </div>
     <div class="form-group">
-        <label for="auction">Auction</label>
-        <input class="" type="checkbox" id="auction" name="Auction" value="true" />
+        <label asp-for="Auction">Auction</label>
+        <input class="" type="checkbox" asp-for="Auction" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile">Image</label>
+        <input class="form-control" type="file" asp-for="ImageFile" />
+        <span class="text-danger" asp-validation-for="ImageFile"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

@@ -1,0 +1,48 @@
+﻿@using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
+@model IEnumerable<AuctionViewModel>
+
+@{
+    ViewData["Title"] = "لیست مزایده‌ها";
+    Layout = "_UserLayout";
+}
+<h1>لیست مزایده‌ها</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="bg-info text-white">
+            <th>نام فروشگاه</th>
+            <th>نام فروشنده</th>
+            <th>نام محصول</th>
+            <th>شروع</th>
+            <th>پایان</th>
+            <th>بالاترین پیشنهاد</th>
+            <th>وضعیت</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var auction in Model)
+        {
+                <tr>
+                    <td>@auction.StallName</td>
+                    <td>@auction.SellerName</td>
+                    <td>@auction.ProductName</td>
+                    <td>@auction.StartTime</td>
+                    <td>@auction.EndTime</td>
+                    <td>@auction.HighestBid</td>
+                    <td>
+                    @if (auction.EndTime.HasValue)
+                    {
+                        if (DateTime.Now < auction.EndTime)
+                        {
+                            <span class="badge badge-success text-success">در حال اجرا</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger text-danger">تمام شده</span>
+                        }
+                    }
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

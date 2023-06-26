@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using App.Domain.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
@@ -26,5 +27,6 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
 
         [Display(Name = "قیمت محصول (تومان)")]
         public int Price { get; set; }
+        public virtual List<Auction> Auctions { get; set; } = new List<Auction>();
     }
 }

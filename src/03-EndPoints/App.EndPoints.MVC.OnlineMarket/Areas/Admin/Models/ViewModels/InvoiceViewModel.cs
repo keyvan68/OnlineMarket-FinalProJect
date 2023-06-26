@@ -14,7 +14,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
         public string SellerName { get; set; } = null!;
         [Display(Name = "نام محصول")]
         public string? ProductName { get; set; } = null!;
-        [Display(Name = "میزان فروش")]
+        [Display(Name = "میزان کل فروش فروش")]
         public int TotalAmount { get; set; }
         [Display(Name = "کمیسون سایت")]
         public int? Commision { get; set; }

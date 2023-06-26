@@ -25,10 +25,11 @@ namespace App.Infrastructures.Data.Repositories.AutoMaper
         {
             CreateMap<CommentDto, Comment>().ReverseMap(); //reverse so the both direction
             CreateMap<Auction, AuctionDto>();
+            CreateMap<Auction, AuctionDtoOutput>();
             CreateMap<Bid, BidDto>();
             CreateMap<Buyer, BuyerDto>();
             CreateMap<Category, CategoryDto>();
-            CreateMap<Image, ImageDto>();
+            CreateMap<Image, ImageDto>().ReverseMap();
             CreateMap<Invoice, InvoiceDto>();
             CreateMap<Product, ProductDto>().ReverseMap()
                 .ForMember(dest => dest.CategoryId, opt => opt.Ignore())

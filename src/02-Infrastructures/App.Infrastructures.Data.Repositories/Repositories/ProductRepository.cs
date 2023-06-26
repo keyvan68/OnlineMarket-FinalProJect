@@ -57,6 +57,32 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
             return records;
         }
+        public async Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var records = await _context.Products
+                .Where(a => a.Stall.Id == sellerId && a.IsDeleted == false && a.Auction== true)
+                .Include(a => a.Category)
+                .Include(a=>a.Auctions)
+                .Include(x => x.Stall)
+                    .ThenInclude(s => s.IdNavigation)
+                .AsNoTracking()
+                .Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Price = p.Price,
+                    NumberofProducts = p.NumberofProducts,
+                    IsAccepted = p.IsAccepted,
+                    CategoryName = p.Category.Name,
+                    StallName = p.Stall.Name,
+                    SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName,
+                    Auction = p.Auction,
+                    Auctions=p.Auctions
+                })
+                .ToListAsync(cancellationToken);
+
+            return records;
+        }
         public async Task<List<ProductDto>> GetBySeller(int sellerId, CancellationToken cancellationToken)
         {
             var records = await _context.Products
@@ -107,12 +133,13 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 Title = productDto.Title,
                 Description= productDto.Description,
                 NumberofProducts = productDto.NumberofProducts,
+                IsAccepted=productDto.IsAccepted,
+                IsActive=productDto.IsActive,
                 CategoryId = productDto.CategoryId,
                 StallId = productDto.StallId,
                 Auction = productDto.Auction,
                 CreatedAt=productDto.CreatedAt,
-                Price = productDto.Price,
-                Images=productDto.Images,
+                Price = productDto.Price
                 
                 
                 

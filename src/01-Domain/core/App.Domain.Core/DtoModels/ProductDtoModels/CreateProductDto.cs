@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,10 @@ namespace App.Domain.Core.DtoModels.ProductDtoModels
         public bool Auction { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-
+        public bool IsAccepted { get; set; }
+        public bool IsActive { get; set; }
         public virtual Category Category { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
 
 

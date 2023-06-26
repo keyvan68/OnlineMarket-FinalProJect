@@ -53,7 +53,7 @@ namespace App.Domain.ApplicationServices
             return sellerlist;
         }
 
-        public async Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken)
+        public async Task<List<SellerDto>> GetSellersByMedal(bool medal, CancellationToken cancellationToken)
         {
             var medalListSeller= await _sellerRepository.GetSellersByMedal(medal, cancellationToken);
             return medalListSeller;

@@ -74,7 +74,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             return _mapper.Map<List<SellerDto>>(sellers);
         }
 
-        public async Task<List<SellerDto>> GetSellersByMedal(int medal, CancellationToken cancellationToken)
+        public async Task<List<SellerDto>> GetSellersByMedal(bool medal, CancellationToken cancellationToken)
         {
             var sellers = await _dbContext.Sellers
                 .AsNoTracking()

@@ -19,5 +19,8 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<List<ProductDto>> GetStallProducts(int stallId, CancellationToken cancellationToken);
         Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken);
         Task SoftDelete(int stallId, CancellationToken cancellationToken);
+        Task<bool> IsStallExistsForSeller(int sellerId, CancellationToken cancellationToken);
+
+        Task<Stall> GetStallBySellerId(int sellerId, CancellationToken cancellationToken);
     }
 }

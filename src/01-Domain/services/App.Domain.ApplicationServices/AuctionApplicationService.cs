@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.AuctionDtoModels;
+using App.Domain.Core.DtoModels.ImageDtoModels;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ namespace App.Domain.ApplicationServices
         public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
         {
             auctionDto.CreatedAt = DateTime.Now;
+            auctionDto.DeactiveProduct = false;
+            if (auctionDto.StartTime != null)
+            {
+                auctionDto.EndTime = auctionDto.StartTime.Value.AddDays(1);
+            }
             var id = await _auctionRepository.Create(auctionDto, cancellationToken);
             return id;
         }
@@ -39,6 +45,12 @@ namespace App.Domain.ApplicationServices
         public async Task<List<AuctionDto>> GetAll(CancellationToken cancellationToken)
         {
             var list = await _auctionRepository.GetAll(cancellationToken);
+            return list;
+        }
+
+        public async Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var list = await _auctionRepository.GetAllAuctionBySellerId(sellerId, cancellationToken);
             return list;
         }
 

@@ -26,18 +26,27 @@ namespace App.Domain.ApplicationServices
         public async Task<int> CreateStall(CreateStallDto stallDto, CancellationToken cancellationToken)
         {
             var sellerId = await _sellerRepository.GetSellerIdByApplicationUserId(stallDto.SellerId, cancellationToken);
-
             stallDto.SellerId = sellerId;
+            stallDto.CreatedAt = DateTime.Now;
+            var existingStall = await _stallRepository.GetStallBySellerId(sellerId, cancellationToken);
+            if (existingStall == null)
+            {
 
             var stallId = await _stallRepository.CreateStall(stallDto, cancellationToken);
-
             return stallId;
+
+            }
+
+            else
+            {
+                return existingStall.Id;
+            }
         }
 
         public async Task DeleteStall(int stallId, CancellationToken cancellationToken)
         {
-             await _stallRepository.DeleteStall(stallId, cancellationToken);
-            
+            await _stallRepository.DeleteStall(stallId, cancellationToken);
+
         }
 
         public async Task<List<StallDto>> GetAllStalls(CancellationToken cancellationToken)
@@ -48,14 +57,26 @@ namespace App.Domain.ApplicationServices
 
         public async Task<UpdateStallDto> GetStallById(int stallId, CancellationToken cancellationToken)
         {
-            var stallid = await _stallRepository.GetStallById(stallId,cancellationToken);
+            var stallid = await _stallRepository.GetStallById(stallId, cancellationToken);
             return stallid;
+        }
+
+        public async Task<Stall> GetStallBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+           var stall= await _stallRepository.GetStallBySellerId(sellerId, cancellationToken);
+            return stall;
         }
 
         public async Task<List<ProductDto>> GetStallProducts(int stallId, CancellationToken cancellationToken)
         {
             var stallproduct = await _stallRepository.GetStallProducts(stallId, cancellationToken);
             return stallproduct;
+        }
+
+        public async Task<bool> IsStallExistsForSeller(int sellerId, CancellationToken cancellationToken)
+        {
+            var stall = await _stallRepository.IsStallExistsForSeller(sellerId, cancellationToken);
+            return stall;
         }
 
         public async Task SoftDelete(int stallId, CancellationToken cancellationToken)
@@ -65,9 +86,9 @@ namespace App.Domain.ApplicationServices
 
         public async Task UpdateStall(UpdateStallDto stallDto, CancellationToken cancellationToken)
         {
-           await _stallRepository.UpdateStall(stallDto,cancellationToken);
+            await _stallRepository.UpdateStall(stallDto, cancellationToken);
         }
 
-       
+
     }
 }

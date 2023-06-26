@@ -8,6 +8,8 @@ using AutoMapper;
 using App.Domain.Core.DtoModels.StallDtoModels;
 using App.Domain.Core.DtoModels.CommentDtoModels;
 using App.Domain.Core.DtoModels.InvoiceDtoModels;
+using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
+using App.Domain.Core.DtoModels.AuctionDtoModels;
 
 namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
 {
@@ -22,8 +24,12 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             CreateMap<StallListViewModel, StallDto>().ReverseMap();
             CreateMap<UpdateStallViewModels, UpdateStallDto>().ReverseMap();
             CreateMap<UserViewModels, UserDto>().ReverseMap();
+            CreateMap<CreateStallViewModel, CreateStallDto>().ReverseMap();
             CreateMap<CommentViewModel, CommentDto>().ReverseMap();
             CreateMap<InvoiceViewModel, InvoiceDto>().ReverseMap();
+            CreateMap<CreateProductViewModel, CreateProductDto>().ReverseMap();
+            CreateMap<CreateAuctionViewModel, AuctionDtoCreate>().ReverseMap();
+            CreateMap<AuctionViewModel, AuctionDtoOutput>().ReverseMap();
         }
     }
 }

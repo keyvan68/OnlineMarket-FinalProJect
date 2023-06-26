@@ -1,7 +1,9 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels;
+using App.Domain.Core.DtoModels.ImageDtoModels;
 using App.Domain.Core.DtoModels.ProductDtoModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,13 @@ namespace App.Domain.ApplicationServices
     public class ProductApplicationService : IProductApplicationService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public ProductApplicationService(IProductRepository productRepository)
+
+        public ProductApplicationService(IProductRepository productRepository, IImageRepository imageRepository)
         {
             _productRepository = productRepository;
+            _imageRepository = imageRepository;
         }
 
         public  async Task ConfirmByAdmin(int id)
@@ -24,9 +29,13 @@ namespace App.Domain.ApplicationServices
             await _productRepository.ConfirmByAdmin(id);
         }
 
-        public async Task<int> Create(CreateProductDto productDto, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateProductDto productDtos, CancellationToken cancellationToken)
         {
-            var id = await _productRepository.Create(productDto, cancellationToken);
+            productDtos.CreatedAt = DateTime.Now;
+            productDtos.IsAccepted = false;
+            productDtos.IsActive = false;
+            var id = await _productRepository.Create(productDtos, cancellationToken);
+
             return id;
         }
 
@@ -45,6 +54,13 @@ namespace App.Domain.ApplicationServices
         {
            var pruductlist =  await _productRepository.GetAll(cancellationToken);
             
+            return pruductlist;
+        }
+
+        public async Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
+        {
+            var pruductlist = await _productRepository.GetAllWithAuctionBySellerId(sellerId, cancellationToken);
+
             return pruductlist;
         }
 
@@ -87,6 +103,23 @@ namespace App.Domain.ApplicationServices
         public async Task Update(UpdateProductDto productDto, CancellationToken cancellationToken)
         {
             await _productRepository.Update(productDto, cancellationToken);
+        }
+        public async Task UploadImageProduct(int productId,IFormFile file, string rootpath ,CancellationToken cancellationToken)
+        {
+            var filename = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+            var path = Path.Combine(rootpath, @"Images\Product", filename);
+            using (var stream = File.Create(path))
+            {
+                file.CopyTo(stream);
+            }
+            var imageDto = new ImageDto()
+            {
+               Name=filename,
+               Url= @"\Images\Product\" + filename,
+               ProductId=productId,
+               CreatedAt=DateTime.Now,
+            };
+            await _imageRepository.CreateImage(imageDto, cancellationToken);
         }
     }
 }

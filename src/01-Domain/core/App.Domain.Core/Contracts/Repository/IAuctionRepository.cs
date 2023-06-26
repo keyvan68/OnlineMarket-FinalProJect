@@ -12,6 +12,7 @@ namespace App.Domain.Core.Contracts.Repository
         Task<int> GetHighestBid(int auctionId, CancellationToken cancellationToken);
         Task Update(AuctionDto auctionDto, CancellationToken cancellationToken);
         Task<List<AuctionDto>> GetAuctionBySellerId(int sellerID, CancellationToken cancellationToken);
+        Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
 
     }
 }

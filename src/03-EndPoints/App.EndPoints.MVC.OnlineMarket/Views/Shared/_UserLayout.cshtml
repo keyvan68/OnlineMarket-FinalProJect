@@ -705,7 +705,7 @@
 
     <div class="content">
         <div class="dashboard">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="ui-boxs">
@@ -748,22 +748,34 @@
                                                     <span>ناحیه کاربری</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item active">
+                                            <li class="nav-item">
                                                 <a class="" asp-area="Users" asp-controller="Stall" asp-action="Create">
                                                     <i class="bi bi-house"></i>
                                                     <span>ساخت فروشگاه</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item active">
+                                            <li class="nav-item">
                                                 <a class="" asp-area="Users" asp-controller="Product" asp-action="Create">
                                                     <i class="bi bi-house"></i>
                                                     <span>ساخت محصول</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item active">
+                                            <li class="nav-item">
                                                 <a class="" asp-area="Users" asp-controller="Product" asp-action="Index">
                                                     <i class="bi bi-house"></i>
                                                     <span>محصولات فروشنده </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="" asp-area="Users" asp-controller="Auction" asp-action="Index">
+                                                    <i class="bi bi-house"></i>
+                                                    <span>ایجاد مزایده</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="" asp-area="Users" asp-controller="Auction" asp-action="AuctionList">
+                                                    <i class="bi bi-house"></i>
+                                                    <span>لیست مزایده ها</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -813,7 +825,7 @@
     </div>
 
     <footer class="shadow-md">
-        <div class="container">
+        <div class="container-fluid">
             <div class="footer-feature">
                 <div class="row justify-content-center">
                     <div class="col-6 col-sm-2">

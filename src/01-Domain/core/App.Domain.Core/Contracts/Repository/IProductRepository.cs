@@ -17,5 +17,6 @@ namespace App.Domain.Core.Contracts.Repository
         Task Update(UpdateProductDto productDto, CancellationToken cancellationToken);
         Task ConfirmByAdmin(int id);
         Task SoftDelete(int productId, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
     }
 }

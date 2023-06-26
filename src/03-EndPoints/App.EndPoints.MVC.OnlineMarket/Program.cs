@@ -2,6 +2,7 @@ using App.Domain.ApplicationServices;
 using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.Entities;
+using App.Domain.Core.SiteConfiguration;
 using App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels;
 using App.Infrastructures.Data.Repositories.AutoMaper;
 using App.Infrastructures.Data.Repositories.Repositories;
@@ -20,12 +21,19 @@ namespace App.EndPoints.MVC.OnlineMarket
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Account";
-                //options.AccessDeniedPath = "/AccessDenied";
-            });
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json");
+            var siteConfig = builder.Configuration.GetSection("siteconfig").Get<Siteconfig>();
+            builder.Services.AddSingleton(siteConfig);
+            //var siteConfig = builder.Configuration.Get<>();
+            //builder.Services.AddSingleton(siteConfig);
+            //builder.Services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = "/Account";
+            //    //options.AccessDeniedPath = "/AccessDenied";
+            //});
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
 
