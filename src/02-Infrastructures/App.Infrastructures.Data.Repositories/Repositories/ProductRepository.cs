@@ -36,6 +36,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var records = await _context.Products
                 .Where(a=>a.IsDeleted == false)
                 .Include(a=>a.Category)
+                .Include(a=>a.Images)
                 .Include(x => x.Stall)
                     .ThenInclude(s => s.IdNavigation) // Load Seller for Stall
                 .AsNoTracking()
@@ -49,7 +50,8 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     CategoryName=p.Category.Name,
                     StallName=p.Stall.Name,
                     SellerName = p.Stall.IdNavigation.FirstName + " " + p.Stall.IdNavigation.LastName,
-                    Auction=p.Auction
+                    Auction=p.Auction,
+                    Images = p.Images
                 })
                 .ToListAsync(cancellationToken);
 

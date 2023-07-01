@@ -57,6 +57,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 seller.PhoneNumber = sellerDto.PhoneNumber;
                 seller.Birthdate = sellerDto.Birthdate;
                 seller.LastModifiedAt = sellerDto.LastModifiedAt;
+                seller.Medal = sellerDto.Medal;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }

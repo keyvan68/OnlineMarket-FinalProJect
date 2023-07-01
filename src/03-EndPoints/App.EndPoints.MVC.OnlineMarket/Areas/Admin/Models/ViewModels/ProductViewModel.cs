@@ -17,6 +17,10 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
         public string? SellerName { get; set; }
         [Display(Name = "نام فروشگاه")]
         public string? StallName { get; set; }
+
+        [Display(Name = "توشیحات")]
+        public string? Description { get; set; }
+
         [Display(Name = "تعداد محصول")]
         public int NumberofProducts { get; set; }
         [Display(Name = "تایید محصول")]
@@ -27,6 +31,8 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
 
         [Display(Name = "قیمت محصول (تومان)")]
         public int Price { get; set; }
-        public virtual List<Auction> Auctions { get; set; } = new List<Auction>();
+        public  List<Auction> Auctions { get; set; } = new List<Auction>();
+
+        public List<Image> Images { get; set; } = new List<Image>();
     }
 }

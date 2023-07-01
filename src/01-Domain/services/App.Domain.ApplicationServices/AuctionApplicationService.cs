@@ -2,7 +2,9 @@
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.AuctionDtoModels;
 using App.Domain.Core.DtoModels.ImageDtoModels;
+using App.Domain.Core.DtoModels.InvoiceDtoModels;
 using App.Domain.Core.Entities;
+using App.Domain.Core.SiteConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +16,27 @@ namespace App.Domain.ApplicationServices
     public class AuctionApplicationService : IAuctionApplicationService
     {
         private readonly IAuctionRepository _auctionRepository;
-        public AuctionApplicationService(IAuctionRepository auctionRepository)
+        private readonly IProductRepository _productRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
+        private readonly ISellerRepository _sellerRepository;
+        private readonly Siteconfig _siteConfigs;
+        public AuctionApplicationService(IAuctionRepository auctionRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository, ISellerRepository sellerRepository, Siteconfig siteConfigs)
         {
             _auctionRepository = auctionRepository;
+            _productRepository = productRepository;
+            _invoiceRepository = invoiceRepository;
+            _sellerRepository = sellerRepository;
+            _siteConfigs = siteConfigs;
         }
 
         public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
         {
             auctionDto.CreatedAt = DateTime.Now;
             auctionDto.DeactiveProduct = false;
-            if (auctionDto.StartTime != null)
-            {
-                auctionDto.EndTime = auctionDto.StartTime.Value.AddDays(1);
-            }
+            //if (auctionDto.StartTime != null)
+            //{
+            //    auctionDto.EndTime = auctionDto.StartTime.Value.AddMinutes(2);
+            //}
             var id = await _auctionRepository.Create(auctionDto, cancellationToken);
             return id;
         }
@@ -76,5 +86,46 @@ namespace App.Domain.ApplicationServices
         {
             await _auctionRepository.Update(auctionDto, cancellationToken);
         }
+        public void AuctionOperationTest(int auctionId)
+        {
+            var x = auctionId + auctionId;
+
+        }
+        //public async Task AuctionOperation(int auctionId, CancellationToken cancellationToken)
+        //{
+        //    //get auction
+        //    var auction = await _auctionRepository.GetById(auctionId, cancellationToken);
+
+        //    //check auction has buyer or not
+        //    if (auction.Bids.Any(b => b.BuyerId != 0))
+        //    {
+
+        //        var winner = auction.Bids.OrderBy(x=>x.Price).FirstOrDefault();
+        //        auction.HighestBid = Convert.ToInt32(winner.Price);
+        //        //await _auctionRepository.Update(auction,cancellationToken);
+        //        var seller = await _sellerRepository.GetSellerById(auction.SellerId, cancellationToken);
+
+
+
+        //        var invoice = new InvoiceDto()
+        //        {
+        //            TotalAmount = auction.HighestBid,
+        //            Commision = Convert.ToInt32(auction.HighestBid - ((seller.CommissionAmount/ 100) * auction.HighestBid)),
+        //            BuyerId = winner.BuyerId,
+        //            SellerId = seller.Id,
+        //            CreatedAt = DateTime.Now
+        //        };
+        //        var invoiceId = await _invoiceRepository.CreateInvoice(invoice, cancellationToken);
+
+
+        //    }
+        //    else
+        //    {
+        //        //disable product 
+        //        var product = await _productRepository.GetById(auction.ProductId, cancellationToken);
+        //        product.IsAccepted = false;
+        //        await _productRepository.Update(product, cancellationToken);
+        //    }
+        //}
     }
 }

@@ -8,6 +8,7 @@ using App.Infrastructures.Data.Repositories.AutoMaper;
 using App.Infrastructures.Data.Repositories.Repositories;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,14 +28,7 @@ namespace App.EndPoints.MVC.OnlineMarket
                 .AddJsonFile("appsettings.Development.json");
             var siteConfig = builder.Configuration.GetSection("siteconfig").Get<Siteconfig>();
             builder.Services.AddSingleton(siteConfig);
-            //var siteConfig = builder.Configuration.Get<>();
-            //builder.Services.AddSingleton(siteConfig);
-            //builder.Services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.LoginPath = "/Account";
-            //    //options.AccessDeniedPath = "/AccessDenied";
-            //});
-
+            
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
 
 
@@ -93,7 +87,13 @@ namespace App.EndPoints.MVC.OnlineMarket
             builder.Services.AddScoped<IStallApplicationService, StallApplicationService>();
             #endregion ApplicationService
 
+            builder.Services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(connectionString));
 
+            builder.Services.AddHangfireServer();
 
             var app = builder.Build();
 
@@ -104,7 +104,7 @@ namespace App.EndPoints.MVC.OnlineMarket
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseHangfireDashboard();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

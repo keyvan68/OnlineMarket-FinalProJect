@@ -78,7 +78,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             await _productApplicationService.UploadImageProduct(productId, model.ImageFile, _hostingEnvironment.WebRootPath, cancellationToken);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
        
 
         }
