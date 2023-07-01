@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.BuyerDtoModels;
+using App.Domain.Core.DtoModels.SellerDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,7 @@ namespace App.Domain.ApplicationServices
 
         public async Task Update(BuyerDto buyerDto, CancellationToken cancellationToken)
         {
+            buyerDto.LastModifiedAt = DateTime.Now;
             await _buyerRepository.Update(buyerDto, cancellationToken);
         }
     }

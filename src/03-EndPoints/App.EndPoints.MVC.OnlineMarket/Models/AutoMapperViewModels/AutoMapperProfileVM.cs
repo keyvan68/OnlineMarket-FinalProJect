@@ -11,6 +11,7 @@ using App.Domain.Core.DtoModels.InvoiceDtoModels;
 using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
 using App.Domain.Core.DtoModels.AuctionDtoModels;
 using App.Domain.Core.DtoModels.SellerDtoModels;
+using App.Domain.Core.DtoModels.BuyerDtoModels;
 
 namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
 {
@@ -33,6 +34,8 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             CreateMap<AuctionViewModel, AuctionDtoOutput>().ReverseMap();
             CreateMap<SellerViewmodel, SellerDto>().ReverseMap();
             CreateMap<UpdateSellerViewModel, SellerDto>().ReverseMap();
+            CreateMap<BuyerViewModel, BuyerDto>().ReverseMap();
+            CreateMap<UpdateCustomerViewModel, BuyerDto>().ReverseMap();
         }
     }
 }

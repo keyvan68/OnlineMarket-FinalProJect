@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.BuyerDtoModels;
+using App.Domain.Core.DtoModels.SellerDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -81,18 +82,21 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Update(BuyerDto buyerDto, CancellationToken cancellationToken)
         {
-            var existingBuyer = await _dbContext.Buyers
+            var Buyer = await _dbContext.Buyers
                 .FirstOrDefaultAsync(b => b.Id == buyerDto.Id, cancellationToken);
 
-            if (existingBuyer == null)
+            if (Buyer != null)
             {
-                throw new InvalidOperationException("Buyer not found.");
+
+                Buyer.FirstName = buyerDto.FirstName;
+                Buyer.LastName = buyerDto.LastName;
+                Buyer.Address = buyerDto.Address;
+                Buyer.PhoneNumber = buyerDto.PhoneNumber;
+                Buyer.Birthdayte = buyerDto.Birthdayte;
+                Buyer.LastModifiedAt = buyerDto.LastModifiedAt;
+
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
-
-            _mapper.Map(buyerDto, existingBuyer);
-
-            _dbContext.Update(existingBuyer);
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task Delete(int buyerId, CancellationToken cancellationToken)
