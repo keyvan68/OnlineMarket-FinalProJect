@@ -1,8 +1,254 @@
-﻿@{
+﻿@using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
+@model MultiModelViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
+<!-- product box -->
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="product-box-two">
+    <div class="container">
+        <div class="pbt">
+            <div class="pbt-header">
+                <div class="pbt-header-title">
+                    <h6>اخرین محصولات</h6>
+                </div>
+                <div class="pbt-header-link">
+                    <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
+                </div>
+            </div>
+            <div class="swiper product-box-two-slider">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Products)
+                    {
+                        <div class="swiper-slide">
+                            <div class="product-box-item shadow-box">
+                                <div class="product-box-item-img">
+                                    <a href="">
+                                        @if (item.Images.Any())
+                                        {
+                                            var firstImage = item.Images.FirstOrDefault();
+                                            <img src="@firstImage.Url" alt="" class="img-fluid" >
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/default.png" class="img-fluid" >
+                                        }
+                                    </a>
+                                    <div class="product-box-item-hover">
+                                        @*<div class="product-box-item-hover-btn">
+                                            <span class="see-more" title="مشاهده سریع" data-bs-toggle="modal"
+                                              data-bs-target="#productModal"><i class="bi bi-eye"></i></span>
+                                            <span class="favorite" title="افزودن به برگزیده ها">
+                                                <i class="bi bi-heart"></i>
+                                            </span>
+                                            <span class="comparison" title="مقایسه محصول">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </span>
+                                        </div>*@
+                                        <div class="product-box-item-hover-cart">
+                                            <button class="product-box-item-hover-cart-btn">
+                                                <i class="bi bi-info"></i> جزئیات
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="product.html">
+                                    <div class="product-box-item-desc">
+                                        <div class="product-box-item-title">
+                                            <h6>
+                                                @item.Title
+                                                @*تبلت مایکروسافت مدل Surface Pro 8 – F    ظرفیت 512 گیگابایت*@
+                                            </h6>
+                                        </div>
+                                        <div class="product-box-price">
+                                            @if (item.Auction == true)
+                                            {
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="badge bg-success rounded-pill text-white my-flex-center">مزایده</span>
+                                                    <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex justify-content-end">
+                                                    <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
+                                                </div>
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    
+                  
+                </div>
+                <div class="swiper-button-next sb2"></div>
+                <div class="swiper-button-prev sb2"></div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- end product box -->
+<!-- stall box -->
+<div class="product-box-two">
+    <div class="container">
+        <div class="pbt">
+            <div class="pbt-header">
+                <div class="pbt-header-title">
+                    <h6>اخرین محصولات</h6>
+                </div>
+                <div class="pbt-header-link">
+                    <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
+                </div>
+            </div>
+            <div class="swiper product-box-two-slider">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Stalls)
+                    {
+                        <div class="swiper-slide">
+                            <div class="product-box-item shadow-box">
+                                <div class="product-box-item-img">
+                                    <a href="">
+                                        <img src="~/Images/Store.jpg" class="img-fluid">
+                                    </a>
+                                    <div class="product-box-item-hover">
+                                     
+                                        <div class="product-box-item-hover-cart">
+                                            <button class="product-box-item-hover-cart-btn">
+                                                <i class="bi bi-info"></i> جزئیات
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="product.html">
+                                    <div class="product-box-item-desc">
+                                        <div class="product-box-item-title">
+                                            <h6>
+                                                @item.Name
+                                            </h6>
+                                        </div>
+                                        <div class="product-box-price">
+                                            
+                                                <div class="d-flex justify-content-end">
+                                                <span  style="color: #0f8a2e;">@item.Description</span>
+                                                </div>
+                                            
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <div class="swiper-button-next sb2"></div>
+                <div class="swiper-button-prev sb2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end stall box -->
+<!-- end stall box -->
+ <div class="main-category">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="main-category-title">
+                    <h4>دسته بندی های فروشگاه</h4>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/abzar-khodro.png" alt="" class="img-fluid">
+                            <h6>ابزار خودرو</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/kalaye-degital.png" alt="" class="img-fluid">
+                            <h6>کالای دیجیتال</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/ashpazkhane.png" alt="" class="img-fluid">
+                            <h6>خانه و آشپزخانه</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/autr.png" alt="" class="img-fluid">
+                            <h6>زیبایی و سلامت</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/boomi.png" alt="" class="img-fluid">
+                            <h6>محصولات بومی و محلی</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/children.png" alt="" class="img-fluid">
+                            <h6>اسباب بازی،کودک و نوزاد</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/lavazem-tahrir.png" alt="" class="img-fluid">
+                            <h6>کتاب ، لوازم تحریر و هنر</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/milk.png" alt="" class="img-fluid">
+                            <h6>کالاهای سوپر مارکتی</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/mobile.png" alt="" class="img-fluid">
+                            <h6>موبایل</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/poshak.png" alt="" class="img-fluid">
+                            <h6>پوشاک</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="img/main-category/varzeshi.png" alt="" class="img-fluid">
+                            <h6>ورزش و سفر</h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- end stall box -->

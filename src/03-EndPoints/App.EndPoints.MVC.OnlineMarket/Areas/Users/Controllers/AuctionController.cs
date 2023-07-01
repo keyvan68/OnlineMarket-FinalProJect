@@ -6,6 +6,7 @@ using App.Domain.Core.Entities;
 using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
 using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +23,15 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
         private readonly IAuctionApplicationService _auctionApplicationService;
         private readonly IProductApplicationService _productApplicationService;
         private readonly IMapper _mapper;
-        public AuctionController(UserManager<ApplicationUser> userManager, ISellerApplicationService sellerApplicationService, IAuctionApplicationService auctionApplicationService, IMapper mapper, IProductApplicationService productApplicationService)
+        private readonly IBackgroundJobClient _backgroundJobClient;
+        public AuctionController(UserManager<ApplicationUser> userManager, ISellerApplicationService sellerApplicationService, IAuctionApplicationService auctionApplicationService, IMapper mapper, IProductApplicationService productApplicationService, IBackgroundJobClient backgroundJobClient)
         {
             _userManager = userManager;
             _sellerApplicationService = sellerApplicationService;
             _auctionApplicationService = auctionApplicationService;
             _mapper = mapper;
             _productApplicationService = productApplicationService;
+            _backgroundJobClient = backgroundJobClient;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -55,8 +58,12 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var sellerId = await _sellerApplicationService.GetSellerIdByApplicationUserId(UserId, cancellationToken);
             model.SellerId = sellerId;
             model.ProductId = productId;
-            await _auctionApplicationService.Create(_mapper.Map<AuctionDtoCreate>(model), cancellationToken);
-            return RedirectToAction("Index", "Profile");
+            var auctoinId= await _auctionApplicationService.Create(_mapper.Map<AuctionDtoCreate>(model), cancellationToken);
+
+
+            // _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperation(auctoinId, cancellationToken), (model.EndTime - model.StartTime).Value);
+            _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperationTest(auctoinId), (model.EndTime - model.StartTime).Value);
+            return RedirectToAction("AuctionList");
         }
         public async Task<IActionResult> AuctionList(CancellationToken cancellationToken)
         {

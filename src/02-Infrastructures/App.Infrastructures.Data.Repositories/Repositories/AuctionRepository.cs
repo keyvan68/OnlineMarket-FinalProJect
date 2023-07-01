@@ -40,8 +40,9 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<AuctionDto> GetById(int auctionId, CancellationToken cancellationToken)
         {
             var auction = await _context.Auctions
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == auctionId, cancellationToken);
+                .Where(a => a.Id == auctionId)
+                .Include(a => a.Bids)
+                .FirstOrDefaultAsync(cancellationToken);
 
             return _mapper.Map<AuctionDto>(auction);
         }

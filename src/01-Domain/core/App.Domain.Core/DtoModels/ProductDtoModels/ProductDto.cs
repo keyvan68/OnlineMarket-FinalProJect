@@ -30,7 +30,7 @@ public class ProductDto
 
     public virtual Category Category { get; set; } = null!;
 
-    //public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+    public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
     //public virtual ICollection<InvoiceProduct> InvoiceProducts { get; set; } = new List<InvoiceProduct>();
     public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();

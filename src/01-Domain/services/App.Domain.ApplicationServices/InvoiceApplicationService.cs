@@ -150,8 +150,11 @@ namespace App.Domain.ApplicationServices
         }
         public async Task CheckAndUpdateSellerMedal(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);          // _siteConfigs.reachprice
-            var sellerId = await _sellerApplicationService.GetSellerIdByApplicationUserId(currentUser.Id, cancellationToken);
+            //var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);          // _siteConfigs.reachprice
+            //var sellerId = await _sellerApplicationService.GetSellerIdByApplicationUserId(currentUser.Id, cancellationToken);
+
+            var amount = await _invoiceRepository.CalculateSellerSalesAmount(invoiceDto.SellerId, cancellationToken);
+            invoiceDto.TotalAmount = amount;
             if (invoiceDto.TotalAmount >= _siteConfigs.reachprice)
             {
                 var seller = await _sellerApplicationService.GetSellerById(invoiceDto.SellerId, cancellationToken);
