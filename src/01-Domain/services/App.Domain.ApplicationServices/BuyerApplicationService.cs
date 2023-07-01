@@ -53,6 +53,12 @@ namespace App.Domain.ApplicationServices
             return buyer;
         }
 
+        public async Task<int> GetBuyerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken)
+        {
+            var id = await _buyerRepository.GetBuyerIdByApplicationUserId(applicationUserId, cancellationToken);
+            return id;
+        }
+
         public async Task Update(BuyerDto buyerDto, CancellationToken cancellationToken)
         {
             await _buyerRepository.Update(buyerDto, cancellationToken);

@@ -20,10 +20,7 @@ public partial class Seller
     public int CommissionAmount { get; set; }
 
     public bool? Medal { get; set; }
-    //public bool? MedalAmount { get; set; }
-
     
-
     public int ApplicationUserId { get; set; }
 
     public DateTime Birthdate { get; set; }

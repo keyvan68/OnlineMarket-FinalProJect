@@ -11,5 +11,6 @@ namespace App.Domain.Core.Contracts.Repository
         Task<BuyerDto> GetById(int buyerId, CancellationToken cancellationToken);
         Task Update(BuyerDto buyerDto, CancellationToken cancellationToken);
         Task<List<BuyerDto>> GetAllBuyers(CancellationToken cancellationToken);
+        Task<int> GetBuyerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken);
     }
 }

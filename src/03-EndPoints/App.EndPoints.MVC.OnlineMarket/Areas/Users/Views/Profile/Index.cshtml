@@ -1,5 +1,5 @@
 ﻿@using App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels;
-@model SellerViewmodel
+@model ProfileViewModel
 
 @{
     ViewData["Title"] = "صفحه اختصاصی کاربران";
@@ -18,38 +18,75 @@
                                     <h4 class="fw-bold">
                                         اطلاعات شخصی
                                     </h4>
-                                    <a class="btn-main btn-main-primary" asp-controller="Profile" asp-action="Update" asp-route-Id="@Model.Id">
-                                        ویرایش <i class="bi bi-pencil-fill"></i>
-                                    </a>
+                                    @if (Model.Seller != null)
+                                    {
+                                        <a class="btn-main btn-main-primary" asp-controller="Profile" asp-action="Update" asp-route-Id="@Model.Seller.Id">
+                                            ویرایش <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                    }
+                                    else if (Model.Buyer != null)
+                                    {
+                                        <a class="btn-main btn-main-primary" asp-controller="Profile" asp-action="Update" asp-route-Id="@Model.Buyer.Id">
+                                            ویرایش <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                    }
                                 </div>
                             </div>
                             <div class="ui-box-item-desc p-0">
-                                <table class="table main-table shadow-none main-table-2">
-                                    <tr>
-                                        <td colspan="2">
-                                            <h6 class="text-muted">نام و نام خانوادگی</h6>
-                                            <p class="fw-bold mt-2">@Model.FirstName @Model.LastName</p>
-                                        </td>
-                                        <td colspan="2">
-                                            <h6 class="text-muted">شماره تلفن</h6>
-                                            <p class="fw-bold mt-2">@Model.PhoneNumber</p>
-                                        </td>
-                                    </tr>
-                                   
-                                    <tr>
-                                        <td colspan="2">
-                                            <h6>عضویت</h6>
-                                            <p class="fw-bold mt-2">@Model.CreatedAt</p>
-                                        </td>
-                                       
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                            <h6>آدرس: </h6>
-                                            <p class="fw-bold mt-2">@Model.Address</p>
-                                        </td>
-                                    </tr>
-                                </table>
+                                @if (Model.Seller != null)
+                                {
+                                    <table class="table main-table shadow-none main-table-2">
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6 class="text-muted">نام و نام خانوادگی</h6>
+                                                <p class="fw-bold mt-2">@Model.Seller.FirstName @Model.Seller.LastName</p>
+                                            </td>
+                                            <td colspan="2">
+                                                <h6 class="text-muted">شماره تلفن</h6>
+                                                <p class="fw-bold mt-2">@Model.Seller.PhoneNumber</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6>عضویت</h6>
+                                                <p class="fw-bold mt-2">@Model.Seller.CreatedAt</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <h6>آدرس: </h6>
+                                                <p class="fw-bold mt-2">@Model.Seller.Address</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                                else if (Model.Buyer != null)
+                                {
+                                    <table class="table main-table shadow-none main-table-2">
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6 class="text-muted">نام و نام خانوادگی</h6>
+                                                <p class="fw-bold mt-2">@Model.Buyer.FirstName @Model.Buyer.LastName</p>
+                                            </td>
+                                            <td colspan="2">
+                                                <h6 class="text-muted">شماره تلفن</h6>
+                                                <p class="fw-bold mt-2">@Model.Buyer.PhoneNumber</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6>عضویت</h6>
+                                                <p class="fw-bold mt-2">@Model.Buyer.CreatedAt</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <h6>آدرس: </h6>
+                                                <p class="fw-bold mt-2">@Model.Buyer.Address</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
                             </div>
                         </div>
                     </div>

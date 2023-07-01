@@ -37,11 +37,35 @@ namespace App.Infrastructures.Data.Repositories.Repositories
        
         public async Task<BuyerDto> GetById(int buyerId, CancellationToken cancellationToken)
         {
-            var buyer = await _dbContext.Buyers
-                .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.Id == buyerId, cancellationToken);
+            var buyer = await _dbContext.Buyers.FirstOrDefaultAsync(x => x.Id == buyerId, cancellationToken);
 
-            return _mapper.Map<BuyerDto>(buyer);
+            if (buyer == null)
+            {
+                // مشتری مورد نظر یافت نشد
+                return null;
+            }
+
+            var buyerDto = new BuyerDto
+            {
+                Id = buyer.Id,
+                FirstName = buyer.FirstName ?? "",
+                LastName = buyer.LastName ?? "",
+                PhoneNumber = buyer.PhoneNumber ?? "",
+                ImgUrl = buyer.ImgUrl ?? "",
+                Birthdayte = buyer.Birthdayte,
+                Address = buyer.Address ?? "",
+                ApplicationUserId = buyer.ApplicationUserId,
+                CreatedAt = buyer.CreatedAt,
+                LastModifiedAt = buyer.LastModifiedAt,
+                IsDeleted = buyer.IsDeleted,
+                DeletedAt = buyer.DeletedAt,
+                Bids = buyer.Bids.ToList(),
+                Comments = buyer.Comments.ToList(),
+                ApplicationUser = buyer.ApplicationUser,
+                Invoices = buyer.Invoices.ToList()
+            };
+
+            return buyerDto;
         }
 
         public async Task<int> Create(BuyerDto buyerDto, CancellationToken cancellationToken)
@@ -96,6 +120,11 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var buyers = await _userManager.GetUsersInRoleAsync("buyer");
             return _mapper.Map<List<BuyerDto>>(buyers);
+        }
+        public async Task<int> GetBuyerIdByApplicationUserId(int applicationUserId, CancellationToken cancellationToken)
+        {
+            var buyer = await _dbContext.Buyers.FirstOrDefaultAsync(s => s.ApplicationUserId == applicationUserId, cancellationToken);
+            return buyer?.Id ?? 0;
         }
     }
 }
