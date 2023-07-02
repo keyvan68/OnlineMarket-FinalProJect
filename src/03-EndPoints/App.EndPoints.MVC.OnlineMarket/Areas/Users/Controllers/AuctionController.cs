@@ -58,11 +58,11 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var sellerId = await _sellerApplicationService.GetSellerIdByApplicationUserId(UserId, cancellationToken);
             model.SellerId = sellerId;
             model.ProductId = productId;
-            var auctoinId= await _auctionApplicationService.Create(_mapper.Map<AuctionDtoCreate>(model), cancellationToken);
+            var auctoinId = await _auctionApplicationService.Create(_mapper.Map<AuctionDtoCreate>(model), cancellationToken);
 
 
             // _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperation(auctoinId, cancellationToken), (model.EndTime - model.StartTime).Value);
-            _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperationTest(auctoinId), (model.EndTime - model.StartTime).Value);
+            //_backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperationTest(auctoinId), (model.EndTime - model.StartTime).Value);
             return RedirectToAction("AuctionList");
         }
         public async Task<IActionResult> AuctionList(CancellationToken cancellationToken)
@@ -70,8 +70,13 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             var sellerId = await _sellerApplicationService.GetSellerIdByApplicationUserId(currentUser.Id, cancellationToken);
 
-            var auctionList = _mapper.Map<List<AuctionViewModel>>(await _auctionApplicationService.GetAllAuctionBySellerId(sellerId,cancellationToken));
+            var auctionList = _mapper.Map<List<AuctionViewModel>>(await _auctionApplicationService.GetAllAuctionBySellerId(sellerId, cancellationToken));
             return View(auctionList);
+        }
+        public async Task<IActionResult> Auctionoperate(int Id, CancellationToken cancellationToken)
+        {
+            await _auctionApplicationService.AuctionOperation(Id, cancellationToken);
+            return RedirectToAction("AuctionList");
         }
     }
 }

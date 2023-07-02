@@ -42,6 +42,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var auction = await _context.Auctions
                 .Where(a => a.Id == auctionId)
                 .Include(a => a.Bids)
+                .Include(a=>a.Product)
                 .FirstOrDefaultAsync(cancellationToken);
 
             return _mapper.Map<AuctionDto>(auction);

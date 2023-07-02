@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace App.Domain.ApplicationServices
 {
@@ -127,10 +128,10 @@ namespace App.Domain.ApplicationServices
             // محاسبه مبلغ کارمزد پرداخت به سایت
             int commissionPercentage = _siteConfigs.firstcommision; // درصد کارمزد اولیه
             int commission = (int)(amount * commissionPercentage / 100);
-
+            var seller = await _sellerApplicationService.GetSellerById(invoiceDto.SellerId, cancellationToken);
 
             // بررسی مبلغ فروش و دریافت مدال
-            if (invoiceDto.Seller.Medal != null)
+            if (seller.Medal != null)
             {
                 commissionPercentage = _siteConfigs.secondcommision; // درصد کارمزد با مدال
                 commission = (int)(amount * commissionPercentage / 100);
@@ -139,6 +140,10 @@ namespace App.Domain.ApplicationServices
             // ذخیره کارمزد در فاکتور
             invoiceDto.Commision = commission;
             invoiceDto.TotalAmount = amount - commission;
+            invoiceDto.Id = invoiceId;
+            invoiceDto.Final = true;
+            invoiceDto.LastModifiedAt = DateTime.Now;
+            
 
 
 

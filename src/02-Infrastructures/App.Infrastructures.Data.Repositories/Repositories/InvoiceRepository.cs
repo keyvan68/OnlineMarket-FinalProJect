@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contracts.Repository;
 using App.Domain.Core.DtoModels.InvoiceDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.Entities;
 using App.Infrastructures.Db.SqlServer.Ef.Database;
 using AutoMapper;
@@ -57,10 +58,23 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<int> CreateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            var invoice = _mapper.Map<Invoice>(invoiceDto);
-            _dbContext.Invoices.Add(invoice);
+            //var invoice = _mapper.Map<Invoice>(invoiceDto);
+            //_dbContext.Invoices.Add(invoice);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
+            //return invoice.Id;
+            var record = new Invoice
+            {
+                BuyerId=invoiceDto.BuyerId,
+                SellerId=invoiceDto.SellerId,
+                TotalAmount=invoiceDto.TotalAmount,
+                Commision=invoiceDto.Commision,
+                Final=invoiceDto.Final,
+                CreatedAt=invoiceDto.CreatedAt,
+                Quantity=invoiceDto.Quantity,
+            };
+            await _dbContext.Invoices.AddAsync(record, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return invoice.Id;
+            return record.Id;
         }
 
         public async Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
@@ -68,9 +82,18 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var invoice = await _dbContext.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceDto.Id);
             if (invoice != null)
             {
-                _mapper.Map(invoiceDto, invoice);
+                invoice.BuyerId = invoiceDto.BuyerId;
+                invoice.Commision = invoiceDto.Commision;
+                invoice.CreatedAt = invoiceDto.CreatedAt;
+                invoice.Quantity = invoiceDto.Quantity;
+                invoice.SellerId = invoiceDto.SellerId;
+                invoice.TotalAmount = invoiceDto.TotalAmount;
+                invoice.Final = invoiceDto.Final;
+                invoice.LastModifiedAt = invoiceDto.LastModifiedAt;
+               
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+            
         }
 
         public async Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken)

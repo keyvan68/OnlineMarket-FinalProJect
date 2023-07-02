@@ -19,14 +19,16 @@ namespace App.Domain.ApplicationServices
         private readonly IProductRepository _productRepository;
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly ISellerRepository _sellerRepository;
+        private readonly IInvoiceApplicationService _invoiceApplicationService;
         private readonly Siteconfig _siteConfigs;
-        public AuctionApplicationService(IAuctionRepository auctionRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository, ISellerRepository sellerRepository, Siteconfig siteConfigs)
+        public AuctionApplicationService(IAuctionRepository auctionRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository, ISellerRepository sellerRepository, Siteconfig siteConfigs, IInvoiceApplicationService invoiceApplicationService)
         {
             _auctionRepository = auctionRepository;
             _productRepository = productRepository;
             _invoiceRepository = invoiceRepository;
             _sellerRepository = sellerRepository;
             _siteConfigs = siteConfigs;
+            _invoiceApplicationService = invoiceApplicationService;
         }
 
         public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
@@ -91,41 +93,44 @@ namespace App.Domain.ApplicationServices
             var x = auctionId + auctionId;
 
         }
-        //public async Task AuctionOperation(int auctionId, CancellationToken cancellationToken)
-        //{
-        //    //get auction
-        //    var auction = await _auctionRepository.GetById(auctionId, cancellationToken);
+        public async Task AuctionOperation(int auctionId, CancellationToken cancellationToken)
+        {
+            //get auction
+            var auction = await _auctionRepository.GetById(auctionId, cancellationToken);
 
-        //    //check auction has buyer or not
-        //    if (auction.Bids.Any(b => b.BuyerId != 0))
-        //    {
+            //check auction has buyer or not
+            if (auction.Bids.Any())
+            {
 
-        //        var winner = auction.Bids.OrderBy(x=>x.Price).FirstOrDefault();
-        //        auction.HighestBid = Convert.ToInt32(winner.Price);
-        //        //await _auctionRepository.Update(auction,cancellationToken);
-        //        var seller = await _sellerRepository.GetSellerById(auction.SellerId, cancellationToken);
-
-
-
-        //        var invoice = new InvoiceDto()
-        //        {
-        //            TotalAmount = auction.HighestBid,
-        //            Commision = Convert.ToInt32(auction.HighestBid - ((seller.CommissionAmount/ 100) * auction.HighestBid)),
-        //            BuyerId = winner.BuyerId,
-        //            SellerId = seller.Id,
-        //            CreatedAt = DateTime.Now
-        //        };
-        //        var invoiceId = await _invoiceRepository.CreateInvoice(invoice, cancellationToken);
+                var winner = auction.Bids.OrderBy(x => x.Price).FirstOrDefault();
+                
+                //await _auctionRepository.Update(auction,cancellationToken);
+                var seller = await _sellerRepository.GetSellerById(auction.SellerId, cancellationToken);
 
 
-        //    }
-        //    else
-        //    {
-        //        //disable product 
-        //        var product = await _productRepository.GetById(auction.ProductId, cancellationToken);
-        //        product.IsAccepted = false;
-        //        await _productRepository.Update(product, cancellationToken);
-        //    }
-        //}
+
+                var invoice = new InvoiceDto()
+                {
+                    TotalAmount = auction.HighestBid,
+                    Commision = Convert.ToInt32(auction.HighestBid - ((seller.CommissionAmount / 100) * auction.HighestBid)),
+                    BuyerId = winner.BuyerId,
+                    SellerId = seller.Id,
+                    CreatedAt = DateTime.Now,
+                    Quantity=auction.Product.NumberofProducts,
+                    
+                };
+                await _invoiceApplicationService.ProcessPayment(invoice, cancellationToken);
+                
+
+
+            }
+            else
+            {
+                //disable product 
+                var product = await _productRepository.GetById(auction.ProductId, cancellationToken);
+                product.IsAccepted = false;
+                await _productRepository.Update(product, cancellationToken);
+            }
+        }
     }
 }

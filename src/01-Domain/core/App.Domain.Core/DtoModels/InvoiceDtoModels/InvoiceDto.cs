@@ -17,8 +17,10 @@ namespace App.Domain.Core.DtoModels.InvoiceDtoModels
         public string SellerName { get; set; } = null!;
         public string? ProductName { get; set; } = null!;
         public int TotalAmount { get; set; }
+        public bool Final { get; set; }
 
         public DateTime? CreatedAt { get; set; }
+        public DateTime? LastModifiedAt { get; set; }
         public int? Commision { get; set; }
 
         public int Quantity { get; set; }
