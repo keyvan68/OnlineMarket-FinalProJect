@@ -10,7 +10,14 @@ namespace App.Domain.Core.DtoModels.AuctionDtoModels
     public class AuctionDto
     {
         public int Id { get; set; }
+        //public int StoreId { get; set; }
+        public string? StoreTitle { get; set; }
+        public string? SellerName { get; set; }
 
+        public string ProductTitle { get; set; } = null!;
+        public int CountOfProducts { get; set; }
+
+        public int Price { get; set; }
         public int SellerId { get; set; }
 
         public int ProductId { get; set; }
@@ -36,5 +43,10 @@ namespace App.Domain.Core.DtoModels.AuctionDtoModels
         public virtual Seller Seller { get; set; } = null!;
 
         public virtual Product Product { get; set; } = null!;
+ 
+        
+        public virtual List<Image> ProductImages { get; set; } = new List<Image>();
+
+     
     }
 }

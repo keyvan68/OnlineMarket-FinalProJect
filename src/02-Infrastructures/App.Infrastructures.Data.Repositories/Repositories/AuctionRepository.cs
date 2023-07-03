@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
     public class AuctionRepository : IAuctionRepository
-    
+
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
@@ -31,7 +31,8 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<List<AuctionDto>> GetAll(CancellationToken cancellationToken)
         {
             var auctions = await _context.Auctions
-                .AsNoTracking()
+                .Include(a => a.Product)
+                .ThenInclude(a => a.Images)
                 .ToListAsync(cancellationToken);
 
             return _mapper.Map<List<AuctionDto>>(auctions);
@@ -42,7 +43,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var auction = await _context.Auctions
                 .Where(a => a.Id == auctionId)
                 .Include(a => a.Bids)
-                .Include(a=>a.Product)
+                .Include(a => a.Product)
                 .FirstOrDefaultAsync(cancellationToken);
 
             return _mapper.Map<AuctionDto>(auction);
@@ -51,7 +52,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var auction = await _context.Auctions
                 .AsNoTracking()
-                .Where(a => a.SellerId == sellerID).Include(p=>p.Product.Auction == true).ToListAsync(cancellationToken);
+                .Where(a => a.SellerId == sellerID).Include(p => p.Product.Auction == true).ToListAsync(cancellationToken);
 
             return _mapper.Map<List<AuctionDto>>(auction);
         }
@@ -60,14 +61,14 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var record = new Auction
             {
-                
-                StartTime=auctionDto.StartTime,
-                EndTime=auctionDto.EndTime,
-                SellerId=auctionDto.SellerId,
-                ProductId=auctionDto.ProductId,
-                CreatedAt=auctionDto.CreatedAt,
-                HighestBid =auctionDto.HighestBid,
-                DeactiveProduct=auctionDto.DeactiveProduct
+
+                StartTime = auctionDto.StartTime,
+                EndTime = auctionDto.EndTime,
+                SellerId = auctionDto.SellerId,
+                ProductId = auctionDto.ProductId,
+                CreatedAt = auctionDto.CreatedAt,
+                HighestBid = auctionDto.HighestBid,
+                DeactiveProduct = auctionDto.DeactiveProduct
 
 
 
@@ -99,12 +100,34 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<List<AuctionDto>> GetActiveAuctions(CancellationToken cancellationToken)
         {
-            var activeAuctions = await _context.Auctions
-                .AsNoTracking()
-                .Where(a => a.EndTime > a.StartTime)
-                .ToListAsync(cancellationToken);
+             var activeAuctions = await _context.Auctions
+            .Where(a => a.EndTime > DateTime.Now && a.StartTime < DateTime.Now)
+            .OrderByDescending(a => a.Id)
+            .Include(a => a.Seller)
+            .ThenInclude(a=>a.Stall)
+            .Include(a => a.Product)
+            .ThenInclude(a => a.Images)
+            .ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<AuctionDto>>(activeAuctions);
+            var activeAuctionDtos = activeAuctions.Select(auction => new AuctionDto
+            {
+                Id=auction.Id,
+                CountOfProducts = auction.Product.NumberofProducts,
+                Price = auction.Product.Price,
+                ProductImages = _mapper.Map<List<Image>>(auction.Product.Images),
+                SellerName = auction.Seller.FirstName + " " + auction.Seller.LastName,
+                StoreTitle = auction.Seller.Stall.Name,
+                ProductTitle = auction.Product.Title
+            }).ToList();
+
+            return activeAuctionDtos;
+            //var activeAuctions = await _context.Auctions
+            //    .Where(a => a.EndTime > DateTime.Now && a.StartTime < DateTime.Now).OrderByDescending(a=>a.Id)
+            //    .Include(a=>a.Product)
+            //    .ThenInclude(a=>a.Images)
+            //    .ToListAsync(cancellationToken);
+
+            //return _mapper.Map<List<AuctionDto>>(activeAuctions);
         }
 
         public async Task<int> GetHighestBid(int auctionId, CancellationToken cancellationToken)
@@ -118,24 +141,24 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
         {
             var records = await _context.Auctions
-                .Where(x=>x.IsDeleted == false && x.SellerId == sellerId)
-                .Include(x=>x.Bids)
-                .Include(x=>x.Product)
-                .Include(x=>x.Seller)
-                .ThenInclude(x=>x.Stall)
+                .Where(x => x.IsDeleted == false && x.SellerId == sellerId)
+                .Include(x => x.Bids)
+                .Include(x => x.Product)
+                .Include(x => x.Seller)
+                .ThenInclude(x => x.Stall)
                 .AsNoTracking()
                 .Select(x => new AuctionDtoOutput
                 {
                     Id = x.Id,
-                    Bids= x.Bids,
-                    StartTime=x.StartTime,
-                    EndTime=x.EndTime,
-                    DeactiveProduct=x.DeactiveProduct,
-                    SellerName=x.Seller.FirstName + " " + x.Seller.LastName,
-                    StallName=x.Seller.Stall.Name,
-                    ProductName=x.Product.Title,
-                    HighestBid=x.HighestBid
-                    
+                    Bids = x.Bids,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                    DeactiveProduct = x.DeactiveProduct,
+                    SellerName = x.Seller.FirstName + " " + x.Seller.LastName,
+                    StallName = x.Seller.Stall.Name,
+                    ProductName = x.Product.Title,
+                    HighestBid = x.HighestBid
+
 
                 })
                 .ToListAsync(cancellationToken);

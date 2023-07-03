@@ -4,156 +4,254 @@
     ViewData["Title"] = "Home Page";
 }
 <!-- product box -->
-
-<div class="product-box-two">
-    <div class="container">
-        <div class="pbt">
-            <div class="pbt-header">
-                <div class="pbt-header-title">
-                    <h6>اخرین محصولات</h6>
+@if (Model.Products.Any())
+{
+    <div class="product-box-two">
+        <div class="container">
+            <div class="pbt">
+                <div class="pbt-header">
+                    <div class="pbt-header-title">
+                        <h6>اخرین محصولات</h6>
+                    </div>
+                    <div class="pbt-header-link">
+                        <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
+                    </div>
                 </div>
-                <div class="pbt-header-link">
-                    <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
-                </div>
-            </div>
-            <div class="swiper product-box-two-slider">
-                <div class="swiper-wrapper">
-                    @foreach (var item in Model.Products)
-                    {
-                        <div class="swiper-slide">
-                            <div class="product-box-item shadow-box">
-                                <div class="product-box-item-img">
-                                    <a href="">
-                                        @if (item.Images.Any())
-                                        {
-                                            var firstImage = item.Images.FirstOrDefault();
-                                            <img src="@firstImage.Url" alt="" class="img-fluid" >
-                                        }
-                                        else
-                                        {
-                                            <img src="~/Images/default.png" class="img-fluid" >
-                                        }
-                                    </a>
-                                    <div class="product-box-item-hover">
-                                        @*<div class="product-box-item-hover-btn">
-                                            <span class="see-more" title="مشاهده سریع" data-bs-toggle="modal"
-                                              data-bs-target="#productModal"><i class="bi bi-eye"></i></span>
-                                            <span class="favorite" title="افزودن به برگزیده ها">
-                                                <i class="bi bi-heart"></i>
-                                            </span>
-                                            <span class="comparison" title="مقایسه محصول">
-                                                <i class="bi bi-arrow-left-right"></i>
-                                            </span>
-                                        </div>*@
-                                        <div class="product-box-item-hover-cart">
-                                            <button class="product-box-item-hover-cart-btn">
-                                                <i class="bi bi-info"></i> جزئیات
-                                            </button>
+                <div class="swiper product-box-two-slider">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.Products)
+                        {
+                            <div class="swiper-slide">
+                                <div class="product-box-item shadow-box">
+                                    <div class="product-box-item-img">
+                                        <a href="">
+                                            @if (item.Images.Any())
+                                            {
+                                                var firstImage = item.Images.FirstOrDefault();
+                                                <img src="@firstImage.Url" alt="" class="img-fluid">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Images/default.png" class="img-fluid">
+                                            }
+                                        </a>
+                                        <div class="product-box-item-hover">
+                                            @*<div class="product-box-item-hover-btn">
+                                    <span class="see-more" title="مشاهده سریع" data-bs-toggle="modal"
+                                    data-bs-target="#productModal"><i class="bi bi-eye"></i></span>
+                                    <span class="favorite" title="افزودن به برگزیده ها">
+                                    <i class="bi bi-heart"></i>
+                                    </span>
+                                    <span class="comparison" title="مقایسه محصول">
+                                    <i class="bi bi-arrow-left-right"></i>
+                                    </span>
+                                    </div>*@
+                                            <div class="product-box-item-hover-cart">
+                                                <button class="product-box-item-hover-cart-btn">
+                                                    @*<i class="bi bi-info"></i>*@ افزودن به سبد خرید
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <a href="product.html">
-                                    <div class="product-box-item-desc">
-                                        <div class="product-box-item-title">
-                                            <h6>
-                                                @item.Title
-                                                @*تبلت مایکروسافت مدل Surface Pro 8 – F    ظرفیت 512 گیگابایت*@
-                                            </h6>
+                                    <a href="product.html">
+                                        <div class="product-box-item-desc">
+                                            <div class="product-box-item-title">
+                                                <h6>
+                                                    @item.Title
+                                                    @*تبلت مایکروسافت مدل Surface Pro 8 – F    ظرفیت 512 گیگابایت*@
+                                                </h6>
+                                            </div>
+                                            <div class="product-box-price">
+                                                @if (item.Auction == true)
+                                                {
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="badge bg-success rounded-pill text-white my-flex-center">مزایده</span>
+                                                        <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex justify-content-end">
+                                                        <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
+                                                    </div>
+                                                }
+
+                                            </div>
                                         </div>
-                                        <div class="product-box-price">
-                                            @if (item.Auction == true)
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="swiper-button-next sb2"></div>
+                    <div class="swiper-button-prev sb2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- end product box -->
+<!-- auction box -->
+@if (Model.Auctions.Any())
+{
+    <div class="product-box-two">
+        <div class="container">
+            <div class="pbt">
+                <div class="pbt-header">
+                    <div class="pbt-header-title">
+                        <h6>اخرین محصولات</h6>
+                    </div>
+                    <div class="pbt-header-link">
+                        <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
+                    </div>
+                </div>
+                <div class="swiper product-box-two-slider">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.Auctions)
+                        {
+                            <div class="swiper-slide">
+                                <div class="product-box-item shadow-box">
+                                    <div class="product-box-item-img">
+                                        <a href="">
+                                            @if (item.ProductImages.Any())
                                             {
+                                                var firstImage = item.ProductImages.FirstOrDefault();
+                                                <img src="@firstImage.Url" alt="" class="img-fluid">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Images/default.png" class="img-fluid">
+                                            }
+                                        </a>
+                                        <div class="product-box-item-hover">
+                                            @*<div class="product-box-item-hover-btn">
+                                    <span class="see-more" title="مشاهده سریع" data-bs-toggle="modal"
+                                    data-bs-target="#productModal"><i class="bi bi-eye"></i></span>
+                                    <span class="favorite" title="افزودن به برگزیده ها">
+                                    <i class="bi bi-heart"></i>
+                                    </span>
+                                    <span class="comparison" title="مقایسه محصول">
+                                    <i class="bi bi-arrow-left-right"></i>
+                                    </span>
+                                    </div>*@
+                                            <div class="product-box-item-hover-cart">
+                                                <div class="product-box-item-hover-cart align-content-center">
+                                                    <a asp-controller="Bid" asp-action="Create" asp-route-id="@item.Id" class="product-box-item-hover-cart-btn">
+                                                        ثبت پیشنهاد
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="product.html">
+                                        <div class="product-box-item-desc">
+                                            <div class="product-box-item-title">
+                                                <h4 class="text-primary">
+                                                    @item.ProductTitle
+                                                </h4>
+                                                <h6 class="my-2" style="height: 25px">
+                                                    تعداد: @item.CountOfProducts
+                                                </h6>
+                                                <h6 style="color: #0f8a2e">
+                                                    آخرین قیمت: @item.Price تومان
+                                                </h6>
+                                            </div>
+                                            <div class="product-box-price">
+
                                                 <div class="d-flex justify-content-between">
                                                     <span class="badge bg-success rounded-pill text-white my-flex-center">مزایده</span>
                                                     <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
                                                 </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="d-flex justify-content-end">
-                                                    <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
-                                                </div>
-                                            }
-                                            
+
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    }
-                    
-                  
-                </div>
-                <div class="swiper-button-next sb2"></div>
-                <div class="swiper-button-prev sb2"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end product box -->
-<!-- stall box -->
-<div class="product-box-two">
-    <div class="container">
-        <div class="pbt">
-            <div class="pbt-header">
-                <div class="pbt-header-title">
-                    <h6>اخرین محصولات</h6>
-                </div>
-                <div class="pbt-header-link">
-                    <a asp-controller="Home" asp-action="StallList" class="fromCenter border-animate">مشاهده همه</a>
-                </div>
-            </div>
-            <div class="swiper product-box-two-slider">
-                <div class="swiper-wrapper">
-                    @foreach (var item in Model.Stalls)
-                    {
-                        <div class="swiper-slide">
-                            <div class="product-box-item shadow-box">
-                                <div class="product-box-item-img">
-                                    <a href="">
-                                        <img src="~/Images/Store.jpg" class="img-fluid">
                                     </a>
-                                    <div class="product-box-item-hover">
-                                     
-                                        <div class="product-box-item-hover-cart">
-                                            <button class="product-box-item-hover-cart-btn">
-                                                <i class="bi bi-info"></i> جزئیات
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
-                                <a href="product.html">
-                                    <div class="product-box-item-desc">
-                                        <div class="product-box-item-title">
-                                            <h6>
-                                                @item.Name
-                                            </h6>
-                                        </div>
-                                        <div class="product-box-price">
-                                            
-                                                <div class="d-flex justify-content-end">
-                                                <span  style="color: #0f8a2e;">@item.Description</span>
-                                                </div>
-                                            
-
-                                        </div>
-                                    </div>
-                                </a>
                             </div>
-                        </div>
-                    }
+                        }
 
 
+                    </div>
+                    <div class="swiper-button-next sb2"></div>
+                    <div class="swiper-button-prev sb2"></div>
                 </div>
-                <div class="swiper-button-next sb2"></div>
-                <div class="swiper-button-prev sb2"></div>
             </div>
         </div>
     </div>
-</div>
+}
+
+<!--end of auction box -->
+<!-- stall box -->
+@if (Model.Stalls.Any())
+{
+
+    <div class="product-box-two">
+        <div class="container">
+            <div class="pbt">
+                <div class="pbt-header">
+                    <div class="pbt-header-title">
+                        <h6>اخرین محصولات</h6>
+                    </div>
+                    <div class="pbt-header-link">
+                        <a asp-controller="Home" asp-action="StallList" class="fromCenter border-animate">مشاهده همه</a>
+                    </div>
+                </div>
+                <div class="swiper product-box-two-slider">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.Stalls)
+                        {
+                            <div class="swiper-slide">
+                                <div class="product-box-item shadow-box">
+                                    <div class="product-box-item-img">
+                                        <a href="">
+                                            <img src="~/Images/Store.jpg" class="img-fluid">
+                                        </a>
+                                        <div class="product-box-item-hover">
+
+                                            <div class="product-box-item-hover-cart">
+                                                <button class="product-box-item-hover-cart-btn">
+                                                    <i class="bi bi-info"></i> جزئیات
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="product.html">
+                                        <div class="product-box-item-desc">
+                                            <div class="product-box-item-title">
+                                                <h6>
+                                                    @item.Name
+                                                </h6>
+                                            </div>
+                                            <div class="product-box-price">
+
+                                                <div class="d-flex justify-content-end">
+                                                    <span style="color: #0f8a2e;">@item.Description</span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="swiper-button-next sb2"></div>
+                    <div class="swiper-button-prev sb2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 <!-- end stall box -->
 <!-- start category box -->
-<div class="main-category">
+@*<div class="main-category">
     <div class="container">
         <div class="row justify-content-center">
             <div class="main-category-title">
@@ -249,6 +347,6 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <!-- end category box -->

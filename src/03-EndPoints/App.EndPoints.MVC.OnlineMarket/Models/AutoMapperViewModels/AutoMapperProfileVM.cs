@@ -36,6 +36,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             CreateMap<UpdateSellerViewModel, SellerDto>().ReverseMap();
             CreateMap<BuyerViewModel, BuyerDto>().ReverseMap();
             CreateMap<UpdateCustomerViewModel, BuyerDto>().ReverseMap();
+            CreateMap<HomeAuctionViewModel, AuctionDto>().ReverseMap();
         }
     }
 }

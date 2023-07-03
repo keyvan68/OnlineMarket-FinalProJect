@@ -56,6 +56,16 @@ namespace App.Domain.ApplicationServices
             
             return pruductlist;
         }
+        public async Task<List<ProductDto>> GetAllWithOutAuction(CancellationToken cancellationToken)
+        {
+            var pruductlist = (await _productRepository.GetAll(cancellationToken))
+                .Where(a=>a.Auction ==false && a.IsAccepted == true)
+                .OrderByDescending(a=>a.Id)
+                .ToList(); 
+
+            return pruductlist;
+        }
+
 
         public async Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
         {

@@ -20,9 +20,10 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         private readonly IProductApplicationService _productApplicationService;
         private readonly IApplicationUserApplicationService _applicationUserApplicationService;
         private readonly IStallApplicationService _stallApplicationService;
+        private readonly IAuctionApplicationService _auctionApplicationService;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IProductApplicationService productApplicationService, IMapper mapper, IApplicationUserApplicationService applicationUserApplicationService = null, IStallApplicationService stallApplicationService = null)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IProductApplicationService productApplicationService, IMapper mapper, IApplicationUserApplicationService applicationUserApplicationService = null, IStallApplicationService stallApplicationService = null, IAuctionApplicationService auctionApplicationService = null)
         {
             _logger = logger;
             _userManager = userManager;
@@ -31,17 +32,21 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             _mapper = mapper;
             _applicationUserApplicationService = applicationUserApplicationService;
             _stallApplicationService = stallApplicationService;
+            _auctionApplicationService = auctionApplicationService;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
+            //GetActiveAuctions
             var model = new MultiModelViewModel();
-            var productDtos = await _productApplicationService.GetAll(cancellationToken);
+            var productDtos = await _productApplicationService.GetAllWithOutAuction(cancellationToken);
+            var auction = await _auctionApplicationService.GetActiveAuctions(cancellationToken);
             var lastSixProducts = productDtos.OrderByDescending(p => p.Id).Take(6);
             var store = await _stallApplicationService.GetAllStalls(cancellationToken);
             var lastSixStall = store.OrderByDescending(s => s.Id).Take(4);
-            model.Products = _mapper.Map<List<Product>>(lastSixProducts);
-            model.Stalls = _mapper.Map<List<Stall>>(lastSixStall);
+            model.Products = _mapper.Map(lastSixProducts,model.Products);
+            model.Auctions = _mapper.Map(auction, model.Auctions);
+            model.Stalls = _mapper.Map(lastSixStall, model.Stalls);
             return View(model);
         }
 
