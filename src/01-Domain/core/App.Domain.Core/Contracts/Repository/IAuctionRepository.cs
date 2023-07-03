@@ -13,6 +13,7 @@ namespace App.Domain.Core.Contracts.Repository
         Task Update(AuctionDto auctionDto, CancellationToken cancellationToken);
         Task<List<AuctionDto>> GetAuctionBySellerId(int sellerID, CancellationToken cancellationToken);
         Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
+        Task<List<AuctionDtoOutput>> GetAllAuctionById(int auctionId, CancellationToken cancellationToken);
 
     }
 }

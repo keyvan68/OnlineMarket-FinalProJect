@@ -80,11 +80,12 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Update(AuctionDto auctionDto, CancellationToken cancellationToken)
         {
-            var auction = await _context.Auctions.FindAsync(auctionDto.Id);
+           
 
-
-
-            _mapper.Map(auctionDto, auction);
+            var auction = await _context.Auctions
+                .Where(a => a.Id == auctionDto.Id).FirstOrDefaultAsync(cancellationToken);
+            
+            auction.HighestBid = auctionDto.HighestBid;
             await _context.SaveChangesAsync(cancellationToken);
         }
 
@@ -142,6 +143,33 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         {
             var records = await _context.Auctions
                 .Where(x => x.IsDeleted == false && x.SellerId == sellerId)
+                .Include(x => x.Bids)
+                .Include(x => x.Product)
+                .Include(x => x.Seller)
+                .ThenInclude(x => x.Stall)
+                .AsNoTracking()
+                .Select(x => new AuctionDtoOutput
+                {
+                    Id = x.Id,
+                    Bids = x.Bids,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                    DeactiveProduct = x.DeactiveProduct,
+                    SellerName = x.Seller.FirstName + " " + x.Seller.LastName,
+                    StallName = x.Seller.Stall.Name,
+                    ProductName = x.Product.Title,
+                    HighestBid = x.HighestBid
+
+
+                })
+                .ToListAsync(cancellationToken);
+
+            return records;
+        }
+        public async Task<List<AuctionDtoOutput>> GetAllAuctionById(int auctionId, CancellationToken cancellationToken)
+        {
+            var records = await _context.Auctions
+                .Where(x => x.IsDeleted == false && x.Id == auctionId)
                 .Include(x => x.Bids)
                 .Include(x => x.Product)
                 .Include(x => x.Seller)

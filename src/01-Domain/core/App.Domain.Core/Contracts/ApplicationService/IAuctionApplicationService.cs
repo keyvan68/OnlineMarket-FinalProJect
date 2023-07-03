@@ -17,10 +17,13 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<int> GetHighestBid(int auctionId, CancellationToken cancellationToken);
         Task Update(AuctionDto auctionDto, CancellationToken cancellationToken);
         Task<List<AuctionDto>> GetAuctionBySellerId(int sellerID, CancellationToken cancellationToken);
-
+        Task<int> LastPriceOfAuction(int auctionId, CancellationToken cancellationToken);
         Task<List<AuctionDtoOutput>> GetAllAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
         Task AuctionOperation(int auctionId, CancellationToken cancellationToken);
         void AuctionOperationTest(int auctionId);
+
+        Task<List<AuctionDtoOutput>> GetAllAuctionById(int auctionId, CancellationToken cancellationToken);
+        Task<int> UpdateAuctionWithHighestBid(int auctionId, int price, CancellationToken cancellationToken);
 
     }
 }

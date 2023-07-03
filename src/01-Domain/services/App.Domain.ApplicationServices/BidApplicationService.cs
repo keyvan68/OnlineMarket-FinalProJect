@@ -61,6 +61,7 @@ namespace App.Domain.ApplicationServices
             var list = await _bidRepository.GetById(bidId, cancellationToken);
             return list;
         }
+       
 
         //public async Task<List<BidDto>> GetByProduct(int productId, CancellationToken cancellationToken)
         //{

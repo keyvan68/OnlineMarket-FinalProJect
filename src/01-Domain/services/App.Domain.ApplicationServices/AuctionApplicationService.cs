@@ -20,8 +20,9 @@ namespace App.Domain.ApplicationServices
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly ISellerRepository _sellerRepository;
         private readonly IInvoiceApplicationService _invoiceApplicationService;
+        private readonly IBidRepository _bidRepository;
         private readonly Siteconfig _siteConfigs;
-        public AuctionApplicationService(IAuctionRepository auctionRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository, ISellerRepository sellerRepository, Siteconfig siteConfigs, IInvoiceApplicationService invoiceApplicationService)
+        public AuctionApplicationService(IAuctionRepository auctionRepository, IProductRepository productRepository, IInvoiceRepository invoiceRepository, ISellerRepository sellerRepository, Siteconfig siteConfigs, IInvoiceApplicationService invoiceApplicationService, IBidRepository bidRepository)
         {
             _auctionRepository = auctionRepository;
             _productRepository = productRepository;
@@ -29,6 +30,7 @@ namespace App.Domain.ApplicationServices
             _sellerRepository = sellerRepository;
             _siteConfigs = siteConfigs;
             _invoiceApplicationService = invoiceApplicationService;
+            _bidRepository = bidRepository;
         }
 
         public async Task<int> Create(AuctionDtoCreate auctionDto, CancellationToken cancellationToken)
@@ -71,6 +73,12 @@ namespace App.Domain.ApplicationServices
             var list = await _auctionRepository.GetAuctionBySellerId(sellerID, cancellationToken);
             return list;
         }
+        public async Task<int> LastPriceOfAuction(int auctionId, CancellationToken cancellationToken)
+        {
+            int price = (await _auctionRepository.GetById(auctionId, cancellationToken)).HighestBid;
+            return price;
+        }
+    
 
         public async Task<AuctionDto> GetById(int auctionId, CancellationToken cancellationToken)
         {
@@ -131,6 +139,33 @@ namespace App.Domain.ApplicationServices
                 product.IsAccepted = false;
                 await _productRepository.Update(product, cancellationToken);
             }
+        }
+
+        public async Task<List<AuctionDtoOutput>> GetAllAuctionById(int auctionId, CancellationToken cancellationToken)
+        {
+            var list = await _auctionRepository.GetAllAuctionById(auctionId, cancellationToken);
+            return list;
+        }
+        public async Task<int> UpdateAuctionWithHighestBid(int auctionId, int price, CancellationToken cancellationToken)
+        {
+            var auction = await _auctionRepository.GetById(auctionId, cancellationToken);
+            var bids = await _bidRepository.GetByAuction(auctionId, cancellationToken);
+
+            if (bids.Count == 0)
+            {
+                auction.HighestBid = price;
+                auction.LastModifiedAt = DateTime.Now;
+                await _auctionRepository.Update(auction, cancellationToken);
+            }
+            else
+            {
+                var highestBid = price;
+                auction.HighestBid = Convert.ToInt32(highestBid);
+                auction.LastModifiedAt = DateTime.Now;
+                await _auctionRepository.Update(auction, cancellationToken);
+            }
+
+            return auction.HighestBid;
         }
     }
 }
