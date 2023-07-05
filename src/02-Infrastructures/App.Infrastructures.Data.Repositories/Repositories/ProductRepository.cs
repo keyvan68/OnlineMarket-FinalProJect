@@ -34,23 +34,23 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<List<ProductDto>> GetAll(CancellationToken cancellationToken)
         {
             var records = await _context.Products
-                .Where(a=>a.IsDeleted == false)
-                .Include(a=>a.Category)
-                .Include(a=>a.Images)
+                .Where(a => a.IsDeleted == false)
+                .Include(a => a.Category)
+                .Include(a => a.Images)
                 .Include(x => x.Stall)
                     .ThenInclude(s => s.IdNavigation) // Load Seller for Stall
                 .AsNoTracking()
-                .Select(p=> new ProductDto
+                .Select(p => new ProductDto
                 {
-                    Id=p.Id,
-                    Title= p.Title,
+                    Id = p.Id,
+                    Title = p.Title,
                     Price = p.Price,
-                    NumberofProducts=p.NumberofProducts,
-                    IsAccepted=p.IsAccepted,
-                    CategoryName=p.Category.Name,
-                    StallName=p.Stall.Name,
+                    NumberofProducts = p.NumberofProducts,
+                    IsAccepted = p.IsAccepted,
+                    CategoryName = p.Category.Name,
+                    StallName = p.Stall.Name,
                     SellerName = p.Stall.IdNavigation.FirstName + " " + p.Stall.IdNavigation.LastName,
-                    Auction=p.Auction,
+                    Auction = p.Auction,
                     Images = p.Images
                 })
                 .ToListAsync(cancellationToken);
@@ -62,9 +62,9 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
         {
             var records = await _context.Products
-                .Where(a => a.Stall.Id == sellerId && a.IsDeleted == false && a.Auction== true)
+                .Where(a => a.Stall.Id == sellerId && a.IsDeleted == false && a.Auction == true)
                 .Include(a => a.Category)
-                .Include(a=>a.Auctions)
+                .Include(a => a.Auctions)
                 .Include(x => x.Stall)
                     .ThenInclude(s => s.IdNavigation)
                 .AsNoTracking()
@@ -79,7 +79,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     StallName = p.Stall.Name,
                     SellerName = p.Stall.IdNavigation.FirstName + "" + p.Stall.IdNavigation.LastName,
                     Auction = p.Auction,
-                    Auctions=p.Auctions
+                    Auctions = p.Auctions
                 })
                 .ToListAsync(cancellationToken);
 
@@ -118,6 +118,22 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 .FirstOrDefaultAsync(x => x.Id == productId, cancellationToken);
             return _mapper.Map<UpdateProductDto>(record);
         }
+        public async Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken)
+        {
+            var product = await _context.Products
+                .Include(p => p.Stall)
+                .ThenInclude(p=>p.IdNavigation)
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
+
+            var productDto = new ProductDtoSeller
+            {
+                Id = product.Id,
+                Name = product.Title,
+                SellerId = product.Stall.IdNavigation.Id
+            };
+
+            return productDto;
+        }
         //public async Task<int> GetProducId(int productId, CancellationToken cancellationToken)
         //{
         //    var record = await _context.Products
@@ -129,22 +145,22 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<int> Create(CreateProductDto productDto, CancellationToken cancellationToken)
         {
-            
+
             var record = new Product
             {
                 Title = productDto.Title,
-                Description= productDto.Description,
+                Description = productDto.Description,
                 NumberofProducts = productDto.NumberofProducts,
-                IsAccepted=productDto.IsAccepted,
-                IsActive=productDto.IsActive,
+                IsAccepted = productDto.IsAccepted,
+                IsActive = productDto.IsActive,
                 CategoryId = productDto.CategoryId,
                 StallId = productDto.StallId,
                 Auction = productDto.Auction,
-                CreatedAt=productDto.CreatedAt,
+                CreatedAt = productDto.CreatedAt,
                 Price = productDto.Price
-                
-                
-                
+
+
+
             };
             await _context.Products.AddAsync(record, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
@@ -153,7 +169,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task Update(UpdateProductDto productDto, CancellationToken cancellationToken)
         {
-            var record = await _context.Products.FirstOrDefaultAsync(p=>p.Id == productDto.Id,cancellationToken);
+            var record = await _context.Products.FirstOrDefaultAsync(p => p.Id == productDto.Id, cancellationToken);
             record.Title = productDto.Title;
             record.NumberofProducts = productDto.NumberofProducts;
             record.Description = productDto.Description;
@@ -167,12 +183,12 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             await _context.SaveChangesAsync(cancellationToken);
 
         }
-        
+
 
 
         public async Task Delete(int productId, CancellationToken cancellationToken)
         {
-            var record = await _context.Products.FirstOrDefaultAsync(x=>x.Id==productId);
+            var record = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
 
             _context.Products.Remove(record);
@@ -210,10 +226,26 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<List<ProductDto>> GetByStall(int stallId, CancellationToken cancellationToken)
         {
             var records = await _context.Products
-                .AsNoTracking()
-                .Where(x => x.StallId == stallId)
+                .Include(s=>s.Images)
+                .Include(s=>s.Category)
+                .Include(s=>s.Stall)
+                .ThenInclude(s=>s.IdNavigation)
+                .Where(x => x.StallId == stallId && x.Auction == false)
+                .Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Price = p.Price,
+                    NumberofProducts = p.NumberofProducts,
+                    IsAccepted = p.IsAccepted,
+                    CategoryName = p.Category.Name,
+                    SellerName = p.Stall.IdNavigation.FirstName + " " + p.Stall.IdNavigation.LastName,
+                    StallName = p.Stall.Name,
+                    Images=p.Images
+                    
+                })
                 .ToListAsync(cancellationToken);
-            return _mapper.Map<List<ProductDto>>(records);
+            return records;
         }
 
         public async Task<List<ProductDto>> GetAcceptedProducts(CancellationToken cancellationToken)

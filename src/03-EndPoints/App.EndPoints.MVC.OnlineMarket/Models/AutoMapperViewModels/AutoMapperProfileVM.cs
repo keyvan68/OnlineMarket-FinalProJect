@@ -13,6 +13,7 @@ using App.Domain.Core.DtoModels.AuctionDtoModels;
 using App.Domain.Core.DtoModels.SellerDtoModels;
 using App.Domain.Core.DtoModels.BuyerDtoModels;
 using App.Domain.Core.DtoModels.BidDtoModels;
+using App.Domain.Core.DtoModels.BasketDtoModel;
 
 namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
 {
@@ -39,6 +40,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             CreateMap<UpdateCustomerViewModel, BuyerDto>().ReverseMap();
             CreateMap<HomeAuctionViewModel, AuctionDto>().ReverseMap();
             CreateMap<BidViewModel, CreateBidDto>().ReverseMap();
+            CreateMap<BasketViewModel, BasketDto>().ReverseMap();
         }
     }
 }

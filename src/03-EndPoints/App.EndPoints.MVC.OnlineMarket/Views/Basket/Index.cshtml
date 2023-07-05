@@ -1,0 +1,140 @@
+﻿@using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
+@model BasketViewModel
+@{
+    ViewData["Title"] = "سبد خرید";
+    Layout = "_Layout";
+}
+
+<div class="cart">
+    <div class="container">
+        <div class="cart-content shadow-box">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="cart-detail">
+                        <div class="table-responsive-lg">
+                            <table class="table table-hover main-table">
+                                <thead style="background: #f8f8f8;">
+                                    <tr class="py-3">
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">محصول</th>
+                                        <th scope="col">قیمت</th>
+                                        <th scope="col">تعداد</th>
+                                        <th scope="col">قیمت کل</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        <tr>
+                                            <td class="title">@item.Product.Title</td>
+                                            <td class="price"><span class="num">@item.Product.Price</span><span class="text-muted">تومان</span></td>
+                                            <td class="td-count">
+                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                    @if (item.CountOfProducts > 0)
+                                                    {
+                                                        <span class="input-group-btn input-group-prepend">
+                                                            <a asp-controller="Basket" asp-action="ReduceFromBasket" asp-route-id="@item.Product.Id" class="btn-counter bootstrap-touchspin-up align center-vertical" type="button">-</a>
+                                                        </span>
+                                                    }
+                                                    <input type="text" disabled name="count" class="counter form-control" value="@item.CountOfProducts">
+                                                    <span class="input-group-btn input-group-append align-items-center">
+                                                        <a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@item.Product.Id" class="btn-counter bootstrap-touchspin-up align center-vertical" type="button">+</a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            @{
+                                                var totalPriceOfProduct = (item.Product.Price) * (item.CountOfProducts);
+                                            }
+                                            <td class="price">
+                                                <span class="num">@totalPriceOfProduct</span><span class="text-muted">تومان</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="cart-footer">
+                                                <div class="cart-footer-discount">
+                                                    <form action="">
+                                                        <div class="d-flex">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="کد تخفیف">
+                                                            <button type="submit"
+                                                                    class="btn-main-primary btn-main"
+                                                                    style="white-space:nowrap ;">
+                                                                اعمال کد
+                                                                تخفیف
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     width="16" height="16" fill="currentColor"
+                                                                     class="bi bi-plus-square-fill"
+                                                                     viewBox="0 0 16 16">
+                                                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="cart-footer-update">
+                                                    <form action="">
+                                                        <button type="submit" class="btnx btnx-default">
+                                                            بروز
+                                                            رسانی سبد
+                                                            خرید <svg xmlns="http://www.w3.org/2000/svg"
+                                                                      width="16" height="16" fill="currentColor"
+                                                                      class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                                                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                                                                <path fill-rule="evenodd"
+                                                                      d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart-payment">
+                        <div class="title text-center">
+                            <h4 class="fw-bold">مجموع کل سبد خرید</h4>
+                        </div>
+                        <table class="table main-table">
+                            <tr>
+                                <td class="fw-bold">قیمت کل</td>
+                                <td class="txt">
+                                    <span class="fw-bold">42,000,000</span> <span class="text-muted">تومان</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">حمل و نقل</td>
+                                <td class="txt">
+                                    <span class="fw-bold">2,000,000</span> <span class="text-muted">تومان</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">مجموع</td>
+                                <td class="txt">
+                                    <span class="fw-bold">70,000,000</span> <span class="text-muted">تومان</span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <form action="">
+                            <button class="btn-bank">
+                                اقدام به پرداخت
+
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.DtoModels.InvoiceDtoModels;
+﻿using App.Domain.Core.DtoModels.BasketDtoModel;
+using App.Domain.Core.DtoModels.InvoiceDtoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task DeleteInvoice(int invoiceId, CancellationToken cancellationToken);
         Task<InvoiceDto> GetInvoiceById(int invoiceId, CancellationToken cancellationToken);
         Task<List<InvoiceDto>> GetInvoicesByBuyerAndSeller(int buyerId, int sellerId, CancellationToken cancellationToken);
-        Task<List<InvoiceDto>> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken);
+        Task<InvoiceDto> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken);
         Task<List<InvoiceDto>> GetInvoicesBySellerId(int sellerId, CancellationToken cancellationToken);
         Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken);
 
@@ -22,5 +23,6 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken);
         Task<int> ProcessPayment(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task CheckAndUpdateSellerMedal(InvoiceDto invoiceDto, CancellationToken cancellationToken);
+        Task CreateBasketFromInvoice(BasketDto basket, CancellationToken cancellationToken);
     }
 }

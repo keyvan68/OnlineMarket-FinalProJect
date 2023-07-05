@@ -61,7 +61,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var auctoinId = await _auctionApplicationService.Create(_mapper.Map<AuctionDtoCreate>(model), cancellationToken);
 
 
-            // _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperation(auctoinId, cancellationToken), (model.EndTime - model.StartTime).Value);
+            _backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperation(auctoinId, cancellationToken), (model.EndTime - model.StartTime).Value);
             //_backgroundJobClient.Schedule(() => _auctionApplicationService.AuctionOperationTest(auctoinId), (model.EndTime - model.StartTime).Value);
             return RedirectToAction("AuctionList");
         }

@@ -26,5 +26,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task UploadImageProduct(int productId, IFormFile file, string rootpath, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAllWithOutAuction(CancellationToken cancellationToken);
+        Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken);
+        Task ReduceQuantityProduct(int countOfProducts, int productId, CancellationToken cancellationToken);
     }
 }

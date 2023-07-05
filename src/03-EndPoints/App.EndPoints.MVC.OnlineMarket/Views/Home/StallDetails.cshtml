@@ -1,0 +1,33 @@
+﻿@using App.Domain.Core.DtoModels.ProductDtoModels;
+@model List<ProductDto>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-4 col-md-6" style="margin-top:8px;">
+            <div class="card" style="width: 18rem;">
+                @if (product.Images.Any())
+                {
+                    var firstImage = product.Images.FirstOrDefault();
+                    <img src="@firstImage.Url" alt="" class="card-img-top" style="width: 286px;height: 177px;padding-top: 7px;">
+                }
+                else
+                {
+                    <img src="~/Images/default.png" class="card-img-top" style="width: 286px;height: 177px;padding-top: 7px;">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@product.Title</h5>
+                    <p class="card-text">قیمت: @product.Price</p>
+                    <p class="card-text"> تعداد محصول: @product.NumberofProducts</p>
+                    <p class="card-text">@product.CategoryName</p>
+                    <p class="card-text">فروشنده: @product.SellerName</p>
+                    <p class="card-text">نام غرفه: @product.StallName</p>
+                    <a class="product-box-item-hover-cart-btn" asp-controller="Basket" asp-action="AddToBasket" asp-route-Id="@product.Id">
+                    افزودن به سبد خرید
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

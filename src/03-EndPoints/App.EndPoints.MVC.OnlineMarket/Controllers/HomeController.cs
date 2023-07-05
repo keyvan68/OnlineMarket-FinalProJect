@@ -1,6 +1,7 @@
 ﻿using App.Domain.ApplicationServices;
 using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Entities;
+using App.Domain.Core.utility;
 using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
 using App.EndPoints.MVC.OnlineMarket.Models;
 using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
@@ -21,9 +22,10 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
         private readonly IApplicationUserApplicationService _applicationUserApplicationService;
         private readonly IStallApplicationService _stallApplicationService;
         private readonly IAuctionApplicationService _auctionApplicationService;
+        private readonly ICategoryApplicationService _categoryApplicationService;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IProductApplicationService productApplicationService, IMapper mapper, IApplicationUserApplicationService applicationUserApplicationService = null, IStallApplicationService stallApplicationService = null, IAuctionApplicationService auctionApplicationService = null)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, IProductApplicationService productApplicationService, IMapper mapper, IApplicationUserApplicationService applicationUserApplicationService = null, IStallApplicationService stallApplicationService = null, IAuctionApplicationService auctionApplicationService = null, ICategoryApplicationService categoryApplicationService = null)
         {
             _logger = logger;
             _userManager = userManager;
@@ -33,11 +35,16 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             _applicationUserApplicationService = applicationUserApplicationService;
             _stallApplicationService = stallApplicationService;
             _auctionApplicationService = auctionApplicationService;
+            _categoryApplicationService = categoryApplicationService;
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            //GetActiveAuctions
+            //var categoriesDTO = await _categoryApplicationService.GetAll(cancellationToken);
+            //var categories = CategoryMapper.MapCategories(categoriesDTO);
+            //var menuHtml = MenuBuilder.BuildMenu(categories);
+            //ViewBag.MenuHtml = menuHtml;
+            //***************
             var model = new MultiModelViewModel();
             var productDtos = await _productApplicationService.GetAllWithOutAuction(cancellationToken);
             var auction = await _auctionApplicationService.GetActiveAuctions(cancellationToken);
@@ -65,6 +72,15 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             var stalls = _mapper.Map<List<StallListViewModel>>(await _stallApplicationService.GetAllStalls(cancellationToken));
             return View(stalls);
         }
+        public async Task<IActionResult> StallDetails(int id ,CancellationToken cancellationToken)
+        {
+            var products = await _productApplicationService.GetByStall(id, cancellationToken);
+
+           
+            return View(products);
+
+        }
+        
 
         //public async Task<IActionResult> SeedData()
         //{

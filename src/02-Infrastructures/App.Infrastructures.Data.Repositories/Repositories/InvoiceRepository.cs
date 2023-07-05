@@ -106,14 +106,27 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             }
         }
 
-        public async Task<List<InvoiceDto>> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
+        public async Task<List<InvoiceDto>> GetListInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
         {
-            var invoices = await _dbContext.Invoices
-                .AsNoTracking()
-                .Where(i => i.BuyerId == buyerId)
-                .ToListAsync(cancellationToken);
-            return _mapper.Map<List<InvoiceDto>>(invoices);
+            var records = new List<InvoiceDto>();
+            records = await _dbContext.Invoices
+                .Where(i => i.BuyerId == buyerId && !i.IsDeleted)
+                .Include(i => i.InvoiceProducts)
+                .ThenInclude(ip => ip.Product)
+                .Select(i => new InvoiceDto
+                {
+                    Id = i.Id,
+                    TotalAmount = i.TotalAmount,
+                    Commision = i.Commision,
+                    BuyerId = i.BuyerId,
+                    SellerId = i.SellerId,
+                    Final = i.Final,
+                    CreatedAt = i.CreatedAt,
+                    InvoiceProducts = i.InvoiceProducts
+                }).ToListAsync(cancellationToken);
+            return records;
         }
+      
 
         public async Task<List<InvoiceDto>> GetInvoicesBySellerId(int sellerId, CancellationToken cancellationToken)
         {

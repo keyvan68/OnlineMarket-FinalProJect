@@ -18,5 +18,6 @@ namespace App.Domain.Core.Contracts.Repository
         Task ConfirmByAdmin(int id);
         Task SoftDelete(int productId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
+        Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken);
     }
 }

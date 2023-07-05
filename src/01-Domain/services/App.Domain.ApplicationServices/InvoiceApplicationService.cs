@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.Contracts.ApplicationService;
 using App.Domain.Core.Contracts.Repository;
+using App.Domain.Core.DtoModels.BasketDtoModel;
 using App.Domain.Core.DtoModels.InvoiceDtoModels;
+using App.Domain.Core.DtoModels.ProductDtoModels;
 using App.Domain.Core.DtoModels.UserDtoModels;
 using App.Domain.Core.Entities;
 using App.Domain.Core.SiteConfiguration;
@@ -21,16 +23,18 @@ namespace App.Domain.ApplicationServices
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISellerApplicationService _sellerApplicationService;
+        private readonly IProductRepository _productRepository;
         private readonly Siteconfig _siteConfigs;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public InvoiceApplicationService(IInvoiceRepository invoiceRepository, UserManager<ApplicationUser> userManager, ISellerApplicationService sellerApplicationService, Siteconfig siteConfigs, IHttpContextAccessor httpContextAccessor)
+        public InvoiceApplicationService(IInvoiceRepository invoiceRepository, UserManager<ApplicationUser> userManager, ISellerApplicationService sellerApplicationService, Siteconfig siteConfigs, IHttpContextAccessor httpContextAccessor, IProductRepository productRepository)
         {
             _invoiceRepository = invoiceRepository;
             _userManager = userManager;
             _sellerApplicationService = sellerApplicationService;
             _siteConfigs = siteConfigs;
             _httpContextAccessor = httpContextAccessor;
+            _productRepository = productRepository;
         }
 
         public async Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken)
@@ -103,11 +107,12 @@ namespace App.Domain.ApplicationServices
             return list;
         }
 
-        public async Task<List<InvoiceDto>> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
-        {
-            var list = await _invoiceRepository.GetInvoicesByBuyerId(buyerId, cancellationToken);
-            return list;
-        }
+        //public async Task<InvoiceDto> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
+        //{
+        //    var list = (await _invoiceRepository.GetInvoicesByBuyerId(buyerId, cancellationToken))
+        //        .Where(x => x.Final != false).FirstOrDefault();
+        //    return list;
+        //}
 
         public async Task<List<InvoiceDto>> GetInvoicesBySellerId(int sellerId, CancellationToken cancellationToken)
         {
@@ -170,5 +175,65 @@ namespace App.Domain.ApplicationServices
                 }
             }
         }
+
+        public async Task<InvoiceDto> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
+        {
+           var invoice= (await _invoiceRepository.GetListInvoicesByBuyerId(buyerId, cancellationToken))
+                .Where(i=>i.Final == false).FirstOrDefault();
+            return invoice;
+        }
+        public async Task CreateBasketFromInvoice(BasketDto basket, CancellationToken cancellationToken)
+        {
+            var invoiceDto = new InvoiceDto()
+            {
+                TotalAmount = (await _productRepository.GetById(basket.ProductId, cancellationToken)).Price,
+                BuyerId = basket.BuyerId,
+                SellerId = basket.SellerId,
+                Final = false,
+                CreatedAt = DateTime.Now,
+                Quantity=basket.CountOfProducts
+            };
+
+            
+
+
+
+            await _invoiceRepository.CreateInvoice(invoiceDto, cancellationToken);
+        }
+        public async Task AddProductToBasket(InvoiceDto basket, BasketDto entity, CancellationToken cancellationToken)
+        {
+            // Update total amount of invoice
+            basket.TotalAmount += entity.CountOfProducts * (await _productRepository.GetById(entity.ProductId, cancellationToken)).Price;
+
+            // Check if the product is already in the basket
+            var existingProduct = basket.InvoiceProducts.FirstOrDefault(p => p.ProductId == entity.ProductId);
+            if (existingProduct != null)
+            {
+                // Update count of product
+                basket.Quantity += entity.CountOfProducts;
+
+                // Update invoice
+                await _invoiceRepository.UpdateInvoice(basket, cancellationToken);
+                return;
+            }
+
+            // This product is not in the basket
+            
+            var newProduct = new InvoiceProduct
+            {
+                ProductId = entity.ProductId,
+                
+            };
+            basket.Quantity = entity.CountOfProducts;
+            // Add the new product to the basket
+            basket.InvoiceProducts.Add(newProduct);
+
+            // Update basket
+            await _invoiceRepository.UpdateInvoice(basket, cancellationToken);
+            return;
+        }
+
+
+
     }
 }

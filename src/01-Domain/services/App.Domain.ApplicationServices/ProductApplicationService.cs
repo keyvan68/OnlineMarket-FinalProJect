@@ -131,5 +131,22 @@ namespace App.Domain.ApplicationServices
             };
             await _imageRepository.CreateImage(imageDto, cancellationToken);
         }
+
+        public async Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken)
+        {
+            var seller=  await _productRepository.GetSellerIdByProductId(id, cancellationToken);
+            return seller;
+        }
+        public async Task ReduceQuantityProduct(int countOfProducts, int productId, CancellationToken cancellationToken)
+        {
+            //get product
+            var productDto = await _productRepository.GetById(productId, cancellationToken);
+            if (productDto is not null)
+            {
+                productDto.NumberofProducts = productDto.NumberofProducts- countOfProducts;
+                //update product
+                await _productRepository.Update(productDto, cancellationToken);
+            }
+        }
     }
 }

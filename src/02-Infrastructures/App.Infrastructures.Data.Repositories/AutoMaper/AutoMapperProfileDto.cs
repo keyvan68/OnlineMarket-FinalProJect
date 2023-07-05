@@ -28,7 +28,7 @@ namespace App.Infrastructures.Data.Repositories.AutoMaper
             CreateMap<Auction, AuctionDtoOutput>();
             CreateMap<Bid, BidDto>();
             CreateMap<Buyer, BuyerDto>().ReverseMap();
-            CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Image, ImageDto>().ReverseMap();
             CreateMap<Invoice, InvoiceDto>();
             CreateMap<Product, ProductDto>().ReverseMap()

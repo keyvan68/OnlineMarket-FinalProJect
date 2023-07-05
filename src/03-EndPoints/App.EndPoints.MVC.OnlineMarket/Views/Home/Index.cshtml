@@ -28,11 +28,11 @@
                                             @if (item.Images.Any())
                                             {
                                                 var firstImage = item.Images.FirstOrDefault();
-                                                <img src="@firstImage.Url" alt="" class="img-fluid">
+                                                <img src="@firstImage.Url" alt="" style="width: 261px;height: 177px;padding-top: 7px;">
                                             }
                                             else
                                             {
-                                                <img src="~/Images/default.png" class="img-fluid">
+                                                <img src="~/Images/default.png" style="width: 228px;height: 177px;padding-top: 7px;">
                                             }
                                         </a>
                                         <div class="product-box-item-hover">
@@ -47,9 +47,11 @@
                                     </span>
                                     </div>*@
                                             <div class="product-box-item-hover-cart">
-                                                <button class="product-box-item-hover-cart-btn">
-                                                    @*<i class="bi bi-info"></i>*@ افزودن به سبد خرید
-                                                </button>
+                                                <div class="product-box-item-hover-cart align-content-center">
+                                                    <a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@item.Id" class="product-box-item-hover-cart-btn">
+                                                         افزودن به سبد خرید
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -119,11 +121,11 @@
                                             @if (item.ProductImages.Any())
                                             {
                                                 var firstImage = item.ProductImages.FirstOrDefault();
-                                                <img src="@firstImage.Url" alt="" class="img-fluid">
+                                                <img src="@firstImage.Url" alt="" style="width: 219px;height: 177px;padding-top: 7px;">
                                             }
                                             else
                                             {
-                                                <img src="~/Images/default.png" class="img-fluid">
+                                                <img src="~/Images/default.png" style="width: 249px;height: 177px;padding-top: 7px;">
                                             }
                                         </a>
                                         <div class="product-box-item-hover">
@@ -213,9 +215,10 @@
                                         <div class="product-box-item-hover">
 
                                             <div class="product-box-item-hover-cart">
-                                                <button class="product-box-item-hover-cart-btn">
+                                                <a class="product-box-item-hover-cart-btn" asp-controller="Home" asp-action="StallDetails" asp-route-Id="@item.Id">
                                                     <i class="bi bi-info"></i> جزئیات
-                                                </button>
+                                                </a>
+                                               
                                             </div>
                                         </div>
                                     </div>
