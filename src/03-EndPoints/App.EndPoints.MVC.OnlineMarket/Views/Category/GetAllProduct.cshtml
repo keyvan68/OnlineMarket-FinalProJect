@@ -1,0 +1,49 @@
+﻿@using App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels;
+@model List<ProductViewModel>
+@{
+    ViewData["Title"] = "همه محصولات";
+}
+<!-- product box -->
+
+
+
+
+<div class="product-box-two">
+    <div class="container">
+        <div class="row d-flex justify-content-around">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width: 18rem;margin-bottom: 25px;">
+                    @if (item.Images.Count > 0)
+                    {
+                        <img src="@item.Images[0].Url" alt="" class="img-fluid" style="width: 261px;height: 177px;padding-top: 7px;">
+                    }
+                    else
+                    {
+                        <img src="~/Images/default.png" class="img-fluid" style="width: 261px;height: 177px;padding-top: 7px;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">@item.Price</li>
+
+                    </ul>
+                    <div class="card-body">
+                        <div class="product-box-item-hover">
+
+                            <div class="product-box-item-hover-cart">
+                                <button class="product-box-item-hover-cart-btn">
+                                    <i class="bi bi-info"></i> جزئیات
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>

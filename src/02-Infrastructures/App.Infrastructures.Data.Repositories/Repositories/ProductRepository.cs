@@ -59,6 +59,34 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
             return records;
         }
+        public async Task<List<ProductDto>> GetAllProductByCategoryId(int categoryId ,CancellationToken cancellationToken)
+        {
+            var records = await _context.Products
+                .Where(a => a.IsDeleted == false && a.CategoryId == categoryId || a.Category.ParentId == categoryId)
+                .Include(a => a.Category)
+                .Include(a => a.Images)
+                .Include(x => x.Stall)
+                    .ThenInclude(s => s.IdNavigation) 
+                .AsNoTracking()
+                .Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Price = p.Price,
+                    NumberofProducts = p.NumberofProducts,
+                    IsAccepted = p.IsAccepted,
+                    CategoryName = p.Category.Name,
+                    StallName = p.Stall.Name,
+                    SellerName = p.Stall.IdNavigation.FirstName + " " + p.Stall.IdNavigation.LastName,
+                    Auction = p.Auction,
+                    Images = p.Images
+                })
+                .ToListAsync(cancellationToken);
+
+
+
+            return records;
+        }
         public async Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken)
         {
             var records = await _context.Products

@@ -159,5 +159,11 @@ namespace App.Domain.ApplicationServices
                 await _productRepository.Update(productDto, cancellationToken);
             }
         }
+
+        public async Task<List<ProductDto>> GetAllProductByCategoryId(int categoryId, CancellationToken cancellationToken)
+        {
+            var listCategory = await _productRepository.GetAllProductByCategoryId(categoryId, cancellationToken);
+            return listCategory;
+        }
     }
 }

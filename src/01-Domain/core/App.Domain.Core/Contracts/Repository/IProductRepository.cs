@@ -19,5 +19,6 @@ namespace App.Domain.Core.Contracts.Repository
         Task SoftDelete(int productId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetAllWithAuctionBySellerId(int sellerId, CancellationToken cancellationToken);
         Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken);
+        Task<List<ProductDto>> GetAllProductByCategoryId(int categoryId, CancellationToken cancellationToken);
     }
 }
