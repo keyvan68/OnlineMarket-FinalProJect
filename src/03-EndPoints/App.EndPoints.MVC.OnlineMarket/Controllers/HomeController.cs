@@ -48,12 +48,14 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             var model = new MultiModelViewModel();
             var productDtos = await _productApplicationService.GetAllWithOutAuction(cancellationToken);
             var auction = await _auctionApplicationService.GetActiveAuctions(cancellationToken);
+            var category = await _categoryApplicationService.GetAllParent(cancellationToken);
             var lastSixProducts = productDtos.OrderByDescending(p => p.Id).Take(6);
             var store = await _stallApplicationService.GetAllStalls(cancellationToken);
             var lastSixStall = store.OrderByDescending(s => s.Id).Take(4);
             model.Products = _mapper.Map(lastSixProducts,model.Products);
             model.Auctions = _mapper.Map(auction, model.Auctions);
             model.Stalls = _mapper.Map(lastSixStall, model.Stalls);
+            model.Categories = _mapper.Map(category, model.Categories);
             return View(model);
         }
 

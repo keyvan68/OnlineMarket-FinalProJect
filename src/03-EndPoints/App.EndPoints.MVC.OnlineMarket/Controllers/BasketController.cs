@@ -44,6 +44,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                 var currentUser = await _userManager.GetUserAsync(User);
                 var buyerId = await _buyerApplicationService.GetBuyerIdByApplicationUserId(currentUser.Id, cancellationToken);
                 var basket = await _invoiceApplicationService.GetInvoicesByBuyerId(buyerId, cancellationToken);
+
                 var product = await _productApplicationService.GetSellerIdByProductId(id, cancellationToken);
                 if (basket == null)
                 {
@@ -69,6 +70,15 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
                             BuyerId = basket.BuyerId,
                             SellerId = basket.SellerId
                         };
+                        await _invoiceApplicationService.AddProductToBasket(basket, basketProduct, cancellationToken);
+                        await _productApplicationService.ReduceQuantityProduct(basketProduct.CountOfProducts, basketProduct.ProductId, cancellationToken);
+                        return Redirect(Request.Headers["Referer"].ToString());
+                    }
+                    else
+                    {
+                        TempData["SameSellerErrorMessage"] = "از دو غرفه به صورت همزمان نمیتوان خرید کرد";
+                        //back tp pervious page
+                        return Redirect(Request.Headers["Referer"].ToString());
                     }
 
                 }
@@ -76,9 +86,37 @@ namespace App.EndPoints.MVC.OnlineMarket.Controllers
             }
             else
             {
-
+                TempData["ProductStockIsZeroErrorMessage"] = "محصول موجود نیست!";
+                //back tp pervious page
+                return Redirect(Request.Headers["Referer"].ToString());
             }
-            return View();
+            
+        }
+        public async Task<IActionResult> ReduceFromBasket(int id, CancellationToken cancellationToken)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var buyerId = await _buyerApplicationService.GetBuyerIdByApplicationUserId(currentUser.Id, cancellationToken);
+            var product = await _productApplicationService.GetSellerIdByProductId(id, cancellationToken);
+            //reducing product from basket
+            var basketDto = new BasketDto()
+            {
+                ProductId = id,
+                CountOfProducts = 1,
+                BuyerId = buyerId,
+                SellerId = product.SellerId
+            };
+            await _invoiceApplicationService.reduceProductFromBasket(basketDto, cancellationToken);
+
+            //adding the number of stock products
+            await _productApplicationService.AddProductQuantity(basketDto.CountOfProducts, id, cancellationToken);
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+        public async Task<IActionResult> FinalizeFactor(int id, CancellationToken cancellationToken)
+        {
+            var invoice = await _invoiceApplicationService.GetInvoicesByBuyerId(id, cancellationToken);
+            await _invoiceApplicationService.FinalFactor(invoice, cancellationToken);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

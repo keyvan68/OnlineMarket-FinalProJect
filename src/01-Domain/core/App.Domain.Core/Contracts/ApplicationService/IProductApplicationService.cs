@@ -28,5 +28,6 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<List<ProductDto>> GetAllWithOutAuction(CancellationToken cancellationToken);
         Task<ProductDtoSeller> GetSellerIdByProductId(int id, CancellationToken cancellationToken);
         Task ReduceQuantityProduct(int countOfProducts, int productId, CancellationToken cancellationToken);
+        Task AddProductQuantity(int countOfProducts, int productId, CancellationToken cancellationToken);
     }
 }

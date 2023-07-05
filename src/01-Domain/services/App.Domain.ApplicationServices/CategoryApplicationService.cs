@@ -35,6 +35,12 @@ namespace App.Domain.ApplicationServices
             var list = await _categoryRepository.GetAll(cancellationToken);
                 return list;
         }
+        public async Task<List<CategoryDto>> GetAllParent(CancellationToken cancellationToken)
+        {
+            var list = await _categoryRepository.GetAll(cancellationToken);
+            return list.Where(c => c.ParenId is null).ToList();
+           
+        }
 
         public async Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken)
         {

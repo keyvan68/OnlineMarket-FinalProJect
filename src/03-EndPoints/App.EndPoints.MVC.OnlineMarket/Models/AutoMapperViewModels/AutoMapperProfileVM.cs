@@ -40,7 +40,8 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             CreateMap<UpdateCustomerViewModel, BuyerDto>().ReverseMap();
             CreateMap<HomeAuctionViewModel, AuctionDto>().ReverseMap();
             CreateMap<BidViewModel, CreateBidDto>().ReverseMap();
-            CreateMap<BasketViewModel, BasketDto>().ReverseMap();
+            //CreateMap<BasketViewModel, BasketDto>().ReverseMap();
+            CreateMap<BasketViewModel, InvoiceDto>().ReverseMap();
         }
     }
 }

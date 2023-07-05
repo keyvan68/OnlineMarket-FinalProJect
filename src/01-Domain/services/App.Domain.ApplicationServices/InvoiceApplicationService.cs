@@ -148,7 +148,7 @@ namespace App.Domain.ApplicationServices
             invoiceDto.Id = invoiceId;
             invoiceDto.Final = true;
             invoiceDto.LastModifiedAt = DateTime.Now;
-            
+
 
 
 
@@ -178,8 +178,8 @@ namespace App.Domain.ApplicationServices
 
         public async Task<InvoiceDto> GetInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
         {
-           var invoice= (await _invoiceRepository.GetListInvoicesByBuyerId(buyerId, cancellationToken))
-                .Where(i=>i.Final == false).FirstOrDefault();
+            var invoice = (await _invoiceRepository.GetListInvoicesByBuyerId(buyerId, cancellationToken))
+                 .Where(i => i.Final == false).FirstOrDefault();
             return invoice;
         }
         public async Task CreateBasketFromInvoice(BasketDto basket, CancellationToken cancellationToken)
@@ -191,49 +191,131 @@ namespace App.Domain.ApplicationServices
                 SellerId = basket.SellerId,
                 Final = false,
                 CreatedAt = DateTime.Now,
-                Quantity=basket.CountOfProducts
+                Quantity = basket.CountOfProducts
             };
 
-            
 
+            //create invoiceProducts
+            var invoiceProducts = new List<InvoiceProduct>();
+            invoiceProducts.Add(new InvoiceProduct()
+            {
+                ProductId = basket.ProductId,
+                Quantity=basket.CountOfProducts
+
+            });
+            invoiceDto.InvoiceProducts= invoiceProducts;
 
 
             await _invoiceRepository.CreateInvoice(invoiceDto, cancellationToken);
         }
-        public async Task AddProductToBasket(InvoiceDto basket, BasketDto entity, CancellationToken cancellationToken)
+        public async Task AddProductToBasket(InvoiceDto currentBasket, BasketDto entity, CancellationToken cancellationToken)
         {
-            // Update total amount of invoice
-            basket.TotalAmount += entity.CountOfProducts * (await _productRepository.GetById(entity.ProductId, cancellationToken)).Price;
+            //update total amount of invoice
+            currentBasket.TotalAmount += entity.CountOfProducts * (await _productRepository.GetById(entity.ProductId, cancellationToken)).Price;
 
-            // Check if the product is already in the basket
-            var existingProduct = basket.InvoiceProducts.FirstOrDefault(p => p.ProductId == entity.ProductId);
-            if (existingProduct != null)
+
+            foreach (var item in currentBasket.InvoiceProducts)
             {
-                // Update count of product
-                basket.Quantity += entity.CountOfProducts;
-
-                // Update invoice
-                await _invoiceRepository.UpdateInvoice(basket, cancellationToken);
-                return;
+                //this product is already in the basket
+                if (item.ProductId == entity.ProductId)
+                {
+                    //update count of product
+                    var invoiceProduct = currentBasket.InvoiceProducts
+                        .Where(ip => ip.ProductId == entity.ProductId).SingleOrDefault();
+                    invoiceProduct.Quantity += entity.CountOfProducts;
+                    
+                    //update invoice
+                    await _invoiceRepository.UpdateInvoice(currentBasket, cancellationToken);
+                    return;
+                }
             }
 
-            // This product is not in the basket
-            
-            var newProduct = new InvoiceProduct
+            //this product is not in the basket
+            currentBasket.InvoiceProducts.Add(new InvoiceProduct()
             {
                 ProductId = entity.ProductId,
-                
-            };
-            basket.Quantity = entity.CountOfProducts;
-            // Add the new product to the basket
-            basket.InvoiceProducts.Add(newProduct);
-
-            // Update basket
-            await _invoiceRepository.UpdateInvoice(basket, cancellationToken);
+                Quantity = entity.CountOfProducts
+            });
+            //currentBasket.Quantity = entity.CountOfProducts;
+            //update invoice
+            await _invoiceRepository.UpdateInvoice(currentBasket, cancellationToken);
             return;
+
+
+
+
+        }
+        public async Task reduceProductFromBasket(BasketDto entity, CancellationToken cancellationToken)
+        {
+            var currentBasket = (await _invoiceRepository.GetAllByBuyerId(entity.BuyerId, cancellationToken))
+                .Where(i => !i.Final).SingleOrDefault();
+
+
+            //update total amount of invoice
+            currentBasket.TotalAmount -= entity.CountOfProducts * (await _productRepository.GetById(entity.ProductId, cancellationToken)).Price;
+
+
+            foreach (var item in currentBasket.InvoiceProducts)
+            {
+                if (item.ProductId == entity.ProductId)
+                {
+                    //update count of product
+                    var invoiceProduct = currentBasket.InvoiceProducts
+                        .Where(ip => ip.ProductId == entity.ProductId).SingleOrDefault();
+                    invoiceProduct.Quantity -= entity.CountOfProducts;
+                    currentBasket.Quantity -= entity.CountOfProducts;
+                    if (currentBasket.Quantity == 0)
+                    {
+                        currentBasket.InvoiceProducts.Remove(item);
+                        break;
+                    }
+
+                }
+            }
+            //update invoice
+            if (currentBasket.InvoiceProducts.Count == 0)
+            {
+                await _invoiceRepository.softDelete(currentBasket.Id, cancellationToken);
+            }
+            await _invoiceRepository.UpdateInvoice(currentBasket, cancellationToken);
+            return;
+
         }
 
+        public async Task<int> CreateInvoiceBasket(InvoiceDto invoiceDto, CancellationToken cancellationToken)
+        {
+            var id = await _invoiceRepository.CreateInvoiceBasket(invoiceDto, cancellationToken);
+            return id;
+        }
 
+        public async Task<List<InvoiceDto>> GetAllByBuyerId(int buyerId, CancellationToken cancellationToken)
+        {
+            var list = await _invoiceRepository.GetAllByBuyerId(buyerId, cancellationToken);
+            return list;
+        }
+
+        public async Task softDelete(int id, CancellationToken cancellationToken)
+        {
+            await _invoiceRepository.softDelete(id, cancellationToken);
+        }
+        public async Task FinalFactor(InvoiceDto entity, CancellationToken cancellationToken)
+        {
+            var invoiceDto = new InvoiceDto()
+            {
+                Id = entity.Id,
+                TotalAmount = entity.TotalAmount,
+                //site commission calculation
+                Commision = Convert.ToInt32(entity.TotalAmount * (await _invoiceRepository.CalculateSellerCommisionAmount(entity.SellerId, cancellationToken))),
+                BuyerId = entity.BuyerId,
+                SellerId = entity.SellerId,
+                InvoiceProducts = entity.InvoiceProducts,
+                Final = true,
+                CreatedAt = DateTime.Now,
+                Quantity=entity.Quantity
+            };
+
+            await _invoiceRepository.UpdateInvoice(invoiceDto, cancellationToken);
+        }
 
     }
 }

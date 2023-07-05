@@ -24,5 +24,11 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task<int> ProcessPayment(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task CheckAndUpdateSellerMedal(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task CreateBasketFromInvoice(BasketDto basket, CancellationToken cancellationToken);
+        Task<int> CreateInvoiceBasket(InvoiceDto invoiceDto, CancellationToken cancellationToken);
+        Task AddProductToBasket(InvoiceDto currentBasket, BasketDto entity, CancellationToken cancellationToken);
+        Task<List<InvoiceDto>> GetAllByBuyerId(int buyerId, CancellationToken cancellationToken);
+        Task softDelete(int id, CancellationToken cancellationToken);
+        Task reduceProductFromBasket(BasketDto entity, CancellationToken cancellationToken);
+        Task FinalFactor(InvoiceDto entity, CancellationToken cancellationToken);
     }
 }

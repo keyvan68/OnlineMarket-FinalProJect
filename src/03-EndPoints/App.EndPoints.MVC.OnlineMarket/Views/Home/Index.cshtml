@@ -254,102 +254,27 @@
 }
 <!-- end stall box -->
 <!-- start category box -->
-@*<div class="main-category">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="main-category-title">
-                <h4>دسته بندی های فروشگاه</h4>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/abzar-khodro.png" alt="" class="img-fluid">
-                        <h6>ابزار خودرو</h6>
-                    </a>
+@if (Model.Categories.Any())
+{
+    <div class="main-category">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="main-category-title">
+                    <h4>دسته بندی های فروشگاه</h4>
                 </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/kalaye-degital.png" alt="" class="img-fluid">
-                        <h6>کالای دیجیتال</h6>
-                    </a>
+                @foreach (var item in Model.Categories)
+                {
+                <div class="col-lg-2 col-4">
+                    <div class="main-category-item">
+                        <a href="">
+                            <img src="@item.ImgUrl" alt="" class="img-fluid">
+                            <h6>@item.Name</h6>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/ashpazkhane.png" alt="" class="img-fluid">
-                        <h6>خانه و آشپزخانه</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/autr.png" alt="" class="img-fluid">
-                        <h6>زیبایی و سلامت</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/boomi.png" alt="" class="img-fluid">
-                        <h6>محصولات بومی و محلی</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/children.png" alt="" class="img-fluid">
-                        <h6>اسباب بازی،کودک و نوزاد</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/lavazem-tahrir.png" alt="" class="img-fluid">
-                        <h6>کتاب ، لوازم تحریر و هنر</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/milk.png" alt="" class="img-fluid">
-                        <h6>کالاهای سوپر مارکتی</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/mobile.png" alt="" class="img-fluid">
-                        <h6>موبایل</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/poshak.png" alt="" class="img-fluid">
-                        <h6>پوشاک</h6>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-4">
-                <div class="main-category-item">
-                    <a href="">
-                        <img src="img/main-category/varzeshi.png" alt="" class="img-fluid">
-                        <h6>ورزش و سفر</h6>
-                    </a>
-                </div>
+                }
             </div>
         </div>
     </div>
-</div>*@
-
+}
 <!-- end category box -->

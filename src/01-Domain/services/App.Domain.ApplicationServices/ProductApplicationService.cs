@@ -148,5 +148,16 @@ namespace App.Domain.ApplicationServices
                 await _productRepository.Update(productDto, cancellationToken);
             }
         }
+        public async Task AddProductQuantity(int countOfProducts, int productId, CancellationToken cancellationToken)
+        {
+            //get product
+            var productDto = await _productRepository.GetById(productId, cancellationToken);
+            if (productDto is not null)
+            {
+                productDto.NumberofProducts = productDto.NumberofProducts + countOfProducts;
+                //update product
+                await _productRepository.Update(productDto, cancellationToken);
+            }
+        }
     }
 }

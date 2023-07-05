@@ -26,11 +26,9 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
         public async Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken)
         {
-            var categories = await _dbContext.Categories
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
-
-            return _mapper.Map<List<CategoryDto>>(categories);
+            var records = await _dbContext.Categories
+                 .Where(c => c.IsDeleted == false).ToListAsync(cancellationToken);
+            return _mapper.Map<List<CategoryDto>>(records);
         }
 
         public async Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken)

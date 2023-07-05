@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,8 @@ namespace App.Domain.Core.DtoModels.CategoryDtoModels
         public bool? IsDeleted { get; set; }
 
         public DateTime? DeletedAt { get; set; }
-
-        public virtual ICollection<Category> InverseParen { get; set; } = new List<Category>();
-
-        public virtual Category? Paren { get; set; }
+        public IFormFile? Image { get; set; }
+       
 
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }

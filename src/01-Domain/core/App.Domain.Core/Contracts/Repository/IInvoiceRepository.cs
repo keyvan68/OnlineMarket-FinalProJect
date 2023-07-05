@@ -14,5 +14,8 @@ namespace App.Domain.Core.Contracts.Repository
         Task UpdateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken);
         Task<int> CalculateSellerSalesAmount(int SellerId, CancellationToken cancellationToken);
         Task<int> CalculateSellerCommisionAmount(int SellerId, CancellationToken cancellationToken);
+        Task<int> CreateInvoiceBasket(InvoiceDto invoiceDto, CancellationToken cancellationToken);
+        Task<List<InvoiceDto>> GetAllByBuyerId(int buyerId, CancellationToken cancellationToken);
+        Task softDelete(int id, CancellationToken cancellationToken);
     }
 }

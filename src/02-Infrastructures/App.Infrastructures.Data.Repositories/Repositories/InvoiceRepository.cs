@@ -58,10 +58,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
 
         public async Task<int> CreateInvoice(InvoiceDto invoiceDto, CancellationToken cancellationToken)
         {
-            //var invoice = _mapper.Map<Invoice>(invoiceDto);
-            //_dbContext.Invoices.Add(invoice);
-            //await _dbContext.SaveChangesAsync(cancellationToken);
-            //return invoice.Id;
+            
             var record = new Invoice
             {
                 BuyerId=invoiceDto.BuyerId,
@@ -71,6 +68,28 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 Final=invoiceDto.Final,
                 CreatedAt=invoiceDto.CreatedAt,
                 Quantity=invoiceDto.Quantity,
+                InvoiceProducts=invoiceDto.InvoiceProducts
+            };
+            await _dbContext.Invoices.AddAsync(record, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return record.Id;
+        }
+        public async Task<int> CreateInvoiceBasket(InvoiceDto invoiceDto, CancellationToken cancellationToken)
+        {
+            //var invoice = _mapper.Map<Invoice>(invoiceDto);
+            //_dbContext.Invoices.Add(invoice);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
+            //return invoice.Id;
+            var record = new Invoice
+            {
+                BuyerId = invoiceDto.BuyerId,
+                SellerId = invoiceDto.SellerId,
+                TotalAmount = invoiceDto.TotalAmount,
+                Commision = invoiceDto.Commision,
+                Final = invoiceDto.Final,
+                CreatedAt = invoiceDto.CreatedAt,
+                Quantity = invoiceDto.Quantity,
+                InvoiceProducts=invoiceDto.InvoiceProducts
             };
             await _dbContext.Invoices.AddAsync(record, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -90,6 +109,7 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 invoice.TotalAmount = invoiceDto.TotalAmount;
                 invoice.Final = invoiceDto.Final;
                 invoice.LastModifiedAt = invoiceDto.LastModifiedAt;
+                invoice.InvoiceProducts = invoiceDto.InvoiceProducts;
                
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
@@ -105,12 +125,21 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
+        public async Task softDelete(int id, CancellationToken cancellationToken)
+        {
+            var record = await _dbContext.Invoices
+                .Where(p => p.Id == id).FirstOrDefaultAsync(cancellationToken);
+            record.IsDeleted = true;
+            record.DeletedAt = DateTime.Now;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
 
         public async Task<List<InvoiceDto>> GetListInvoicesByBuyerId(int buyerId, CancellationToken cancellationToken)
         {
             var records = new List<InvoiceDto>();
             records = await _dbContext.Invoices
                 .Where(i => i.BuyerId == buyerId && !i.IsDeleted)
+                .Include(i => i.Seller)
                 .Include(i => i.InvoiceProducts)
                 .ThenInclude(ip => ip.Product)
                 .Select(i => new InvoiceDto
@@ -122,7 +151,8 @@ namespace App.Infrastructures.Data.Repositories.Repositories
                     SellerId = i.SellerId,
                     Final = i.Final,
                     CreatedAt = i.CreatedAt,
-                    InvoiceProducts = i.InvoiceProducts
+                    InvoiceProducts = i.InvoiceProducts,
+                    Seller = i.Seller
                 }).ToListAsync(cancellationToken);
             return records;
         }
@@ -160,6 +190,28 @@ namespace App.Infrastructures.Data.Repositories.Repositories
             var totalcommision = invoices.Sum(i => i.Commision *i.Quantity);
 
             return (int)totalcommision;
+        }
+        public async Task<List<InvoiceDto>> GetAllByBuyerId(int buyerId, CancellationToken cancellationToken)
+        {
+            var records = new List<InvoiceDto>();
+            records = await _dbContext.Invoices
+                .Where(i => i.BuyerId == buyerId && !i.IsDeleted)
+                .Include(i => i.Seller)
+                .Include(i => i.InvoiceProducts)
+                .ThenInclude(ip => ip.Product)
+                .Select(i => new InvoiceDto
+                {
+                    Id = i.Id,
+                    TotalAmount = i.TotalAmount,
+                    Commision = i.Commision,
+                    BuyerId = i.BuyerId,
+                    SellerId = i.SellerId,
+                    Final = i.Final,
+                    CreatedAt = i.CreatedAt,
+                    InvoiceProducts = i.InvoiceProducts,
+                    Seller = i.Seller
+                }).ToListAsync(cancellationToken);
+            return records;
         }
         //public async Task<decimal> CalculateSellerSalesAmount(int sellerId, CancellationToken cancellationToken)
         //{
