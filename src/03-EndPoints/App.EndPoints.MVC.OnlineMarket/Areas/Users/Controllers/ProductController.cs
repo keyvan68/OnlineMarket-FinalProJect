@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 
 namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
 {
@@ -100,6 +101,11 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             if (ModelState.IsValid)
             {
                 await _applicationUserApplicationService.Update(_mapper.Map<UpdateProductDto>(product), cancellationToken);
+                if (product.ImageFile is not null)
+                {
+
+                    await _productApplicationService.UploadImageProduct(product.Id, product.ImageFile, _hostingEnvironment.WebRootPath, cancellationToken);
+                }
             }
             return RedirectToAction("Index");
         }

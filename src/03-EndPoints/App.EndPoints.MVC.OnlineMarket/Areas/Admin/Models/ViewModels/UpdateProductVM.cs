@@ -23,6 +23,8 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Admin.Models.ViewModels
 
         [Display(Name = "قیمت محصول (تومان)")]
         public int Price { get; set; }
+        [Display(Name = "تصویر ")]
+        public IFormFile ImageFile { get; set; }
 
     }
 }

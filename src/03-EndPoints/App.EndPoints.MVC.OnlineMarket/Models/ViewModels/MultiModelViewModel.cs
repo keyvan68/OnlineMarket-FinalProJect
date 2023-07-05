@@ -7,6 +7,6 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.ViewModels
         public List<Product> Products { get; set; } 
         public List<HomeAuctionViewModel> Auctions { get; set; } 
         public List<Stall> Stalls { get; set; } 
-        public List<Category> Categories { get; set; } 
+        public List<ParentCategoryViewModel> Categories { get; set; } 
     }
 }

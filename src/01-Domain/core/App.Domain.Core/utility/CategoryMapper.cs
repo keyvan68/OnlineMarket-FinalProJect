@@ -20,7 +20,7 @@ namespace App.Domain.Core.utility
                 {
                     Id = categoryDTO.Id,
                     Name = categoryDTO.Name,
-                    ParentId = categoryDTO.ParenId,
+                    ParentId = categoryDTO.ParentId,
                     CreatedAt = categoryDTO.CreatedAt,
                     LastModifiedAt = categoryDTO.LastModifiedAt,
                     DeletedAt = categoryDTO.DeletedAt

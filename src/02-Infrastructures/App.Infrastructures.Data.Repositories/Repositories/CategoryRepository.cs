@@ -26,9 +26,19 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         }
         public async Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken)
         {
+         
             var records = await _dbContext.Categories
-                 .Where(c => c.IsDeleted == false).ToListAsync(cancellationToken);
-            return _mapper.Map<List<CategoryDto>>(records);
+                .Where(a => a.IsDeleted == false)
+                .Select(c => new CategoryDto
+                {
+                    Id=c.Id,
+                    ParentId=c.ParentId,
+                    ImgUrl=c.ImgUrl,
+                    Name=c.Name,
+                    Products=c.Products
+                })
+                .ToListAsync(cancellationToken);
+            return records;
         }
 
         public async Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken)
