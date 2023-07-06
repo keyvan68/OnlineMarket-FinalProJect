@@ -1,34 +1,35 @@
 ﻿
 @model App.EndPoints.MVC.OnlineMarket.Models.ViewModels.LoginViewModel
-@*@{
-    ViewData["Title"] = "login";
+@{
+    ViewData["Title"] = "ورود";
 }
 
-<h1>@ViewData["Title"]</h1>*@
+
 
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Account" asp-action="Login" method="post">
-            <h2>login to account.</h2>
+            <h2>ورود</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
+            <div class="form-floating" style="margin-bottom:7px;">
                 <input asp-for="Email" class="form-control" autocomplete="username"  />
                 <label asp-for="Email"></label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-floating">
+            <div class="form-floating" style="margin-bottom:7px;">
                 <input asp-for="Password" class="form-control" autocomplete="new-password"  />
                 <label asp-for="Password"></label>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div >
+            <div style="margin-bottom:7px;">
                 <input type="checkbox" asp-for="RememberMe" />
                 <label asp-for="RememberMe"></label>
                 <span asp-validation-for="RememberMe" class="text-danger"></span>
             </div>
             
-            <button  type="submit" class="w-100 btn btn-lg btn-primary">ورود</button>
+            <button  type="submit" class="btn btn-lg btn-primary">ورود</button>
+            <a class="btn btn-lg btn-primary" asp-area="" asp-controller="Account" asp-action="Register">ثبت نام </a>
         </form>
     </div>
 

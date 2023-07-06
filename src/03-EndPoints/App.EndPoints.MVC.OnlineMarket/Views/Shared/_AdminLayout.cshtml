@@ -135,7 +135,7 @@
                         </li> -->
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu p-ph-res">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="~/dist/img/img1.jpg" class="user-image" alt="User Image"> <span class="hidden-xs">Alexander Pierce</span> </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="~/dist/img/img1.jpg" class="user-image" alt="User Image"> <span class="hidden-xs">keyvan@gmail.com </span> </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
                                     <div class="pull-left user-img"><img src="~/dist/img/img1.jpg" class="img-responsive" alt="User"></div>
@@ -144,11 +144,16 @@
                                 </li>
                                 <li><a href="#"><i class="icon-profile-male"></i> My Profile</a></li>
                                 <li><a href="#"><i class="icon-wallet"></i> My Balance</a></li>
-                                <li><a href="#"><i class="icon-envelope"></i> Inbox</a></li>
+                                <li>
+                                    <a class="text-muted" asp-area="" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
+                                </li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#"><i class="icon-gears"></i> Account Setting</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                <li>
+                                    <a class="text-muted" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-power-off"></i>خروج</a>
+                                </li>
+                                
                             </ul>
                         </li>
                     </ul>
@@ -179,13 +184,13 @@
                             </li>
                             <li><a class="" asp-area="Admin" asp-controller="Comment" asp-action="CommentList">تایید کامنت</a></li>
                             <li>
-                                @* <a href="Dashboard/ProductList">تایید محصولات</a>*@
+                                
                                 <a class="" asp-area="Admin" asp-controller="Dashboard" asp-action="ProductList">تایید محصولات</a>
                             </li>
                             <li>
                                 <a class="" asp-area="Admin" asp-controller="Invoice" asp-action="Index">کمیسیون فروشندگان</a>
                             </li>
-                            <li><a href="#">اختصاص مدال برای فروشندگان </a></li>
+                            
                             <li>
                                 <a class="" asp-area="Admin" asp-controller="Product" asp-action="ProductList">مدیریت محصولات</a>
 

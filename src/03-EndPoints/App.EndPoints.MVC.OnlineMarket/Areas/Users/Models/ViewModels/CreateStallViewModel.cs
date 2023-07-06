@@ -6,10 +6,10 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Models.ViewModels
     {
         
         [Display(Name ="نام فروشگاه")]
-        [Required(ErrorMessage ="نام فروشگاه نمیتواند خالی باشد")]
+        //[Required(ErrorMessage ="نام فروشگاه نمیتواند خالی باشد")]
         public string Name { get; set; } 
 
-        [Display(Name = "توشیحات")]
+        [Display(Name = "توضیحات")]
         public string Description { get; set; } 
 
         [Display(Name = "ادرس")]

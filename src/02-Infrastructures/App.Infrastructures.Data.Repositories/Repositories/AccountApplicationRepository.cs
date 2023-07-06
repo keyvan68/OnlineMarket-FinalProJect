@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace App.Infrastructures.Data.Repositories.Repositories
 {
@@ -28,11 +29,39 @@ namespace App.Infrastructures.Data.Repositories.Repositories
         public async Task<IdentityResult> Register(RegisterUserDto appUser)
         {
             //Seller = new Seller()
-            var user = new ApplicationUser { UserName = appUser.Email, Email = appUser.Email, EmailConfirmed = true,Seller = new Seller() {
+            //var user = new ApplicationUser { UserName = appUser.Email, Email = appUser.Email, EmailConfirmed = true,Seller = new Seller() {
 
-                CreatedAt = DateTime.Now
+            //    CreatedAt = DateTime.Now
                 
-            }  };
+            //}  };
+            var user = new ApplicationUser();
+            if (appUser.Role == "buyer")
+            {
+                user = new ApplicationUser
+                {
+                    UserName = appUser.Email,
+                    Email = appUser.Email,
+                    EmailConfirmed = true,
+                    Buyer = new Buyer()
+                    {
+                        CreatedAt=DateTime.Now
+                    }
+                };
+            }
+
+            if (appUser.Role == "seller")
+            {
+                user = new ApplicationUser
+                {
+                    UserName = appUser.Email,
+                    Email = appUser.Email,
+                    EmailConfirmed = true,
+                    Seller = new Seller()
+                    {
+                        CreatedAt = DateTime.Now
+                    }
+                };
+            }
             var result = await _userManager.CreateAsync(user, appUser.Password);
             if (result.Succeeded)
             {

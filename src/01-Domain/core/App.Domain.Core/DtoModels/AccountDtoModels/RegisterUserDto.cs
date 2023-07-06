@@ -17,5 +17,6 @@ namespace App.Domain.Core.DtoModels.AccountDtoModels
         public string Password { get; set; }
 
         public string ConfirmPassword { get; set; }
+        public string? Role { get; set; }
     }
 }
