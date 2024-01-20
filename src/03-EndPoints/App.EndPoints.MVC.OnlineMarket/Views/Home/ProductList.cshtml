@@ -6,13 +6,13 @@
 <!-- product box -->
 
 
-    
+
 
 <div class="product-box-two">
     <div class="container">
         <div class="row d-flex justify-content-around">
             @foreach (var item in Model)
-{
+            {
                 <div class="card" style="width: 18rem;margin-bottom: 25px;">
                     @if (item.Images.Count > 0)
                     {
@@ -22,25 +22,22 @@
                     {
                         <img src="~/Images/default.png" class="img-fluid" style="width: 261px;height: 177px;padding-top: 7px;">
                     }
-                <div class="card-body">
+                    <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">قیمت: @item.Price</p>
+                        <p class="card-text"> تعداد محصول: @item.NumberofProducts</p>
+                        <p class="card-text">@item.CategoryName</p>
+                        <p class="card-text">فروشنده: @item.SellerName</p>
+                        <p class="card-text">نام غرفه: @item.StallName</p>
+
+                        <a class="product-box-item-hover-cart-btn" asp-controller="Basket" asp-action="AddToBasket" asp-route-Id="@item.Id">
+                            افزودن به سبد خرید
+                        </a>
+
+                    </div>
+                    <div class="card-body">
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">@item.Price</li>
-                    
-                </ul>
-                <div class="card-body">
-                        <div class="product-box-item-hover">
-                           
-                            <div class="product-box-item-hover-cart">
-                                <button class="product-box-item-hover-cart-btn">
-                                    <i class="bi bi-info"></i> جزئیات
-                                </button>
-                            </div>
-                        </div>
-                </div>
-            </div>
             }
         </div>
 

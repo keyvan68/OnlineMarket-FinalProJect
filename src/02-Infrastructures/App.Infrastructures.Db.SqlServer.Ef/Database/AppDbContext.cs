@@ -60,17 +60,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
         public virtual DbSet<ApplicationUser> Users { get; set; }
 
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);
 
 
-            
+
             modelBuilder.Entity<Auction>(entity =>
             {
-                
+
 
 
                 entity.HasOne(d => d.Seller).WithMany(p => p.Auctions)
@@ -87,7 +86,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<Bid>(entity =>
             {
-                
+
 
                 entity.HasOne(d => d.Auction).WithMany(p => p.Bids)
                     .HasForeignKey(d => d.AuctionId)
@@ -106,12 +105,12 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
                 entity.Property(e => e.PhoneNumber).HasMaxLength(11);
 
                 entity.HasOne(d => d.ApplicationUser).WithOne(p => p.Buyer).HasForeignKey<Buyer>(d => d.ApplicationUserId);
-               
+
             });
 
             modelBuilder.Entity<Category>(entity =>
             {
-               
+
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
@@ -207,7 +206,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<Comment>(entity =>
             {
-                
+
 
                 entity.HasOne(d => d.Buyer).WithMany(p => p.Comments)
                     .HasForeignKey(d => d.BuyerId)
@@ -227,7 +226,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<Image>(entity =>
             {
-                
+
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
@@ -239,7 +238,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<Invoice>(entity =>
             {
-                              
+
                 entity.HasOne(d => d.Buyer).WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.BuyerId)
                     .OnDelete(DeleteBehavior.NoAction)
@@ -259,16 +258,16 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<InvoiceProduct>(entity =>
             {
-         
+
 
                 entity.HasOne(d => d.Invoice).WithMany(p => p.InvoiceProducts)
                     .HasForeignKey(d => d.InvoiceId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_InvoiceProduct_Invoice");
 
                 entity.HasOne(d => d.Product).WithMany(p => p.InvoiceProducts)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_InvoiceProduct_Products");
                 entity.HasData(
                 new InvoiceProduct { Id = 1, InvoiceId = 1, ProductId = 1 },
@@ -279,7 +278,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
 
             modelBuilder.Entity<Product>(entity =>
             {
-                
+
                 entity.Property(e => e.Title).HasMaxLength(100);
 
                 entity.HasOne(d => d.Category).WithMany(p => p.Products)
@@ -301,10 +300,10 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasOne(d => d.ApplicationUser).WithOne(p => p.Seller).HasForeignKey<Seller>(d => d.ApplicationUserId);
-                
+
             });
 
-           
+
             modelBuilder.Entity<Stall>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
@@ -319,7 +318,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Database
                 );
             });
 
-       
+
 
             OnModelCreatingPartial(modelBuilder);
         }

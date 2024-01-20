@@ -162,7 +162,7 @@ namespace App.Domain.ApplicationServices
 
         public async Task<List<ProductDto>> GetAllProductByCategoryId(int categoryId, CancellationToken cancellationToken)
         {
-            var listCategory = await _productRepository.GetAllProductByCategoryId(categoryId, cancellationToken);
+            var listCategory = (await _productRepository.GetAllProductByCategoryId(categoryId, cancellationToken)).OrderByDescending(p=>p.Id).ToList();
             return listCategory;
         }
     }

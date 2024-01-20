@@ -15,6 +15,7 @@ namespace App.Domain.Core.Contracts.ApplicationService
         Task Delete(int categoryId, CancellationToken cancellationToken);
         Task<List<CategoryDto>> GetAll(CancellationToken cancellationToken);
         Task<List<CategoryDto>> GetAllParent(CancellationToken cancellationToken);
+        Task<List<CategoryDto>> GetAllParentForMenu(CancellationToken cancellationToken);
         Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken);
         Task<CategoryDto> GetParentCategory(int categoryId, CancellationToken cancellationToken);
         Task<List<ProductDto>> GetProducts(int categoryId, CancellationToken cancellationToken);

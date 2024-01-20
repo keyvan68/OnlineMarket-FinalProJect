@@ -109,11 +109,11 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             }
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Test(InvoiceDto invoiceDto, CancellationToken cancellationToken)
-        {
-            await _invoiceApplicationService.ProcessPayment(invoiceDto, cancellationToken);
-            return View();
-        }
+        //public async Task<IActionResult> Test(InvoiceDto invoiceDto, CancellationToken cancellationToken)
+        //{
+        //    await _invoiceApplicationService.ProcessPayment(invoiceDto, cancellationToken);
+        //    return View();
+        //}
         
 
     }

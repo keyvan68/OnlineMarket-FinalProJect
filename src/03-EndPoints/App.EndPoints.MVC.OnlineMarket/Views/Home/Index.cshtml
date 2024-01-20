@@ -75,6 +75,8 @@
                                                 {
                                                     <div class="d-flex justify-content-end">
                                                         <span class="new-price" style="color: #0f8a2e;">@item.Price تومان</span>
+                                                        <p class="card-text"> تعداد محصول: @item.NumberofProducts</p>
+                                                        
                                                     </div>
                                                 }
 
@@ -104,7 +106,7 @@
             <div class="pbt">
                 <div class="pbt-header">
                     <div class="pbt-header-title">
-                        <h6>اخرین محصولات</h6>
+                        <h6>مزایده</h6>
                     </div>
                     <div class="pbt-header-link">
                         <a asp-controller="Home" asp-action="ProductList" class="fromCenter border-animate">مشاهده همه</a>
@@ -265,15 +267,15 @@
                 @foreach (var item in Model.Categories)
                 {
                     <div class="col-lg-2 col-4">
-                    <div class="main-category-item">
+                        <div class="main-category-item">
                             <a asp-controller="Category" asp-action="GetAllProduct" asp-route-id="@item.Id">
-                            <div class="rounded-circle">
+                                <div class="rounded-circle">
                                     <img src="@item.ImgUrl" alt="" class="img-fluid rounded-circle" style="height: 142px">
-                            </div>
-                            <h6>@item.Name</h6>
-                        </a>
+                                </div>
+                                <h6>@item.Name</h6>
+                            </a>
+                        </div>
                     </div>
-                </div>
                 }
             </div>
         </div>

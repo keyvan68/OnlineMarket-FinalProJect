@@ -26,9 +26,10 @@ namespace App.Domain.Core.DtoModels.CategoryDtoModels
         public DateTime CreatedAt { get; set; }
 
 
-      
-
+        public virtual ICollection<CategoryDto> SubCategories { get; set; } = new List<CategoryDto>();
+        #region Navigation
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        #endregion
 
     }
 }

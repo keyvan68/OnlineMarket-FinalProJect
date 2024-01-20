@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230705121637_addquantity")]
-    partial class addquantity
+    [Migration("20230829113305_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,98 +280,98 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6528),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6678),
                             IsDeleted = false,
                             Name = "گوشی موبایل و تبلت"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6563),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6696),
                             IsDeleted = false,
                             Name = "لپ تاپ و کامپیوتر"
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6567),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6699),
                             IsDeleted = false,
                             Name = "لوازم خانگی"
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6570),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6701),
                             IsDeleted = false,
                             Name = "زیبایی و سلامت"
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6572),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6702),
                             IsDeleted = false,
                             Name = "ورزش و سرگرمی"
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6574),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6704),
                             IsDeleted = false,
                             Name = "خودرو و لوازم"
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6577),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6706),
                             IsDeleted = false,
                             Name = "فرهنگ و هنر"
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6579),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6708),
                             IsDeleted = false,
                             Name = "ابزار"
                         },
                         new
                         {
                             Id = 12,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6581),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6709),
                             IsDeleted = false,
                             Name = "ساختمان و فضای عمومی"
                         },
                         new
                         {
                             Id = 13,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6584),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6711),
                             IsDeleted = false,
                             Name = "مادر و کودک"
                         },
                         new
                         {
                             Id = 14,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6586),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6713),
                             IsDeleted = false,
                             Name = "مد و پوشاک"
                         },
                         new
                         {
                             Id = 15,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6588),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6715),
                             IsDeleted = false,
                             Name = "خوراکی ها"
                         },
                         new
                         {
                             Id = 16,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6591),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6717),
                             IsDeleted = false,
                             Name = "پت شاپ"
                         },
                         new
                         {
                             Id = 17,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6593),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6719),
                             IsDeleted = false,
                             Name = "گوشی موبایل",
                             ParentId = 4
@@ -379,7 +379,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 18,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6600),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6721),
                             IsDeleted = false,
                             Name = "تبلت",
                             ParentId = 4
@@ -387,7 +387,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 19,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6626),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6723),
                             IsDeleted = false,
                             Name = "هدست و هدفون",
                             ParentId = 4
@@ -395,7 +395,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 20,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6628),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6725),
                             IsDeleted = false,
                             Name = "سیم کارت",
                             ParentId = 4
@@ -403,7 +403,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 21,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6630),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6726),
                             IsDeleted = false,
                             Name = "لپ تاپ",
                             ParentId = 5
@@ -411,7 +411,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 22,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6633),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6729),
                             IsDeleted = false,
                             Name = "کامپیوتر ",
                             ParentId = 5
@@ -419,7 +419,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 23,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6635),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6730),
                             IsDeleted = false,
                             Name = "تجهیزات شبکه",
                             ParentId = 5
@@ -427,7 +427,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 24,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6638),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6732),
                             IsDeleted = false,
                             Name = "تجهیزات اداری",
                             ParentId = 5
@@ -435,7 +435,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 25,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6640),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6734),
                             IsDeleted = false,
                             Name = "لوازم جانبی لپ تاپ و کامپیوتر",
                             ParentId = 5
@@ -443,7 +443,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 26,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6642),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6736),
                             IsDeleted = false,
                             Name = "دوربین",
                             ParentId = 6
@@ -451,7 +451,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 27,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6644),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6737),
                             IsDeleted = false,
                             Name = "تهویه سرمایش و گرمایش",
                             ParentId = 6
@@ -459,7 +459,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 28,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6647),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6739),
                             IsDeleted = false,
                             Name = "لوازم جانبی لوازم خانگی",
                             ParentId = 6
@@ -467,7 +467,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 29,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6649),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6741),
                             IsDeleted = false,
                             Name = "صوتی و تصویری",
                             ParentId = 6
@@ -475,7 +475,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 30,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6651),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6743),
                             IsDeleted = false,
                             Name = "تجهیزات پزشکی",
                             ParentId = 7
@@ -483,7 +483,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 31,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6654),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6745),
                             IsDeleted = false,
                             Name = "ارایشو زیبایی",
                             ParentId = 7
@@ -491,7 +491,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 32,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6661),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6748),
                             IsDeleted = false,
                             Name = "لوازم شخصی",
                             ParentId = 7
@@ -499,7 +499,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 33,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6664),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6750),
                             IsDeleted = false,
                             Name = "عطر و ادکلن",
                             ParentId = 7
@@ -507,7 +507,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 34,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6666),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6752),
                             IsDeleted = false,
                             Name = "محصولات طبی",
                             ParentId = 7
@@ -515,7 +515,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 35,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6668),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6754),
                             IsDeleted = false,
                             Name = "وسایل ورزشی",
                             ParentId = 8
@@ -523,7 +523,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 36,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6671),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6755),
                             IsDeleted = false,
                             Name = "اسباب بازی",
                             ParentId = 8
@@ -531,7 +531,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 37,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6673),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6757),
                             IsDeleted = false,
                             Name = "تجهیزات سفر",
                             ParentId = 8
@@ -539,7 +539,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 38,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6675),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6759),
                             IsDeleted = false,
                             Name = "سرگرمی",
                             ParentId = 8
@@ -547,7 +547,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 39,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6678),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6761),
                             IsDeleted = false,
                             Name = "خودرو",
                             ParentId = 9
@@ -555,7 +555,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 40,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6681),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6763),
                             IsDeleted = false,
                             Name = "بدنه خودرو",
                             ParentId = 9
@@ -563,7 +563,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 41,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6683),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6765),
                             IsDeleted = false,
                             Name = "الکترونیک خودرو",
                             ParentId = 9
@@ -571,7 +571,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 42,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6685),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6820),
                             IsDeleted = false,
                             Name = "موتور سیکلت",
                             ParentId = 9
@@ -579,7 +579,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 43,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6688),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6822),
                             IsDeleted = false,
                             Name = "لوازم موتور سیکلت",
                             ParentId = 9
@@ -587,7 +587,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 44,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6690),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6824),
                             IsDeleted = false,
                             Name = "کتاب و مجلات",
                             ParentId = 10
@@ -595,7 +595,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 45,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6692),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6826),
                             IsDeleted = false,
                             Name = "رسانه های صوتی وتصویری",
                             ParentId = 10
@@ -603,7 +603,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 46,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6694),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6828),
                             IsDeleted = false,
                             Name = "نرم افزار",
                             ParentId = 10
@@ -611,7 +611,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 47,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6701),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6831),
                             IsDeleted = false,
                             Name = "ادوات موسیقی",
                             ParentId = 10
@@ -619,7 +619,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 48,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6704),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6832),
                             IsDeleted = false,
                             Name = "اشیا قدیمی وکلکسیونی",
                             ParentId = 10
@@ -627,7 +627,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 49,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6706),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6834),
                             IsDeleted = false,
                             Name = "ابزار دستی",
                             ParentId = 11
@@ -635,7 +635,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 50,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6708),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6836),
                             IsDeleted = false,
                             Name = "ابزار و تجهیزات باغبانی",
                             ParentId = 11
@@ -643,7 +643,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 51,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6710),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6838),
                             IsDeleted = false,
                             Name = "ابزار برقی",
                             ParentId = 11
@@ -651,7 +651,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 52,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6713),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6839),
                             IsDeleted = false,
                             Name = "ابزار لوله کشی",
                             ParentId = 11
@@ -659,7 +659,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 53,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6715),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6841),
                             IsDeleted = false,
                             Name = "ابزار نجاری",
                             ParentId = 11
@@ -667,7 +667,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 54,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6717),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6843),
                             IsDeleted = false,
                             Name = "ابزار خراطی",
                             ParentId = 11
@@ -675,7 +675,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 55,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6720),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6845),
                             IsDeleted = false,
                             Name = "تجهیزات ازمایشگاهی",
                             ParentId = 11
@@ -683,7 +683,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 56,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6722),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6847),
                             IsDeleted = false,
                             Name = "تجهیزات الکترونیک",
                             ParentId = 11
@@ -691,7 +691,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 57,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6725),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6848),
                             IsDeleted = false,
                             Name = "شیرالات ساختمانی",
                             ParentId = 12
@@ -699,7 +699,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 58,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6727),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6850),
                             IsDeleted = false,
                             Name = "تجهیزات اشپز خانه",
                             ParentId = 12
@@ -707,7 +707,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 59,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6729),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6852),
                             IsDeleted = false,
                             Name = "دکوراسیون فضای عمومی",
                             ParentId = 12
@@ -715,7 +715,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 60,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6732),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6853),
                             IsDeleted = false,
                             Name = "منابع و مخازن",
                             ParentId = 12
@@ -723,7 +723,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 61,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6734),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6855),
                             IsDeleted = false,
                             Name = "لوازم گردش و سفر نوزاد",
                             ParentId = 13
@@ -731,7 +731,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 62,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6741),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6858),
                             IsDeleted = false,
                             Name = "بهداشت و حمام نوزاد",
                             ParentId = 13
@@ -739,7 +739,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 63,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6764),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6861),
                             IsDeleted = false,
                             Name = "وسایل خواب نوزاد",
                             ParentId = 13
@@ -747,7 +747,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 64,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6766),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6863),
                             IsDeleted = false,
                             Name = "لباس کودک و نوزاد",
                             ParentId = 13
@@ -755,7 +755,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 65,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6768),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6864),
                             IsDeleted = false,
                             Name = "سرگرمی و اموزش کودک",
                             ParentId = 13
@@ -763,7 +763,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 66,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6771),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6866),
                             IsDeleted = false,
                             Name = "پوشاک مردانه",
                             ParentId = 14
@@ -771,7 +771,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 67,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6773),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6868),
                             IsDeleted = false,
                             Name = "پوشاک زنانه",
                             ParentId = 14
@@ -779,7 +779,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 68,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6775),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6870),
                             IsDeleted = false,
                             Name = "زیورالات",
                             ParentId = 14
@@ -787,7 +787,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 69,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6778),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6872),
                             IsDeleted = false,
                             Name = "کیف و کفش",
                             ParentId = 14
@@ -795,7 +795,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 70,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6780),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6874),
                             IsDeleted = false,
                             Name = "ست هدیه",
                             ParentId = 14
@@ -803,7 +803,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 71,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6783),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6875),
                             IsDeleted = false,
                             Name = "کمربند و بند شلوار",
                             ParentId = 14
@@ -811,7 +811,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 72,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6785),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6877),
                             IsDeleted = false,
                             Name = "میوه و سبزیجات",
                             ParentId = 15
@@ -819,7 +819,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 73,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6787),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6879),
                             IsDeleted = false,
                             Name = "اجیلو خشکبار",
                             ParentId = 15
@@ -827,7 +827,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 74,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6789),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6881),
                             IsDeleted = false,
                             Name = "غلات و حبوبات",
                             ParentId = 15
@@ -835,7 +835,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 75,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6792),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6882),
                             IsDeleted = false,
                             Name = "قنادی",
                             ParentId = 15
@@ -843,7 +843,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 76,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6794),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6885),
                             IsDeleted = false,
                             Name = "سوپر مارکت",
                             ParentId = 15
@@ -851,7 +851,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 77,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6797),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6887),
                             IsDeleted = false,
                             Name = "گیاهان دارویی",
                             ParentId = 15
@@ -859,7 +859,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 78,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6800),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6892),
                             IsDeleted = false,
                             Name = "درمان و سلامت حیوانات",
                             ParentId = 16
@@ -867,7 +867,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 79,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6802),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6893),
                             IsDeleted = false,
                             Name = "پوشاک حیوانات",
                             ParentId = 16
@@ -875,7 +875,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 80,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6805),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6895),
                             IsDeleted = false,
                             Name = "لوازم بهداشتی حیوانات",
                             ParentId = 16
@@ -883,7 +883,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 81,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6807),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6897),
                             IsDeleted = false,
                             Name = "لوازم نگهداری و بازی حیوانات",
                             ParentId = 16
@@ -891,7 +891,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 82,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6809),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6899),
                             IsDeleted = false,
                             Name = "غذای حیوانات",
                             ParentId = 16
@@ -899,7 +899,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 83,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 952, DateTimeKind.Local).AddTicks(6812),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 766, DateTimeKind.Local).AddTicks(6900),
                             IsDeleted = false,
                             Name = "وسایل اموزشی حیوانات",
                             ParentId = 16
@@ -952,7 +952,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(1317),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(565),
                             Description = "This is a comment",
                             InvoiceId = 1,
                             IsAccepted = false,
@@ -962,7 +962,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(1327),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(571),
                             Description = "This is a comment1",
                             InvoiceId = 2,
                             IsAccepted = false,
@@ -972,7 +972,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(1329),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(573),
                             Description = "This is a comment2",
                             InvoiceId = 3,
                             IsAccepted = false,
@@ -1068,7 +1068,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(7599),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(5858),
                             Final = false,
                             IsDeleted = false,
                             Quantity = 0,
@@ -1079,7 +1079,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(7609),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(5865),
                             Final = false,
                             IsDeleted = false,
                             Quantity = 0,
@@ -1090,7 +1090,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             BuyerId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 953, DateTimeKind.Local).AddTicks(7612),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 767, DateTimeKind.Local).AddTicks(5867),
                             Final = false,
                             IsDeleted = false,
                             Quantity = 0,
@@ -1216,7 +1216,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                             Auction = false,
                             BuyerId = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 954, DateTimeKind.Local).AddTicks(5938),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 768, DateTimeKind.Local).AddTicks(3211),
                             Description = "Product Description1",
                             IsAccepted = false,
                             IsActive = false,
@@ -1232,7 +1232,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                             Auction = false,
                             BuyerId = 1,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 954, DateTimeKind.Local).AddTicks(5951),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 768, DateTimeKind.Local).AddTicks(3220),
                             Description = "Product Description2",
                             IsAccepted = false,
                             IsActive = false,
@@ -1248,7 +1248,7 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                             Auction = false,
                             BuyerId = 1,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(2023, 7, 5, 15, 46, 35, 954, DateTimeKind.Local).AddTicks(5956),
+                            CreatedAt = new DateTime(2023, 8, 29, 15, 3, 4, 768, DateTimeKind.Local).AddTicks(3294),
                             Description = "Product Description3",
                             IsAccepted = false,
                             IsActive = false,
@@ -1614,14 +1614,14 @@ namespace App.Infrastructures.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Entities.Invoice", "Invoice")
                         .WithMany("InvoiceProducts")
                         .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_InvoiceProduct_Invoice");
 
                     b.HasOne("App.Domain.Core.Entities.Product", "Product")
                         .WithMany("InvoiceProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_InvoiceProduct_Products");
 

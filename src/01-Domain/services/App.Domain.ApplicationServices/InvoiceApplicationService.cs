@@ -264,7 +264,7 @@ namespace App.Domain.ApplicationServices
                         .Where(ip => ip.ProductId == entity.ProductId).SingleOrDefault();
                     invoiceProduct.Quantity -= entity.CountOfProducts;
                     currentBasket.Quantity -= entity.CountOfProducts;
-                    if (currentBasket.Quantity == 0)
+                    if (invoiceProduct.Quantity == 0)
                     {
                         currentBasket.InvoiceProducts.Remove(item);
                         break;

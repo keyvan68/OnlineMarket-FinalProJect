@@ -47,7 +47,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
                 await _stallApplicationService.CreateStall(_mapper.Map<CreateStallDto>(stallVM), cancellationToken);
             }
 
-            return View();
+            return RedirectToAction("Index","Product");
         }
     }
 }

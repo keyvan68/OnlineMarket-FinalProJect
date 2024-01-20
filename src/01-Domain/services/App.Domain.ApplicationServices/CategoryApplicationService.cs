@@ -35,11 +35,33 @@ namespace App.Domain.ApplicationServices
             var list = await _categoryRepository.GetAll(cancellationToken);
                 return list;
         }
+        public async Task<List<CategoryDto>> GetAllParentForMenu(CancellationToken cancellationToken)
+        {
+            var categories = await _categoryRepository.GetAll(cancellationToken);
+            categories.Where(c => c.ParentId is null).ToList();
+            foreach (var category in categories)
+            {
+                await GetSubCategoriesRecursive(category, cancellationToken);
+            }
+            return categories;
+
+        }
         public async Task<List<CategoryDto>> GetAllParent(CancellationToken cancellationToken)
         {
             var categories = await _categoryRepository.GetAll(cancellationToken);
             return categories.Where(c => c.ParentId is null).ToList();
+            
 
+        }
+        private async Task GetSubCategoriesRecursive(CategoryDto category, CancellationToken cancellationToken)
+        {
+            //subCategories related to the same category
+            category.SubCategories = (await _categoryRepository.GetAll(cancellationToken)).Where(c => c.ParentId == category.Id).ToList();
+
+            foreach (var subCategory in category.SubCategories)
+            {
+                await GetSubCategoriesRecursive(subCategory, cancellationToken);
+            }
         }
 
         public async Task<CategoryDto> GetById(int categoryId, CancellationToken cancellationToken)

@@ -73,10 +73,10 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             var auctionList = _mapper.Map<List<AuctionViewModel>>(await _auctionApplicationService.GetAllAuctionBySellerId(sellerId, cancellationToken));
             return View(auctionList);
         }
-        public async Task<IActionResult> Auctionoperate(int Id, CancellationToken cancellationToken)
-        {
-            await _auctionApplicationService.AuctionOperation(Id, cancellationToken);
-            return RedirectToAction("AuctionList");
-        }
+        //public async Task<IActionResult> Auctionoperate(int Id, CancellationToken cancellationToken)
+        //{
+        //    await _auctionApplicationService.AuctionOperation(Id, cancellationToken);
+        //    return RedirectToAction("AuctionList");
+        //}
     }
 }

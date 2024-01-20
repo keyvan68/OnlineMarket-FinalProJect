@@ -28,6 +28,15 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">@item.Price</li>
+                        <li class="list-group-item"> تعداد محصول: @item.NumberofProducts</li>
+                        <li class="list-group-item">@item.CategoryName</li>
+                        <li class="list-group-item">فروشنده: @item.SellerName</li>
+                        <li class="list-group-item">
+                            نام غرفه: @item.StallName
+                        </li>
+                        <a class="product-box-item-hover-cart-btn" asp-controller="Basket" asp-action="AddToBasket" asp-route-Id="@item.Id">
+                            افزودن به سبد خرید
+                        </a>
 
                     </ul>
                     <div class="card-body">

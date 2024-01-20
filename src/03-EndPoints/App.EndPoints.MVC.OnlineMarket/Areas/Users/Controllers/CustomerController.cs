@@ -38,7 +38,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Areas.Users.Controllers
             if (ModelState.IsValid)
             {
                 await _buyerApplicationService.Update(_mapper.Map<BuyerDto>(model), cancellationToken);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Profile");
             }
             return View(model);
         }

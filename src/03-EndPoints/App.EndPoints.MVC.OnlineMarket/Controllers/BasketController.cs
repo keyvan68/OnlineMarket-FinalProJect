@@ -3,13 +3,16 @@ using App.Domain.Core.DtoModels.BasketDtoModel;
 using App.Domain.Core.Entities;
 using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Threading;
 
 namespace App.EndPoints.MVC.OnlineMarket.Controllers
 {
-
+    
+    [Authorize(Roles = "buyer")]
     public class BasketController : Controller
     {
         private readonly IMapper _mapper;

@@ -1,0 +1,37 @@
+﻿@using App.EndPoints.MVC.OnlineMarket.Models.ViewModels;
+
+@model List<CategoryViewModel>
+
+<li class="nav-item">
+    <a href="" class="nav-link border-animate fromCenter">
+        دسته بندی محصولات <i class="bi bi-list"></i>
+    </a>
+    <ul class="level-one">
+        @if (Model is not null)
+        {
+
+            @foreach (var category_1 in Model.Where(i=>i.ParentId == null))
+            {
+                <li>
+                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="@category_1.Id">@category_1.Name</a>
+                    <ul class="level-two">
+                        @foreach (var category_2 in category_1.SubCategories)
+                        {
+                            <li>
+                                <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="@category_2.Id">@category_2.Name</a>
+                                <ul class="level-two">
+                                    @foreach (var category_3 in category_2.SubCategories)
+                                    {
+                                        <li>
+                                            <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="@category_3.Id">@category_3.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>
+</li>

@@ -44,6 +44,7 @@ namespace App.EndPoints.MVC.OnlineMarket.Models.AutoMapperViewModels
             //CreateMap<BasketViewModel, BasketDto>().ReverseMap();
             CreateMap<BasketViewModel, InvoiceDto>().ReverseMap();
             CreateMap<ParentCategoryViewModel, CategoryDto>().ReverseMap();
+            CreateMap<CategoryViewModel, CategoryDto>().ReverseMap();
         }
     }
 }
